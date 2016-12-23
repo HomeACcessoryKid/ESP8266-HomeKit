@@ -1,0 +1,62 @@
+things to do:
+-------------
+consider espconn_find_connection
+
+make a mdns routine that really builds the message
+queuelength is maxtcpcon
+only accept pair-setup URL if pairing
+replace plink_active with my own linked list of pcryp
+fix issue of notes8a.txt
+remove existing connections coming from the same IP when new connection
+
+keepalive doesn't kill because events keep it awake or it is just broken!
+use state=4 as criterion not to send more...
+
+make the callback routine responsible for init etc. by using a param to be multiuse
+unify all sends into data_send
+use vTaskList to find stack usage
+already prepare accessory message while verifying signature
+store clientkeys in an encrypted format
+make remove invited key more robust
+swap buffer for encrypt input with output and then it can grow what is needed
+do encryption concatenation backward so you need a 0x400 input buffer max
+verify is calculation of len in decrypt is OK, should be shifting with loop, right?
+set clockspeed to 160MHz at crypto moments
+after deleteing a guest, track down existing TCP sessions and kill those
+if tcp not encrypted within 2 seconds, close it
+gpio stuff can be done without driver stuff??
+make sendbuffer before encrypt more automatic instead of +2x0x18
+is this working well? Key 1 was disabled only once....?
+204ABCDE-F012-3456-7890-ABCDEF012345 -- 7fffffffffffffffffffffff3230
+764ABCDE-F012-3456-7890-ABCDEF012345 -- 7f7fffffffffffffffffffff3736
+9A4ABCDE-F012-3456-7890-ABCDEF012345 -- 3f7fffffffffffffffffffff3941
+key 2 loaded - result: 0
+
+Doing
+-----
+
+DONE
+----
+when disconnect, remove the event flag
+if not encrypted, do not accept json messages
+get random keys in place
+change v for B in crytoinit
+make SRP step 1 part of init in case of pairing
+get debug printing conditional
+implement GET /characteristics
+make multiple clients work in parallel
+event message
+implement GET /identify
+identify before pair
+make an 'update' routine
+make the setup of a characteristic a routine with some params
+unify all routines in one file an make it a library
+consider vTaskdelay in mdns loop
+change decrypt out buffer from objects[3] to a dynamic buffer (if too big)
+make pairing variables dynamic, not global
+and do something usefull with this foundation ;-)
+
+not possible
+------------
+store myusername and mykey and peerkey in RTC-flash -- it is not flash but ram
+make task stack value 256 instead of 2560 -- crashes and didn't make an advantage in heap report
