@@ -4,22 +4,22 @@ HomeKit server on ESP8266 RTOS with an API approach
 ==============================
 Copyright 2016 HomeACcessoryKid - HacK - homeaccessorykid@gmail.com
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");  
+you may not use this file except in compliance with the License.  
+You may obtain a copy of the License at  
 
     http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
 limitations under the License.
 
 ==============================
 
-Public Apple's HomeKit protocol code has been around for some time for more potent processors
-(notably https://github.com/KhaosT/HAP-NodeJS).
+Public Apple's HomeKit protocol code has been around for some time for more potent processors  
+(notably https://github.com/KhaosT/HAP-NodeJS).  
 This is a rewrite for the ESP8266 for you to play with.
 
 I have used ESP8266_RTOS_SDK-V1.5.0 and WolfCrypt 3.9.8 to build the software on.
@@ -37,8 +37,8 @@ Here are some preliminary timings.
 
 ### Pairing
 
-Pairing is dominated by the SRP algorithm which is very slow and expensive. Fortunately
-this only happens once when the iOS device is being associated with the HomeKit device:
+Pairing is dominated by the SRP algorithm which is very slow and expensive.  
+Fortunatelythis only happens once when the iOS device is being associated with the HomeKit device:
 
 Time1: 25 seconds from boot till start of server, so that initial interaction is split second.
 
@@ -52,7 +52,8 @@ Time: 1.2 seconds
 
 ## Memory
 
-The HomeKit code is approximately 400K and about 18K of RAM is left for other purposes. During Pairing so much RAM is used that it is required to launch most code after pairing is done.
+The HomeKit code is approximately 400K and about 18K of RAM is left for other purposes.  
+During Pairing so much RAM is used that it is required to launch most code after pairing is done.
 
 # Thanks
 
@@ -69,10 +70,9 @@ were implemented.
 
 # Notes
 
-Please note that this software was produced without any reference to any proprietary documentation or information. I
-am not a MFi licensee, nor do I have access to any related information.
+Please note that this software was produced without any reference to any proprietary documentation or information.  
+I am not a MFi licensee, nor do I have access to any related information.
 
-Espressif uses MIT license
-
-WolfCrypt uses GPLv2 or higher license. For the purpose of this distribution you should use GPLv3
+Espressif uses MIT license  
+WolfCrypt uses GPLv2 or higher license. For the purpose of this distribution you should use GPLv3.  
 This is based on the changes I had to make to Wolfcrypt.
