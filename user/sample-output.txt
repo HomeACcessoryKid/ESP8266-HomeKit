@@ -1,0 +1,1511 @@
+Events in this output based on the initial distribution of the hkc code
+removing the accessory from the owner ipad/homehub results in:
+(35)remove guest 1
+(88)remove owner
+(153)reset
+(164)flash
+(175)prepare pairing
+(199)pairing in 3 steps
+(298)write owner key to flash / now halfpaired
+(306)start other routines like JSON
+(435)owner (.21) disconnects and starts verify in 2 steps
+(515)accessories are requested -> halfpaired to fully paired
+(547)registering for events
+(583)adding the guest id
+(638)getting characteristics
+(685)issuing an identify event (3x)
+(880)second phone (.28) of owner connects
+(959)guest (.14) connects but unsuccessful (2x) (its wifi coverage is very bad!)
+(1071)owner switch led on
+(1131)owner switch led off
+(1189)event is sent to state that led toggled to on to subscribed connection = 1
+(1219)connection 2 (.28) drops off
+(1242).14 becomes connection 2 
+(1332).28 becomes connection 4
+(1428).14 disconnects again
+(1442).21 gets characteristics again (2x)
+(1496).21 gets an event
+
+some info has been removed <snip> or just changed to protect key material
+
+hkc by HomeACcessoryKid! Compiled Dec 22 2016@23:19:08
+Line 32...
+==========
+pairing 0, heap 17480, system time=42559
+p_sema locked
+server got a packet from 192.168.178.21:57693 at 44987
+len:186
+raw: a800d1060e7b4010cd5fbdfbd2ea6d970f94d265ea61f0938b8d47b5054b717406a9d2331144a8ac9a8788a01cb8be9bc010827b6b5b848c428bcfcb3ec2e95ffd183bfe11eb86552d92e45f8aab75f8d8322367aa2212cbfd9bbb2a0e65ae59953903bbde12bf250eab0cc6d15fa28121cbf7f831cb0d8d4af94dfda3f7638adb5db5ef1787046dddbffcc6fef71acf10ec2e472071bbff7b63a652
+nonce 03 00
+POST /pairings HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+Content-Length: 44
+Content-Type: application/pairing+tlv8
+
+$12345678-3456-9876-BBBB-123456789012
+Free heap:17400
+len:168
+A_dat:44,tot:44,lenght:44
+dsl: 44, tl: 44, hl: 124, len: 44
+normal packet saved
+POST/S: pairings C:  F: 
+pParseB: 0001040601010124323334389012345678901234567890123456789012345678901234567890123456789012
+pairings
+t:0-n:1
+t:6-n:1
+t:1-n:36
+0:04
+1:323334389012345678901234567890123456789012345678901234567890123456789012
+6:01
+Free heap3:17352
+Free heap4:17352
+pair del!
+Free heap:17816
+12345678-3456-9876-BBBB-123456789012 -- 007fffffffffffffffffffff3132337890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456
+23456789-4567-8765-CCCC-123456789012 -- 7fffffffffffffffffffffff3233343890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456
+key 1, writing flag to flash
+i=0,t=6,l=1
+chunked_len: 13
+485454502f312e3120323030204f4b0d0a436f6e74656e742d747970653a206170706c69636174696f6e2f70616972696e672b746c76380d0a436f6e6e656374696f6e3a206b6565702d616c6976650d0a5472616e736665722d456e636f64696e673a206368756e6b65640d0a0d0a330d0a0601020d0a300d0a0d0a
+to be sent by tlv8_send routine
+arg=3fffb5e8, ptrespconn=3fff76a0, pcryp=3fffb5e8
+HTTP/1.1 200 OK
+Content-type: application/pairing+tlv8
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+3
+
+0
+
+
+length: 0x007c
+nonce 08 00
+send result: 0
+waiting for task
+server sent a packet to  192.168.178.21:57693 at 45375
+p_sema locked
+server got a packet from 192.168.178.21:57693 at 45381
+len:186
+raw: a8007c1baa8e4fdf27af83d6d12aa19cce015ed73caffc60de487c18819741a70f594c5726c68999df825298846b474b238a14f2e010bcb8a8384fcbd75bc4dbcffbbc038465c06b083a89535c981b630f846764724846b7481a463796819849190c8d94b9dc4fd6f1ea026a7ae605e8b3e9ca93082252f3f291e8292f1b70e75c024910a4a9adb7a3ae1b1d3811690f503
+nonce 04 00
+POST /pairings HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+Content-Length: 44
+Content-Type: application/pairing+tlv8
+
+$12345678-3456-9876-BBBB-123456789012
+Free heap:17400
+len:168
+A_dat:44,tot:44,lenght:44
+dsl: 44, tl: 44, hl: 124, len: 44
+normal packet saved
+POST/S: pairings C:  F: 
+pParseB: 0001040601010124313233789012345678901234567890123456789012345678901234567890123456789012
+pairings
+t:0-n:1
+t:6-n:1
+t:1-n:36
+0:04
+1:313233789012345678901234567890123456789012345678901234567890123456789012
+6:01
+Free heap3:17352
+Free heap4:17352
+pair del!
+Free heap:17816
+12345678-3456-9876-BBBB-123456789012 -- 007fffffffffffffffffffff3132337890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456
+unpair mutilate signature and reset
+000e05214042612043610660514b4940
+i=0,t=6,l=1
+chunked_len: 13
+pairing 1, heap 17280, system time=45559
+485454502f312e3120323030204f4b0d0a436f6e74656e742d747970653a206170706c69636174696f6e2f70616972696e672b746c76380d0a436f6e6e656374696f6e3a206b6565702d616c6976650d0a5472616e736665722d456e636f64696e673a206368756e6b65640d0a0d0a330d0a0601020d0a300d0a0d0a
+to be sent by tlv8_send routine
+arg=3fffb5e8, ptrespconn=3fff76a0, pcryp=3fffb5e8
+HTTP/1.1 200 OK
+Content-type: application/pairing+tlv8
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+3
+
+0
+
+
+length: 0x007c
+nonce 09 00
+send result: 0
+state: 5 -> 0 (0)
+rm 0
+pm close 7 0 0/42126491
+del if0
+usl
+sul 0 0
+client 192.168.178.21:57693 disconnected with status -11
+client 192.168.178.28:50368 disconnected with status -11
+Cleaning 3fffb5e8 @ 45698 CID: 1
+Cleaning 3fffb938 @ 45702 CID: 2
+Freeing  3fffb938 @ 45706
+"@*rjRA(!�S�q�К��X�Q�~�Q
+�UK��I
+A�1����DP�[E*��yh���N�*e"HhI�A,�^er,R�*1)�vA-1%(�y(!�N�
+AHHInA,XZ�r,R�*%	�vA�5�!��A,=�n�
+a"HhI�A,�[I��A,�[�OS SDK ver: 1.5.0-dev(950076a) compiled @ Nov  4 2016 19:29:32
+phy ver: 1055, pp ver: 10.7
+
+rf cal sector: 11
+tcpip_task_hdl : 3fff0d70, prio:10,stack:512
+idle_task_hdl : 3fff0e10,prio:0, stack:384
+tim_task_hdl : 3fff33c8, prio:2,stack:512
+start of user_init @ 77
+hkc by HomeACcessoryKid! Compiled Dec 22 2016@23:19:08 Heap: 47864
+EspMsgMutex created
+000e05214042612043610660514b494000
+initializing flash
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+key written: 0
+485454502f312e3120323030204f4b0d0a436f6e74656e742d747970653a206170706c69636174696f6e2f70616972696e672b746c76380d0a436f6e6e656374
+pairing: 1
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+myUsername: 18:FE:34:AB:CD:EF
+end of user_init @ 268
+mode : sta(18:fe:34:ab:cd:ef)
+add if0
+system time: 278
+s: 965d234673762629775275922452d870
+b: 4a87736794d34673762629775275922ec33fc5b81bb8d757bbd7871a60df6bc9
+scandone
+state: 0 -> 2 (b0)
+state: 2 -> 3 (0)
+state: 3 -> 5 (10)
+add 0
+aid 2
+pm open phy_2,type:2 0 0
+cnt 
+
+connected with IOTtest, channel 8
+dhcp client start...
+ip:192.168.178.221,mask:255.255.255.0,gw:192.168.178.1
+srp_prepare done: system time: 25829
+B: a70bcacb66f3e2b1cf88bc1c73c91534673762629775275922ca34d08f03c1a06b6af22a709cac6516018efb2168f0803467376262977527592297fe40049dc017a04ad62ed863d7e78092b13b361923ed22b911e3d67de39d75162abe0e9764dec0897d75409a7f3d28fbb7666c7b365bcb10bbf59e3d6fd3b1e280c1da9861edba8ca9b7ad943a9196f80393c11a013e87628d6b80c022ddec4ea3fb7f2a443af7c72f636d90483df3a3ac9749b3f8db21a7a432a0867659046ed94dddb9fb449414a416b33613afa5b79f420fd7ec44f50625a159a0e0112a520046c3c4d2d505bce71f2fc6cdf822f705298465cb6bffec1fcfa929a220a1d56e8b953c1ca389bb1ee0c712a7ada6d8875f37a7cf8c1450aa5ad04d79d1a69957ba8715f7ce333a8d3e755214471d441cd6425f9bfac186f5fb8d35635f6087fc93a00174342831b892ef17d05c5dd402a7d295b8baaa83efc2361565829c70500f8babc3b47f58da949216b35df4e3e9e80bae4dabe2f67f4fe9df97014b018dfb7fa695
+ServerInitPriority:1
+pairing 1, heap 31888, system time=25950
+waiting for task
+pairing 1, heap 31888, system time=28950
+pairing 1, heap 31888, system time=31950
+pairing 1, heap 31888, system time=34950
+pairing 1, heap 31888, system time=37950
+p_sema  taken
+3fff2718  connects  from 192.168.178.21:57695 id:00000001
+p_sema locked
+server got a packet from 192.168.178.21:57695 at 40752
+len:131
+len:131
+A_dat:6,tot:6,lenght:6
+dsl: 6, tl: 6, hl: 125, len: 6
+normal packet saved
+POST/S: pair-setup C:  F: 
+pParseB: 000100060101
+pair-setup
+t:0-n:1
+t:6-n:1
+0:00
+6:01
+Free heap1:30624
+srp pair step 1! Free heap:30184
+s: 965d234673762629775275922452d870
+i=0,t=6,l=1
+i=8,t=2,l=16
+i=32,t=3,l=384
+chunked_len: 432
+Priority:10
+<snip>
+to be sent by tlv8_send routine
+arg=3fff2988, ptrespconn=3fff2718, pcryp=3fff2988
+send result: 0
+Free heap2:28984
+pairing 1, heap 29032, system time=40960
+server sent a packet to  192.168.178.21:57695 at 40966
+pairing 1, heap 30672, system time=43970
+p_sema locked
+server got a packet from 192.168.178.21:57695 at 46209
+len:584
+len:584
+A_dat:457,tot:457,lenght:457
+dsl: 457, tl: 457, hl: 127, len: 457
+normal packet saved
+POST/S: pair-setup C:  F: 
+pParseB: 06010303ff5066a00bf16c8a21330a887f0da896be47ed1dc4920e4c707eac947b2b3bdefe976895878c3dc4b3e593923da18e88f873ce348570e630c3d0e11cfd7750c94c4c4cf84efb883eed7b46a710fdbd07e6e638765cea1c57f88a7043b0d97f65723c59429b18b1b0d3a4c018461ed7d3ea0aa172f0731b9c6c8a00005bd3baad6b514ec6538f40c09502269bdf734825d762cadfb142544cfe2b8394c7b0a00b15e1ead161491d86289f40e63572112d8e3d41287f01c191b42836a6f7dde9e58c14d591b665bf734a0432dd83384093e888499b3b05453083ec60aebcf6a7973c85027a8fa05d14027236b81600cee5a81f2f1278d2b0158a0226c0da310fff0381ee9cad065d8ba106d9308314a3b9f914343e0d5877b60148ec38b8231937783698c76f0b0ab980a4ec862c54e4ba562264d2788643417b2f2ab8823bfe7c47bbde51ad19dc6f47b47f5b341f7d87125c7dc4a2a63817d503ffae1d7a505b21b5a3066a6ca15822199f0f9d6e194e30c3c4b98c4ddbcd2d0ec663c8b8dd3a3ff1410440ee61d96b5c752ef77ba3b7b66b534a34e833067317041d6e121082aa031130b3d37a8e9001d962c61085084aa7354a960004057f905e22e931f7cbf89424bf58
+pair-setup
+t:6-n:1
+t:3-n:255
+t:3-n:384
+t:4-n:64
+3:5066a00bf16c8a21330a887f0da896be47ed1dc4920e4c707eac947b2b3bdefe976895878c3dc4b3e593923da18e88f873ce348570e630c3d0e11cfd7750c94c4c4cf84efb883eed7b46a710fdbd07e6e638765cea1c57f88a7043b0d97f65723c59429b18b1b0d3a4c018461ed7d3ea0aa172f0731b9c6c8a00005bd3baad6b514ec6538f40c09502269bdf734825d762cadfb142544cfe2b8394c7b0a00b15e1ead161491d86289f40e63572112d8e3d41287f01c191b42836a6f7dde9e58c14d591b665bf734a0432dd83384093e888499b3b05453083ec60aebcf6a7973c85027a8fa05d14027236b81600cee5a81f2f1278d2b0158a0226c0da310fffee9cad065d8ba106d9308314a3b9f914343e0d5877b60148ec38b8231937783698c76f0b0ab980a4ec862c54e4ba562264d2788643417b2f2ab8823bfe7c47bbde51ad19dc6f47b47f5b341f7d87125c7dc4a2a63817d503ffae1d7a505b21b5a3066a6ca15822199f0f9d6e194e30c3c4b98c4ddbcd2d0ec663c8b8dd3a3ff141
+4:ee61d96b5c752ef77ba3b7b66b534a34e833067317041d6e121082aa031130b3d37a8e9001d962c61085084aa7354a960004057f905e22e931f7cbf89424bf58
+6:03
+Free heap3:29744
+Free heap4:29744
+srp pair step 3!
+Free heap:30944
+pairing 1, heap 22888, system time=46970
+3fff2718 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.21:57695, cid:01
+pairing 1, heap 11208, system time=49970
+pairing 1, heap 9160, system time=52980
+pairing 1, heap 11208, system time=55980
+pairing 1, heap 9160, system time=58980
+3fff2718 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.21:57695, cid:01
+pairing 1, heap 11208, system time=61990
+pairing 1, heap 9024, system time=64990
+pairing 1, heap 6976, system time=67990
+pairing 1, heap 6976, system time=71000
+key: <snip 64 bytes>
+i=0,t=6,l=1
+i=8,t=4,l=64
+chunked_len: 85
+<snip>
+to be sent by tlv8_send routine
+arg=3fff2988, ptrespconn=3fff2718, pcryp=3fff2988
+send result: 0
+waiting for task
+server sent a packet to  192.168.178.21:57695 at 72266
+p_sema locked
+server got a packet from 192.168.178.21:57695 at 72273
+len:286
+len:286
+A_dat:159,tot:159,lenght:159
+dsl: 159, tl: 159, hl: 127, len: 159
+normal packet saved
+POST/S: pair-setup C:  F: 
+pParseB: 059a<snip 154 bytes>060105
+pair-setup
+t:5-n:154
+t:6-n:1
+5:<snip 154 bytes>
+6:05
+Free heap5:30248
+Free heap6:30248
+srp pair step 5!
+Free heap:30760
+encKey0:<snip 32 bytes>
+t:1-n:36
+t:3-n:32
+t:10-n:64
+1:<snip>
+3:<snip>
+10:<snip>
+myLTPK: <snip 32 bytes>
+verified=1 r=0
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+writing paired client to flash
+7fffffffffffffffffffffff3132337890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456
+
+i=0,t=6,l=1
+i=8,t=5,l=135
+chunked_len: 156
+identify_task started
+led true
+led_task started
+{
+	"accessories":	[{
+			"aid":	1,
+			"services":	[{
+					"iid":	1,
+					"type":	"0000003E-0000-1000-8000-0026BB765291",
+					"characteristics":	[{
+							"iid":	2,
+							"type":	"00000023-0000-1000-8000-0026BB765291",
+							"perms":	["pr"],
+							"bonjour":	false,
+							"description":	"Name",
+							"events":	false,
+							"format":	"string",
+							"maxLen":	255,
+							"value":	"HomeACcessory"
+						}, {
+							"iid":	3,
+							"type":	"00000020-0000-1000-8000-0026BB765291",
+							"perms":	["pr"],
+							"bonjour":	false,
+							"description":	"Manufacturer",
+							"events":	false,
+							"format":	"string",
+							"maxLen":	255,
+							"value":	"HacK"
+						}, {
+							"iid":	4,
+							"type":	"00000021-0000-1000-8000-0026BB765291",
+							"perms":	["pr"],
+							"bonjour":	false,
+							"description":	"Model",
+							"events":	false,
+							"format":	"string",
+							"maxLen":	255,
+							"value":	"Rev-1"
+						}, {
+							"iid":	5,
+							"type":	"00000030-0000-1000-8000-0026BB765291",
+							"perms":	["pr"],
+							"bonjour":	false,
+							"description":	"Serial",
+							"events":	false,
+							"format":	"string",
+							"maxLen":	255,
+							"value":	"1"
+						}, {
+							"iid":	6,
+							"type":	"00000014-0000-1000-8000-0026BB765291",
+							"perms":	["pw"],
+							"bonjour":	false,
+							"description":	"Identify",
+							"events":	false,
+							"format":	"bool",
+							"maxLen":	1
+						}]
+				}, {
+					"iid":	7,
+					"type":	"00000049-0000-1000-8000-0026BB765291",
+					"characteristics":	[{
+							"iid":	8,
+							"type":	"00000023-0000-1000-8000-0026BB765291",
+							"perms":	["pr"],
+							"bonjour":	false,
+							"description":	"Name",
+							"events":	false,
+							"format":	"string",
+							"maxLen":	255,
+							"value":	"led"
+						}, {
+							"iid":	9,
+							"type":	"00000025-0000-1000-8000-0026BB765291",
+							"perms":	["pw", "pr", "ev"],
+							"bonjour":	false,
+							"description":	"PowerState",
+							"events":	true,
+							"format":	"bool",
+							"maxLen":	1,
+							"value":	true
+						}]
+				}, {
+					"iid":	10,
+					"type":	"00000043-0000-1000-8000-0026BB765291",
+					"characteristics":	[{
+							"iid":	11,
+							"type":	"00000023-0000-1000-8000-0026BB765291",
+							"perms":	["pr"],
+							"bonjour":	false,
+							"description":	"Name",
+							"events":	false,
+							"format":	"string",
+							"maxLen":	255,
+							"value":	"light"
+						}, {
+							"iid":	12,
+							"type":	"00000025-0000-1000-8000-0026BB765291",
+							"perms":	["pw", "pr", "ev"],
+							"bonjour":	false,
+							"description":	"PowerState",
+							"events":	true,
+							"format":	"bool",
+							"maxLen":	1,
+							"value":	false
+						}, {
+							"iid":	13,
+							"type":	"00000008-0000-1000-8000-0026BB765291",
+							"perms":	["pw", "pr", "ev"],
+							"bonjour":	false,
+							"description":	"Brightness",
+							"minValue":	0,
+							"maxValue":	100,
+							"minStep":	5,
+							"unit":	"%",
+							"events":	true,
+							"format":	"int",
+							"value":	0
+						}]
+				}]
+		}]
+}
+485454502f312e3120323030204f4b0d0a436f6e74656e742d747970653a206170706c69636174696f6e2f70616972696e672b746c76380d0a436f6e6e656374696f6e3a206b6565702d616c6976650d0a5472616e736665722d456e636f64696e673a206368756e6b65640d0a0d0a330d0a0601060d0a<snip>0d0a300d0a0d0a
+to be sent by tlv8_send routine
+arg=3fff2988, ptrespconn=3fff2718, pcryp=3fff2988
+send result: 0
+waiting for task
+server sent a packet to  192.168.178.21:57695 at 73411
+client 192.168.178.21:57695 disconnected with status 0
+Cleaning 3fff2988 @ 73426 CID: 1
+Freeing  3fff2988 @ 73430
+p_sema  taken
+3fff2830  connects  from 192.168.178.21:57696 id:00000001
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 73477
+len:164
+len:164
+A_dat:37,tot:37,lenght:37
+dsl: 37, tl: 37, hl: 127, len: 37
+normal packet saved
+POST/S: pair-verify C:  F: 
+pParseB: 0601010320<snip 32 bytes>
+pair-verify
+t:6-n:1
+t:3-n:32
+3:<snip 32 bytes>
+6:01
+Free heap1:17368
+Free heap2:17368
+pair verify step 1 at 73521
+Free heap:17848
+mycurvekey: <snip 32 bytes>
+clcurvekey: <snip 32 bytes>
+system time: 73785
+3fff2830 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.21:57696, cid:01
+pairing 1, heap 17288, system time=74000
+shared secret time: 259
+sessionkey: <snip 32 bytes>
+system time: 74046
+sign message time: 91
+edsign: 0
+system time: 74137
+i=0,t=6,l=1
+i=8,t=5,l=101
+i=117,t=3,l=32
+chunked_len: 162
+<snip 276 bytes>
+to be sent by tlv8_send routine
+arg=3fff2948, ptrespconn=3fff2830, pcryp=3fff2948
+send result: 0
+waiting for task
+server sent a packet to  192.168.178.21:57696 at 74320
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 74332
+len:253
+len:253
+A_dat:125,tot:125,lenght:125
+dsl: 125, tl: 125, hl: 128, len: 125
+normal packet saved
+POST/S: pair-verify C:  F: 
+pParseB: <snip 125 bytes>
+pair-verify
+t:5-n:120
+t:6-n:1
+5:<snip 120 bytes>
+6:03
+Free heap3:17208
+Free heap4:17208
+pair verify step 3 at 74420
+Free heap:17848
+t:1-n:36
+t:10-n:64
+1:<snip 36 bytes>
+10:<snip 64 bytes>
+12345678-3456-9876-BBBB-123456789012 -- 007fffffffffffffffffffff3132337890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456
+key 0 loaded - result: 0
+system time: 74488
+system time: 74491
+verify message time: 301, verified=1 r=0
+i=0,t=6,l=1
+chunked_len: 13
+<snip 124 bytes>
+to be sent by tlv8_send routine
+arg=3fff2948, ptrespconn=3fff2830, pcryp=3fff2948
+send result: 0
+waiting for task
+server sent a packet to  192.168.178.21:57696 at 74959
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 74961
+len:84
+raw: 42004a6a38516cde33760c115dd7dc1aac34928295c4734aff6f73d68fbe1b98878fb3a7a4a8ff5fc6e80d83e24f2567d47f098ced67768be92e20fa06bc249a6c4c75cde3c8fc04d9811cd7e4a9eea328aa255d
+nonce 00 00
+GET /accessories HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+
+
+Free heap:17624
+len:66
+normal packet saved
+GET/S: accessories C:  F: 
+accessories
+halfpaired
+postwrite
+out of TaskCreate - Free heap:17576
+HTTP/1.1 200 OK
+Content-Length: 2029
+Connection: keep-alive
+Content-type: application/hap+json
+
+{"accessories":[{"aid":1,"services":[{"iid":1,"type":"0000003E-0000-1000-8000-0026BB765291","characteristics":[{"iid":2,"type":"00000023-0000-1000-8000-0026BB765291","perms":["pr"],"bonjour":false,"description":"Name","events":false,"format":"string","maxLen":255,"value":"HomeACcessory"},{"iid":3,"type":"00000020-0000-1000-8000-0026BB765291","perms":["pr"],"bonjour":false,"description":"Manufacturer","events":false,"format":"string","maxLen":255,"value":"HacK"},{"iid":4,"type":"00000021-0000-1000-8000-0026BB765291","perms":["pr"],"bonjour":false,"description":"Model","events":false,"format":"string","maxLen":255,"value":"Rev-1"},{"iid":5,"type":"00000030-0000-1000-8000-0026BB765291","perms":["pr"],"bonjour":false,"description":"Serial","events":false,"format":"string","maxLen":255,"value":"1"},{"iid":6,"type":"00000014-0000-1000-8000-0026BB765291","perms":["pw"],"bonjour":false,"description":"Identify","events":false,"format":"bool","maxLen":1}]},{"iid":7,"type":"00000049-0000-1000-8000-0026BB765291","characteristics":[{"iid":8,"type":"00000023-0000-1000-8000-0026BB765291","perms":["pr"],"bonjour":false,"description":"Name","events":false,"format":"string","maxLen":255,"value":"led"},{"iid":9,"type":"00000025-0000-1000-8000-0026BB765291","perms":["pw","pr","ev"],"bonjour":false,"description":"PowerState","events":true,"format":"bool","maxLen":1,"value":true}]},{"iid":10,"type":"00000043-0000-1000-8000-0026BB765291","characteristics":[{"iid":11,"type":"00000023-0000-1000-8000-0026BB765291","perms":["pr"],"bonjour":false,"description":"Name","events":false,"format":"string","maxLen":255,"value":"light"},{"iid":12,"type":"00000025-0000-1000-8000-0026BB765291","perms":["pw","pr","ev"],"bonjour":false,"description":"PowerState","events":true,"format":"bool","maxLen":1,"value":false},{"iid":13,"type":"00000008-0000-1000-8000-0026BB765291","perms":["pw","pr","ev"],"bonjour":false,"description":"Brightness","minValue":0,"maxValue":100,"minStep":5,"unit":"%","events":true,"format":"int","value":0}]}]}]}
+length: 0x0852
+nonce 00 00
+nonce 01 00
+nonce 02 00
+length: 0x0888
+Free heap:13600
+send result: 0
+waiting for task
+server sent a packet to  192.168.178.21:57696 at 75470
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 75517
+len:252
+raw: ea00db1f175ba9c2c7b3ab4277404b0f3c352494e72049e8b15109100e25f9deeee9cec5386b44f3aaaaa2170a80c1dc4b1be17f6967a025cbf84477d5bbeb006f0373915584f29f7efd8f8eb9624e22ac506dbc1603802d4afcf19b34101cad472b43228dde04ea969b551b8db6f2351489a43352ee9886520ad32a77de347cde96acab73bfc567588178fce6c2b4e217ca678054cfd639b333fa423497b6a5bf91085a1684cea2ee7505e6ed0717bb96bb405bec88a438ee540caa1d040b615b10832e816711e907eeba267deb755bbbfc52d00adca83818738d1add80709f9b744c2760312ab07820db89c624d3533477a26d64d61e994d79e624
+nonce 01 00
+PUT /characteristics HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+Content-Length: 107
+Content-Type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":9,"ev":true},{"aid":1,"iid":12,"ev":true},{"aid":1,"iid":13,"ev":true}]}
+Free heap:17288
+len:234
+A_dat:107,tot:107,lenght:107
+dsl: 107, tl: 107, hl: 127, len: 107
+normal packet saved
+PUT/S: characteristics C:  F: 
+pParseB: 7b22636861726163746572697374696373223a5b7b22616964223a312c22696964223a392c226576223a747275657d2c7b22616964223a312c22696964223a31322c226576223a747275657d2c7b22616964223a312c22696964223a31332c226576223a747275657d5d7d
+characteristics
+aid=1,iid=9
+chas: 1.9=evT  events: 01
+aid=1,iid=12
+chas: 1.12=evT  events: 01
+aid=1,iid=13
+chas: 1.13=evT  events: 01
+HTTP/1.1 204  No Content
+Connection: keep-alive
+Content-type: application/hap+json
+
+
+length: 0x0058
+nonce 03 00
+length: 0x006a
+Free heap:17224
+send result: 0
+server sent a packet to  192.168.178.21:57696 at 75777
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 75778
+len:223
+raw: <snip>
+nonce 02 00
+POST /pairings HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+Content-Length: 81
+Content-Type: application/pairing+tlv8
+
+$23456789-4567-8765-CCCC-123456789012 ��WKh{�+�ш؊���
+Free heap:17352
+len:205
+A_dat:81,tot:81,lenght:81
+dsl: 81, tl: 81, hl: 124, len: 81
+normal packet saved
+POST/S: pairings C:  F: 
+pParseB: 0001030601010124<snip>
+pairings
+t:0-n:1
+t:6-n:1
+t:1-n:36
+t:3-n:32
+t:11-n:1
+0:03
+1:<snip 36 bytes>
+3:<snip 32 bytes>
+6:01
+11:00
+Free heap1:17288
+Free heap2:17288
+pair add 
+Free heap:17824
+writing client to flash
+7fffffffffffffffffffffff3233343890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456
+i=0,t=6,l=1
+chunked_len: 13
+<snip>
+to be sent by tlv8_send routine
+arg=3fff2948, ptrespconn=3fff2830, pcryp=3fff2948
+HTTP/1.1 200 OK
+Content-type: application/pairing+tlv8
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+3
+
+0
+
+
+length: 0x007c
+nonce 04 00
+send result: 0
+waiting for task
+server sent a packet to  192.168.178.21:57696 at 76055
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 76074
+len:105
+raw: 57007d270d0aa3d5ac552b093cb477d63a4b5e0ed76fae770dcc643182d946f7e92329e8317d7f30887190240184a4d2062cf30a067b294fda4c41b8fa49860ed6409ef4ab632f47c6988bc09267359d67bda988e3e4ad1a0f247ff1fd9420f47e0c93ee5eaed58a5c
+nonce 03 00
+GET /characteristics?id=1.9,1.12,1.13 HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+
+
+Free heap:17576
+len:87
+normal packet saved
+GET/S: characteristics C: id F: 1.9,1.12,1.13
+characteristics
+HTTP/1.0 200 OK
+Content-Length: 114
+Connection: keep-alive
+Content-type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":9,"value":true},{"aid":1,"iid":12,"value":false},{"aid":1,"iid":13,"value":0}]}
+length: 0x00d6
+nonce 05 00
+server sent a packet to  192.168.178.21:57696 at 76207
+pairing 0, heap 17480, system time=77010
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 77849
+len:101
+raw: 5300c5022765f882f0e93447e860a047e4aad1fd3a37f09a0ad5de89c7b518d29a5f9e1f3bd51d31372514853ae79f988986151230c07f82e030f17847ae7f222145b9e230fe85dd452e4d64279219c4cc42caf620ab997dda19e5690a015b2738dffee584
+nonce 04 00
+GET /characteristics?id=1.13,1.12 HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+
+
+Free heap:17592
+len:83
+normal packet saved
+GET/S: characteristics C: id F: 1.13,1.12
+characteristics
+HTTP/1.0 200 OK
+Content-Length: 83
+Connection: keep-alive
+Content-type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":13,"value":0},{"aid":1,"iid":12,"value":false}]}
+length: 0x00b6
+nonce 06 00
+server sent a packet to  192.168.178.21:57696 at 78030
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 78464
+len:196
+raw: b200aee6f644aa8ddc1fc8648dfa249e4085eb9fc3ec5aa8b941f8bc1a8feaff49908685feacfd0580f908d9ff31a3eb89c9cc1e8ee490d0f7694476b269d6fae0742541ab7983093c73c457090c43fcaa12fea03bd9c29d30b05a180cb14dc0bea7825dcd478a9e0a52d0db2318893db777c03b95b38763a12a69239237e8381d46a9257492db4911fc1fc73f65ae831e9778f27e07590dbfdf976883a9a7ca9627f7afd5d51aa71fe6c616e1f8feed37478ddc111e73438b0216ef847fa0e58cdf564a
+nonce 05 00
+PUT /characteristics HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+Content-Length: 52
+Content-Type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":6,"value":true}]}
+Free heap:17400
+len:178
+A_dat:52,tot:52,lenght:52
+dsl: 52, tl: 52, hl: 126, len: 52
+normal packet saved
+PUT/S: characteristics C:  F: 
+pParseB: 7b22636861726163746572697374696373223a5b7b22616964223a312c22696964223a362c2276616c7565223a747275657d5d7d
+characteristics
+aid=1,iid=6
+3fff93e8: {
+	"iid":	6,
+	"type":	"00000014-0000-1000-8000-0026BB765291",
+	"perms":	["pw"],
+	"bonjour":	false,
+	"description":	"Identify",
+	"events":	false,
+	"format":	"bool",
+	"maxLen":	1
+}
+chas: 1.6=valT -> bool
+3fff93e8: {
+	"iid":	6,
+	"type":	"00000014-0000-1000-8000-0026BB765291",
+	"perms":	["pw"],
+	"bonjour":	false,
+	"description":	"Identify",
+	"events":	false,
+	"format":	"bool",
+	"maxLen":	1
+}
+HTTP/1.1 204  No Content
+Connection: keep-alive
+Content-type: application/hap+json
+
+
+length: 0x0058
+nonce 07 00
+length: 0x006a
+Free heap:17336
+send result: 0
+server sent a packet to  192.168.178.21:57696 at 78747
+pairing 0, heap 17480, system time=80010
+pairing 0, heap 17480, system time=83010
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 83685
+len:196
+raw: b200b70f7fd5077492c1cf6bfab18c8d18f7164d4e6742ae7a06786cf9ff4c1da5165681f4b83c95f97a83ae5d42d3c20ec70f4c86e0e70ff7695483396cdf5941a93c7316ed9d2b8ce790d17d3a11e0131b9ae292d32deb7a08063066b88007ce1e2f3ba2885d3841af3284e58012de60a8a3eb45d6604acb209ece8191844b7958262f28b92c60c9f3c1ff8e9477e1e7849a8a2f6396af40bdea3434f433c5690ab9fa6213f3c5f3677f1b5d88916db066b4ecb96b98281230f834451988c94357d0f5
+nonce 06 00
+PUT /characteristics HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+Content-Length: 52
+Content-Type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":6,"value":true}]}
+Free heap:17400
+len:178
+A_dat:52,tot:52,lenght:52
+dsl: 52, tl: 52, hl: 126, len: 52
+normal packet saved
+PUT/S: characteristics C:  F: 
+pParseB: 7b22636861726163746572697374696373223a5b7b22616964223a312c22696964223a362c2276616c7565223a747275657d5d7d
+characteristics
+aid=1,iid=6
+3fff93e8: {
+	"iid":	6,
+	"type":	"00000014-0000-1000-8000-0026BB765291",
+	"perms":	["pw"],
+	"bonjour":	false,
+	"description":	"Identify",
+	"events":	false,
+	"format":	"bool",
+	"maxLen":	1
+}
+chas: 1.6=valT -> bool
+3fff93e8: {
+	"iid":	6,
+	"type":	"00000014-0000-1000-8000-0026BB765291",
+	"perms":	["pw"],
+	"bonjour":	false,
+	"description":	"Identify",
+	"events":	false,
+	"format":	"bool",
+	"maxLen":	1
+}
+HTTP/1.1 204  No Content
+Connection: keep-alive
+Content-type: application/hap+json
+
+
+length: 0x0058
+nonce 08 00
+length: 0x006a
+Free heap:17336
+send result: 0
+server sent a packet to  192.168.178.21:57696 at 83935
+3fff2830 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.21:57696, cid:01
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 17480, system time=86010
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 87679
+len:95
+raw: 4d000e3f9b8e6b9d47ed18abf3c5d26cd8909d9647717fed895ca78bfd12bc296e7d18087e36f449cf1cb0d31397f28237181a6748643771c120c535122de42e2268b0d53a02567195040e45481e9e11e46a1a9ac85d1821318b531c421c43
+nonce 07 00
+GET /characteristics?id=1.9 HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+
+
+Free heap:17608
+len:77
+normal packet saved
+GET/S: characteristics C: id F: 1.9
+characteristics
+HTTP/1.0 200 OK
+Content-Length: 52
+Connection: keep-alive
+Content-type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":9,"value":true}]}
+length: 0x0097
+nonce 09 00
+server sent a packet to  192.168.178.21:57696 at 87860
+chas: 1.9=valT -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 52
+
+{"characteristics":[{"aid":1,"iid":9,"value":true}]}
+length: 0x0080
+nonce 0a 00
+server sent a packet to  192.168.178.21:57696 at 87883
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 87894
+len:196
+raw: b20000623352322fe5a123ad5b7df8ce5a57881f32162b1a8bfdca365834f270aa806d5f4af83332213c70158746e3eb6401630d298d4c7ce23404bf9898d03bf65be435630e4af49ff362f15dc1854f3401f2b957d68750891f4dd78a50e8c0813731352277ba38d54b352251c27b73e29522e620f2d92ec50cdf6fbcf108a2b41b5559c23897ef993a6d3ff4a2485fc3e10c22a084350c3b286ccafbb6faee9d8ab5e0a52758187349880c638ccf2f0777f922bde4da39377048b8eaca1041e4d1f992
+nonce 08 00
+PUT /characteristics HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+Content-Length: 52
+Content-Type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":6,"value":true}]}
+Free heap:17400
+len:178
+A_dat:52,tot:52,lenght:52
+dsl: 52, tl: 52, hl: 126, len: 52
+normal packet saved
+PUT/S: characteristics C:  F: 
+pParseB: 7b22636861726163746572697374696373223a5b7b22616964223a312c22696964223a362c2276616c7565223a747275657d5d7d
+characteristics
+aid=1,iid=6
+3fff93e8: {
+	"iid":	6,
+	"type":	"00000014-0000-1000-8000-0026BB765291",
+	"perms":	["pw"],
+	"bonjour":	false,
+	"description":	"Identify",
+	"events":	false,
+	"format":	"bool",
+	"maxLen":	1
+}
+chas: 1.6=valT -> bool
+3fff93e8: {
+	"iid":	6,
+	"type":	"00000014-0000-1000-8000-0026BB765291",
+	"perms":	["pw"],
+	"bonjour":	false,
+	"description":	"Identify",
+	"events":	false,
+	"format":	"bool",
+	"maxLen":	1
+}
+HTTP/1.1 204  No Content
+Connection: keep-alive
+Content-type: application/hap+json
+
+
+length: 0x0058
+nonce 0b 00
+length: 0x006a
+Free heap:17288
+send result: 0
+server sent a packet to  192.168.178.21:57696 at 88096
+pairing 0, heap 17480, system time=89010
+pairing 0, heap 17480, system time=92010
+p_sema  taken
+3fff2c48  connects  from 192.168.178.28:50378 id:00000002
+p_sema locked
+server got a packet from 192.168.178.28:50378 at 93654
+len:164
+len:164
+A_dat:37,tot:37,lenght:37
+dsl: 37, tl: 37, hl: 127, len: 37
+normal packet saved
+POST/S: pair-verify C:  F: 
+pParseB: 0601010320f7db76d1139cce368d036af9d2b81c03a022e4cb6f0dd305d5bb8762f09d3a09
+pair-verify
+t:6-n:1
+t:3-n:32
+3:f7db76d1139cce368d036af9d2b81c03a022e4cb6f0dd305d5bb8762f09d3a09
+6:01
+Free heap1:16184
+Free heap2:16184
+pair verify step 1 at 93700
+Free heap:16648
+mycurvekey: <snip 32 bytes>
+clcurvekey: <snip 32 bytes>
+system time: 93965
+shared secret time: 256
+sessionkey: <snip 32 bytes>
+system time: 94222
+sign message time: 93
+edsign: 0
+system time: 94315
+i=0,t=6,l=1
+i=8,t=5,l=101
+i=117,t=3,l=32
+chunked_len: 162
+<snip 273 bytes>
+to be sent by tlv8_send routine
+arg=3fffb950, ptrespconn=3fff2c48, pcryp=3fffb950
+send result: 0
+server sent a packet to  192.168.178.28:50378 at 94423
+waiting for task
+p_sema locked
+server got a packet from 192.168.178.28:50378 at 94570
+len:253
+len:253
+A_dat:125,tot:125,lenght:125
+dsl: 125, tl: 125, hl: 128, len: 125
+normal packet saved
+POST/S: pair-verify C:  F: 
+pParseB: <snip 125 bytes>
+pair-verify
+t:5-n:120
+t:6-n:1
+5:<snip 120 bytes>
+6:03
+Free heap3:16024
+Free heap4:16024
+pair verify step 3 at 94658
+Free heap:16648
+t:1-n:36
+t:10-n:64
+1:<snip 36 bytes>
+10:<snip 64 bytes>
+12345678-3456-9876-BBBB-123456789012 -- 007fffffffffffffffffffff3132337890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456
+key 0 loaded - result: 0
+system time: 94725
+system time: 94728
+pairing 0, heap 16112, system time=95010
+verify message time: 306, verified=1 r=0
+i=0,t=6,l=1
+chunked_len: 13
+<snip 124 bytes>
+to be sent by tlv8_send routine
+arg=3fffb950, ptrespconn=3fff2c48, pcryp=3fffb950
+send result: 0
+server sent a packet to  192.168.178.28:50378 at 95098
+waiting for task
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.28:50378, cid:02
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16280, system time=98020
+p_sema  taken
+3fff8620  connects  from 192.168.178.14:53235 id:00000004
+p_sema locked
+server got a packet from 192.168.178.14:53235 at 98115
+len:164
+len:164
+A_dat:37,tot:37,lenght:37
+dsl: 37, tl: 37, hl: 127, len: 37
+normal packet saved
+POST/S: pair-verify C:  F: 
+pParseB: 06010103200addd523dba9706c340c26c76572132b63a88ce1137267ce981a6726feccc061
+pair-verify
+t:6-n:1
+t:3-n:32
+3:0addd523dba9706c340c26c76572132b63a88ce1137267ce981a6726feccc061
+6:01
+Free heap1:14944
+Free heap2:14944
+pair verify step 1 at 98165
+Free heap:15456
+mycurvekey: <snip 32 bytes>
+clcurvekey: <snip 32 bytes>
+system time: 98429
+shared secret time: 259
+sessionkey: <snip 32 bytes>
+system time: 98689
+sign message time: 94
+edsign: 0
+system time: 98784
+i=0,t=6,l=1
+i=8,t=5,l=101
+i=117,t=3,l=32
+chunked_len: 162
+<snip 273 bytes>
+to be sent by tlv8_send routine
+arg=3fffbdb8, ptrespconn=3fff8620, pcryp=3fffbdb8
+send result: 0
+server sent a packet to  192.168.178.14:53235 at 98872
+client 192.168.178.14:53235 disconnected with status 0
+Cleaning 3fffbdb8 @ 98884 CID: 4
+p_sema  taken
+3fff8628  connects  from 192.168.178.14:53236 id:00000004
+p_sema locked
+server got a packet from 192.168.178.14:53236 at 98900
+len:164
+len:164
+A_dat:37,tot:37,lenght:37
+dsl: 37, tl: 37, hl: 127, len: 37
+normal packet saved
+POST/S: pair-verify C:  F: 
+pParseB: 0601010320<snip 32 bytes>
+pair-verify
+t:6-n:1
+t:3-n:32
+3:<snip 32 bytes>
+6:01
+Free heap1:12088
+Free heap2:12088
+Freeing  3fffbdb8 @ 98955
+waiting for task
+pair verify step 1 at 98961
+Free heap:13320
+mycurvekey: <snip 32 bytes>
+clcurvekey: <snip 32 bytes>
+system time: 99227
+shared secret time: 259
+sessionkey: <snip 32 bytes>
+system time: 99487
+sign message time: 94
+edsign: 0
+system time: 99581
+i=0,t=6,l=1
+i=8,t=5,l=101
+i=117,t=3,l=32
+chunked_len: 162
+<snip 237 bytes>
+to be sent by tlv8_send routine
+arg=3fffcb78, ptrespconn=3fff8628, pcryp=3fffcb78
+send result: 0
+waiting for task
+server sent a packet to  192.168.178.14:53236 at 99702
+client 192.168.178.14:53236 disconnected with status 0
+Cleaning 3fffcb78 @ 99712 CID: 4
+Freeing  3fffcb78 @ 99712
+pairing 0, heap 16280, system time=101020
+chas: 1.9=valT -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 52
+
+{"characteristics":[{"aid":1,"iid":9,"value":true}]}
+length: 0x0080
+nonce 0c 00
+server sent a packet to  192.168.178.21:57696 at 103016
+pairing 0, heap 16280, system time=104020
+pairing 0, heap 16280, system time=107020
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.28:50378, cid:02
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16280, system time=110020
+pairing 0, heap 16280, system time=113020
+pairing 0, heap 16280, system time=116020
+chas: 1.9=valF -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 53
+
+{"characteristics":[{"aid":1,"iid":9,"value":false}]}
+length: 0x0081
+nonce 0d 00
+server sent a packet to  192.168.178.21:57696 at 117965
+pairing 0, heap 16280, system time=119020
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 121164
+len:193
+raw: af00153167193018016fbaaefa129704bc0047de97e2c7f47e93e502984e854553f82987c36bcf79b930dbc6d56ed40d8dbdaa5cfdfc1cd16259a56df63a0cdfeb5361847be25feee85fffff0701f08c90a0ecbdb2cf464a1e27bf9c8711465b4c7103f8b3f4744de238c1658396fae96549236a221969f76dd540e6255e98b35154c146b630c104ab1a5ec99ee410a09badbbd3efa0141daf5c1ba9c039e787b2cb3baab7c00487018b9163a236493755b00083aa2d7639ac1008fe04101d642f
+nonce 09 00
+PUT /characteristics HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+Content-Length: 49
+Content-Type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":9,"value":1}]}
+Free heap:16200
+len:175
+A_dat:49,tot:49,lenght:49
+dsl: 49, tl: 49, hl: 126, len: 49
+normal packet saved
+PUT/S: characteristics C:  F: 
+pParseB: 7b22636861726163746572697374696373223a5b7b22616964223a312c22696964223a392c2276616c7565223a317d5d7d
+characteristics
+aid=1,iid=9
+3fff9fb8: {
+	"iid":	9,
+	"type":	"00000025-0000-1000-8000-0026BB765291",
+	"perms":	["pw", "pr", "ev"],
+	"bonjour":	false,
+	"description":	"PowerState",
+	"events":	true,
+	"format":	"bool",
+	"maxLen":	1,
+	"value":	false
+}
+chas: 1.9=valN -> bool
+3fff9fb8: {
+	"iid":	9,
+	"type":	"00000025-0000-1000-8000-0026BB765291",
+	"perms":	["pw", "pr", "ev"],
+	"bonjour":	false,
+	"description":	"PowerState",
+	"events":	true,
+	"format":	"bool",
+	"maxLen":	1,
+	"value":	true
+}
+led true
+HTTP/1.1 204  No Content
+Connection: keep-alive
+Content-type: application/hap+json
+
+
+length: 0x0058
+nonce 0e 00
+length: 0x006a
+Free heap:16152
+send result: 0
+server sent a packet to  192.168.178.21:57696 at 121447
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.28:50378, cid:02
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16280, system time=122020
+ip:192.168.178.221,mask:255.255.255.0,gw:192.168.178.1
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 124236
+len:193
+raw: af00ef1f5a006fa54126bf74503f61fe67560904628df3255926c3018dd82e11cb2a495ef4b907ef039c0489089cf1b1495bd0ab3edb4e5a8df227e4817d4b8aa293c059ea5dab10a45f8710821c997dd31b33c8f211d47eed6958909c10a8990eb22227b14680b8dbf6757eded54e6a8e60f7b8e8e41fe7c37fbb41a855f030a8ef52112a1a6adac095f979ccdb08529fffa2e6c4e90d584b6f0a9ec60ad5d92091bbb06b5c85ceaddea000f03bfcca1d4f2f66fe7c55af16a5cc8d9e1c3fa7a6
+nonce 0a 00
+PUT /characteristics HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+Content-Length: 49
+Content-Type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":9,"value":0}]}
+Free heap:16200
+len:175
+A_dat:49,tot:49,lenght:49
+dsl: 49, tl: 49, hl: 126, len: 49
+normal packet saved
+PUT/S: characteristics C:  F: 
+pParseB: 7b22636861726163746572697374696373223a5b7b22616964223a312c22696964223a392c2276616c7565223a307d5d7d
+characteristics
+aid=1,iid=9
+3fff9fb8: {
+	"iid":	9,
+	"type":	"00000025-0000-1000-8000-0026BB765291",
+	"perms":	["pw", "pr", "ev"],
+	"bonjour":	false,
+	"description":	"PowerState",
+	"events":	true,
+	"format":	"bool",
+	"maxLen":	1,
+	"value":	true
+}
+chas: 1.9=valN -> bool
+3fff9fb8: {
+	"iid":	9,
+	"type":	"00000025-0000-1000-8000-0026BB765291",
+	"perms":	["pw", "pr", "ev"],
+	"bonjour":	false,
+	"description":	"PowerState",
+	"events":	true,
+	"format":	"bool",
+	"maxLen":	1,
+	"value":	false
+}
+led false
+HTTP/1.1 204  No Content
+Connection: keep-alive
+Content-type: application/hap+json
+
+
+length: 0x0058
+nonce 0f 00
+length: 0x006a
+Free heap:16160
+send result: 0
+server sent a packet to  192.168.178.21:57696 at 124519
+pairing 0, heap 16280, system time=125020
+pairing 0, heap 16280, system time=128020
+pairing 0, heap 16280, system time=131020
+chas: 1.9=valT -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 52
+
+{"characteristics":[{"aid":1,"iid":9,"value":true}]}
+length: 0x0080
+nonce 10 00
+server sent a packet to  192.168.178.21:57696 at 133018
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.28:50378, cid:02
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16280, system time=134020
+pairing 0, heap 16280, system time=137020
+pairing 0, heap 16280, system time=140020
+pairing 0, heap 16280, system time=143020
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.28:50378, cid:02
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16280, system time=146020
+chas: 1.9=valF -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 53
+
+{"characteristics":[{"aid":1,"iid":9,"value":false}]}
+length: 0x0081
+nonce 11 00
+server sent a packet to  192.168.178.21:57696 at 147969
+pairing 0, heap 16280, system time=149020
+pairing 0, heap 16280, system time=152020
+client 192.168.178.28:50378 disconnected with status 0
+Cleaning 3fffb950 @ 154678 CID: 2
+Freeing  3fffb950 @ 154678
+pairing 0, heap 17480, system time=155020
+3fff2830 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.21:57696, cid:01
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 17480, system time=158020
+pairing 0, heap 17480, system time=161020
+chas: 1.9=valT -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 52
+
+{"characteristics":[{"aid":1,"iid":9,"value":true}]}
+length: 0x0080
+nonce 12 00
+server sent a packet to  192.168.178.21:57696 at 163021
+pairing 0, heap 17480, system time=164020
+pairing 0, heap 17480, system time=167020
+3fff2830 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.21:57696, cid:01
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 17480, system time=170020
+p_sema  taken
+3fff2c48  connects  from 192.168.178.14:53246 id:00000002
+p_sema locked
+server got a packet from 192.168.178.14:53246 at 170411
+len:164
+len:164
+A_dat:37,tot:37,lenght:37
+dsl: 37, tl: 37, hl: 127, len: 37
+normal packet saved
+POST/S: pair-verify C:  F: 
+pParseB: 06010103205791d8ae64823fc4900b53ceac5b1e6b581bcab92350608289b9fe519532d07c
+pair-verify
+t:6-n:1
+t:3-n:32
+3:5791d8ae64823fc4900b53ceac5b1e6b581bcab92350608289b9fe519532d07c
+6:01
+Free heap1:16192
+Free heap2:16192
+pair verify step 1 at 170460
+Free heap:16656
+mycurvekey: <snip 32 bytes>
+clcurvekey: <snip 32 bytes>
+system time: 170723
+shared secret time: 259
+sessionkey: <snip 32 bytes>
+system time: 170983
+sign message time: 92
+edsign: 0
+system time: 171075
+i=0,t=6,l=1
+i=8,t=5,l=101
+i=117,t=3,l=32
+chunked_len: 162
+<snip 273 bytes>
+to be sent by tlv8_send routine
+arg=3fffb950, ptrespconn=3fff2c48, pcryp=3fffb950
+send result: 0
+server sent a packet to  192.168.178.14:53246 at 171165
+waiting for task
+pairing 0, heap 16288, system time=173020
+pairing 0, heap 16288, system time=176020
+chas: 1.9=valF -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 53
+
+{"characteristics":[{"aid":1,"iid":9,"value":false}]}
+length: 0x0081
+nonce 13 00
+pairing 0, heap 14640, system time=179020
+server sent a packet to  192.168.178.21:57696 at 179585
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.14:53246, cid:02
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16288, system time=182020
+pairing 0, heap 16288, system time=185020
+pairing 0, heap 16288, system time=188020
+pairing 0, heap 16288, system time=191020
+chas: 1.9=valT -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 52
+
+{"characteristics":[{"aid":1,"iid":9,"value":true}]}
+length: 0x0080
+nonce 14 00
+server sent a packet to  192.168.178.21:57696 at 193024
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.14:53246, cid:02
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16288, system time=194020
+pairing 0, heap 16288, system time=197020
+pairing 0, heap 16288, system time=200020
+pairing 0, heap 16288, system time=203020
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.14:53246, cid:02
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16288, system time=206029
+chas: 1.9=valF -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 53
+
+{"characteristics":[{"aid":1,"iid":9,"value":false}]}
+length: 0x0081
+nonce 15 00
+server sent a packet to  192.168.178.21:57696 at 208076
+pairing 0, heap 15912, system time=209030
+pairing 0, heap 15912, system time=212030
+pairing 0, heap 15912, system time=215030
+p_sema  taken
+3fff8620  connects  from 192.168.178.28:50381 id:00000004
+p_sema locked
+server got a packet from 192.168.178.28:50381 at 217933
+len:164
+len:164
+A_dat:37,tot:37,lenght:37
+dsl: 37, tl: 37, hl: 127, len: 37
+normal packet saved
+POST/S: pair-verify C:  F: 
+pParseB: 0601010320<snip 32 bytes>
+pair-verify
+t:6-n:1
+t:3-n:32
+3:<snip 32 bytes>
+6:01
+Free heap1:15016
+Free heap2:15016
+pair verify step 1 at 217982
+Free heap:15464
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:3fffbd18, act:3, 192.168.178.14:53246, cid:02
+3fff8620 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.28:50381, cid:04
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 14920, system time=218050
+mycurvekey: <snip 32 bytes>
+clcurvekey: <snip 32 bytes>
+system time: 218272
+shared secret time: 257
+sessionkey: <snip 32 bytes>
+system time: 218530
+sign message time: 92
+edsign: 0
+system time: 218622
+i=0,t=6,l=1
+i=8,t=5,l=101
+i=117,t=3,l=32
+chunked_len: 162
+<snip 273 bytes>
+to be sent by tlv8_send routine
+arg=3fffbdb8, ptrespconn=3fff8620, pcryp=3fffbdb8
+send result: 0
+waiting for task
+server sent a packet to  192.168.178.28:50381 at 218861
+p_sema locked
+server got a packet from 192.168.178.28:50381 at 218881
+len:253
+len:253
+A_dat:125,tot:125,lenght:125
+dsl: 125, tl: 125, hl: 128, len: 125
+normal packet saved
+POST/S: pair-verify C:  F: 
+pParseB: <snip 125 bytes>
+pair-verify
+t:5-n:120
+t:6-n:1
+5:<snip 120 bytes>
+6:03
+Free heap3:14840
+Free heap4:14840
+pair verify step 3 at 218970
+Free heap:15464
+t:1-n:36
+t:10-n:64
+1:<snip 36 bytes>
+10:<snip 64 bytes>
+12345678-3456-9876-BBBB-123456789012 -- 007fffffffffffffffffffff3132337890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456
+key 0 loaded - result: 0
+system time: 219037
+system time: 219040
+verify message time: 301, verified=1 r=0
+i=0,t=6,l=1
+chunked_len: 13
+<snip 124 bytes>
+to be sent by tlv8_send routine
+arg=3fffbdb8, ptrespconn=3fff8620, pcryp=3fffbdb8
+send result: 0
+server sent a packet to  192.168.178.28:50381 at 219412
+waiting for task
+pairing 0, heap 15096, system time=221060
+chas: 1.9=valT -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 52
+
+{"characteristics":[{"aid":1,"iid":9,"value":true}]}
+length: 0x0080
+nonce 16 00
+server sent a packet to  192.168.178.21:57696 at 223026
+pairing 0, heap 15096, system time=224060
+pairing 0, heap 15096, system time=227060
+3fff2830 conn, rev:3fff0b58, nxt:3fffb8d8, act:3, 192.168.178.21:57696, cid:01
+3fff2c48 conn, rev:3fff0b58, nxt:3fffbd18, act:3, 192.168.178.14:53246, cid:02
+3fff8620 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.28:50381, cid:04
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 15096, system time=230069
+client 192.168.178.14:53246 disconnected with status 0
+Cleaning 3fffb950 @ 231758 CID: 2
+Freeing  3fffb950 @ 231758
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 232983
+len:105
+raw: 57007e464de393518755b12782c11a60991d3a48e4bedd7a9f076cd87549dc9efd4d7d6424e0d65bf01b9986ef70e7e48c21fbcfc57a5ebcc65cc86c98f02c6138fb27d93775398cc0e831aa0cbca131c320389b448b279815c73d24500dac02d51250655a58606de1
+nonce 0b 00
+GET /characteristics?id=1.9,1.13,1.12 HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+
+
+Free heap:16384
+len:87
+normal packet saved
+GET/S: characteristics C: id F: 1.9,1.13,1.12
+characteristics
+HTTP/1.0 200 OK
+Content-Length: 114
+Connection: keep-alive
+Content-type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":9,"value":true},{"aid":1,"iid":13,"value":0},{"aid":1,"iid":12,"value":false}]}
+length: 0x00d6
+nonce 17 00
+pairing 0, heap 14648, system time=233070
+server sent a packet to  192.168.178.21:57696 at 233120
+p_sema locked
+server got a packet from 192.168.178.21:57696 at 234826
+len:105
+raw: 5700104b25ef35c37378a5e297991d2de46bb9d17cf36d45bf35f663ff7eb105aad56de250080ffbbd90faf2838e3f093dbcd5f85acfa95215d2b192ccefa57cd721caaec8bdc5ccdb8d930dc9b0ea9816a9b950d79bc7bcb8818a54d625c511ad827cc5acadf670dd
+nonce 0c 00
+GET /characteristics?id=1.9,1.12,1.13 HTTP/1.1
+Host: HomeACcessory._hap._tcp.local
+
+
+Free heap:16384
+len:87
+normal packet saved
+GET/S: characteristics C: id F: 1.9,1.12,1.13
+characteristics
+HTTP/1.0 200 OK
+Content-Length: 114
+Connection: keep-alive
+Content-type: application/hap+json
+
+{"characteristics":[{"aid":1,"iid":9,"value":true},{"aid":1,"iid":12,"value":false},{"aid":1,"iid":13,"value":0}]}
+length: 0x00d6
+nonce 18 00
+server sent a packet to  192.168.178.21:57696 at 235007
+pairing 0, heap 16288, system time=236070
+chas: 1.9=valF -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 53
+
+{"characteristics":[{"aid":1,"iid":9,"value":false}]}
+length: 0x0081
+nonce 19 00
+server sent a packet to  192.168.178.21:57696 at 237976
+pairing 0, heap 16288, system time=239070
+3fff2830 conn, rev:3fff0b58, nxt:3fffbd18, act:3, 192.168.178.21:57696, cid:01
+3fff8620 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.28:50381, cid:04
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16288, system time=242079
+ip:192.168.178.221,mask:255.255.255.0,gw:192.168.178.1
+pairing 0, heap 16288, system time=245080
+pairing 0, heap 16288, system time=248080
+pairing 0, heap 16288, system time=251080
+chas: 1.9=valT -> bool
+EVENT/1.0 200 OK
+Content-type: application/hap+json
+Content-Length: 52
+
+{"characteristics":[{"aid":1,"iid":9,"value":true}]}
+length: 0x0080
+nonce 1a 00
+server sent a packet to  192.168.178.21:57696 at 253029
+3fff2830 conn, rev:3fff0b58, nxt:3fffbd18, act:3, 192.168.178.21:57696, cid:01
+3fff8620 conn, rev:3fff0b58, nxt:00000000, act:3, 192.168.178.28:50381, cid:04
+ev1.9:01 | ev1.12:01 | ev1.13:01 | 
+pairing 0, heap 16288, system time=254088
+pairing 0, heap 16288, system time=257090
+pairing 0, heap 16288, system time=260090
+pairing 0, heap 16288, system time=263090

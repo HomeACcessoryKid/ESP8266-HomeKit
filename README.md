@@ -73,5 +73,6 @@ Please note that this software was produced without any reference to any proprie
 am not a MFi licensee, nor do I have access to any related information.
 
 Espressif uses MIT license
+
 WolfCrypt uses GPLv2 or higher license. For the purpose of this distribution you should use GPLv3
 This is based on the changes I had to make to Wolfcrypt.
