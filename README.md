@@ -15,6 +15,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
 ==============================
 
 Public Apple's HomeKit protocol code has been around for some time for more potent processors
@@ -56,6 +57,7 @@ The HomeKit code is approximately 400K and about 18K of RAM is left for other pu
 # Thanks
 
 I want to thank a number of projects which made this possible:
+
 1. https://github.com/KhaosT/HAP-NodeJS - which documents the HomeKit protocols for IP and allowed me to guess how they
 were implemented.
 
