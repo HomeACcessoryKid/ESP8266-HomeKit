@@ -38,7 +38,7 @@ Here are some preliminary timings.
 ### Pairing
 
 Pairing is dominated by the SRP algorithm which is very slow and expensive.  
-Fortunatelythis only happens once when the iOS device is being associated with the HomeKit device:
+Fortunately this only happens once when the iOS device is being associated with the HomeKit device:
 
 Time1: 25 seconds from boot till start of server, so that initial interaction is split second.
 
@@ -73,6 +73,6 @@ were implemented.
 Please note that this software was produced without any reference to any proprietary documentation or information.  
 I am not a MFi licensee, nor do I have access to any related information.
 
-Espressif uses MIT license  
+Espressif uses MIT license.  
 WolfCrypt uses GPLv2 or higher license. For the purpose of this distribution you should use GPLv3.  
-This is based on the changes I had to make to Wolfcrypt.
+This is based on the changes I had to make to Wolfcrypt and to be compatible with Apache-2.0 license.
