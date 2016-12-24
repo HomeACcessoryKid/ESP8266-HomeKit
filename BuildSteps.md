@@ -40,7 +40,7 @@ When applying this software on the [ESP8266/RTOS SDK](https://github.com/espress
 
 ESP8266-HomeKit will need more space than originally foreseen in ESP8266_RTOS_SDK 1.5.0 which was to start irom at 0x20000. To address this it is needed to change the `ld/eagle.app.v6.ld` file:
 
-```bash
+```diff
 diff ld/eagle.app.v6.ld ld/eagle.app.v6.ld.0
 29,30c29
 < /*irom0_0_seg :                       	org = 0x40220000, len = 0x5C000 */
@@ -50,7 +50,7 @@ diff ld/eagle.app.v6.ld ld/eagle.app.v6.ld.0
 ```
 
 for convenience also change the master Makefile:
-```bash
+```diff
 diff ESP8266/source/ESP8266_RTOS_SDK-master-v1.5.0/Makefile Makefile 
 271c271
 < 	@echo "eagle.irom0text.bin---->0x20000"
