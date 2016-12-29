@@ -21,7 +21,7 @@ limitations under the License.
 
 ### ESP8266/RTOS SDK
 
-When applying this software on the [ESP8266/RTOS SDK](https://github.com/espressif/ESP8266_RTOS_SDK) it is assumed that this environment already works as recommended. The directories from `hkc` folder should be duplicated in `include` and `third_party` folders respectively within ESP8266_RTOS_SDK. The content can be hardlinked to serve github.
+When applying this software on the [ESP8266/RTOS SDK](https://github.com/espressif/ESP8266_RTOS_SDK) it is assumed that this environment already works as recommended. Consider using https://github.com/pfalcon/esp-open-sdk. The directories from `hkc` folder should be duplicated in `include` and `third_party` folders respectively within ESP8266_RTOS_SDK. The content can be hardlinked to serve github.
 
 ```
 .
