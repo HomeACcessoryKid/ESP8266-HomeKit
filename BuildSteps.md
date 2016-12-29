@@ -41,12 +41,12 @@ When applying this software on the [ESP8266/RTOS SDK](https://github.com/espress
 ESP8266-HomeKit will need more space than originally foreseen in ESP8266_RTOS_SDK 1.5.0 which was to start irom at 0x20000. To address this it is needed to change the `ld/eagle.app.v6.ld` file:
 
 ```diff
-diff ld/eagle.app.v6.ld ld/eagle.app.v6.ld.0
-29,30c29
-< /*irom0_0_seg :                       	org = 0x40220000, len = 0x5C000 */
-<   irom0_0_seg :                       	org = 0x40214000, len = 0x67000
+diff ld/eagle.app.v6.ld.0 ld/eagle.app.v6.ld
+29c29,30
+<   irom0_0_seg :                       	org = 0x40220000, len = 0x5C000
 ---
->   irom0_0_seg :                       	org = 0x40220000, len = 0x5C000
+> /*irom0_0_seg :                       	org = 0x40220000, len = 0x5C000 */
+>   irom0_0_seg :                       	org = 0x40214000, len = 0x67000
 ```
 
 for convenience also change the master Makefile:
@@ -127,31 +127,31 @@ Note that additional src files should be removed to prevent excess irom size.
 ```
 ```diff
 
-$ diff ESP8266-HomeKit/wolfcrypt/src/ge_operations.c ESP8266-HomeKit/wolfcrypt/src/ge_operations.c.0 
+$ diff ESP8266-HomeKit/wolfcrypt/src/ge_operations.c.0 ESP8266-HomeKit/wolfcrypt/src/ge_operations.c 
 770c770
-< static ge_precomp ICACHE_RODATA_ATTR base[32][8] = {
+< static ge_precomp base[32][8] = {
 ---
-> static ge_precomp base[32][8] = {
+> static ge_precomp ICACHE_RODATA_ATTR base[32][8] = {
 2225c2225
-< static ge_precomp ICACHE_RODATA_ATTR Bi[8] = {
+< static ge_precomp Bi[8] = {
 ---
-> static ge_precomp Bi[8] = {
+> static ge_precomp ICACHE_RODATA_ATTR Bi[8] = {
 
-$ diff ESP8266-HomeKit/wolfcrypt/src/misc.c ESP8266-HomeKit/wolfcrypt/src/misc.c.0 
+$ diff ESP8266-HomeKit/wolfcrypt/src/misc.c.0 ESP8266-HomeKit/wolfcrypt/src/misc.c 
 48,50c48,50
-< // #if !defined(WOLFSSL_MISC_INCLUDED) && !defined(NO_INLINE)
-< //     #error misc.c does not need to be compiled when not defined NO_INLINE
-< // #endif
+< #if !defined(WOLFSSL_MISC_INCLUDED) && !defined(NO_INLINE)
+<     #error misc.c does not need to be compiled when not defined NO_INLINE
+< #endif
 ---
-> #if !defined(WOLFSSL_MISC_INCLUDED) && !defined(NO_INLINE)
->     #error misc.c does not need to be compiled when not defined NO_INLINE
-> #endif
+> // #if !defined(WOLFSSL_MISC_INCLUDED) && !defined(NO_INLINE)
+> //     #error misc.c does not need to be compiled when not defined NO_INLINE
+> // #endif
 
 
-$ diff include/wolfssl/wolfcrypt/settings.h include/wolfssl/wolfcrypt/settings.h.0 
-34,35d33
-< #define WOLFSSL_USER_SETTINGS
-< 
+$ diff include/wolfssl/wolfcrypt/settings.h.0 include/wolfssl/wolfcrypt/settings.h 
+33a34,35
+> #define WOLFSSL_USER_SETTINGS
+> 
 ```
 
 =========================
