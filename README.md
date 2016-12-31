@@ -6,6 +6,10 @@ Public Apple's HomeKit protocol code has been around for some time for more pote
 
 For buid instructions please refer to the [wiki](https://github.com/HomeACcessoryKid/ESP8266-HomeKit/wiki).
 
+# Demo
+
+[![HomeKit Demo](https://img.youtube.com/vi/Xnr-utWDIR8/0.jpg)](https://www.youtube.com/watch?v=Xnr-utWDIR8)
+
 # About the code
 
 The code provides all the services required to pair iOS with an IP device and to operate that device once paired with multiple iOS devices. It runs on even the smallest ESP8266 device like the ESP-01. It attempts to create
