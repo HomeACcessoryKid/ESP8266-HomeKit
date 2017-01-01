@@ -1,5 +1,7 @@
 things to do:
 -------------
+maybe make IP based on link local addresses _or_
+remove the default gateway from the IP stack  => security is improved if it can only talk locally
 consider espconn_find_connection
 
 make a mdns routine that really builds the message
