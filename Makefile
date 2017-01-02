@@ -22,9 +22,8 @@ GEN_IMAGES= eagle.app.v6.out
 GEN_BINS= eagle.app.v6.bin
 SPECIAL_MKTARGETS=$(APP_MKTARGETS)
 SUBDIRS=    \
-	user    \
-	driver	\
-        wolfcrypt
+	user
+
 endif # } PDIR
 
 LDDIR = $(SDK_PATH)/ld
@@ -46,9 +45,9 @@ ifeq ($(FLAVOR),release)
 endif
 
 COMPONENTS_eagle.app.v6 = \
-	user/libuser.a    \
-	driver/libdriver.a    \
-        wolfcrypt/libwolfcrypt.a
+	user/libuser.a	\
+	spiffs/libspiffs.a \
+	driver/libdriver.a
 
 LINKFLAGS_eagle.app.v6 = \
 	-L$(SDK_PATH)/lib        \
@@ -60,28 +59,15 @@ LINKFLAGS_eagle.app.v6 = \
 	-Wl,-static						\
 	-Wl,--start-group					\
 	-lcirom \
-	-lcrypto	\
-	-lespconn	\
-	-lespnow	\
-	-lfreertos	\
 	-lgcc					\
 	-lhal					\
-	-ljson	\
-	-llwip	\
-	-lmain	\
-	-lmesh	\
-	-lmirom	\
-	-lnet80211	\
-	-lnopoll	\
 	-lphy	\
 	-lpp	\
-	-lpwm	\
-	-lsmartconfig	\
-	-lspiffs	\
-	-lssl	\
+	-lnet80211	\
 	-lwpa	\
-	-lwps		\
-	-lhkc	\
+	-lmain	\
+	-lfreertos	\
+	-llwip	\
 	$(DEP_LIBS_eagle.app.v6)					\
 	-Wl,--end-group
 
@@ -103,7 +89,7 @@ DEPENDS_eagle.app.v6 = \
 #	-DTXRX_TXBUF_DEBUG
 #	-DTXRX_RXBUF_DEBUG
 #	-DWLAN_CONFIG_CCX
-CONFIGURATION_DEFINES =	-DICACHE_FLASH
+CONFIGURATION_DEFINES = -DMEMLEAK_DEBUG
 
 DEFINES +=				\
 	$(UNIVERSAL_TARGET_DEFINES)	\
@@ -127,10 +113,6 @@ DDEFINES +=				\
 #
 
 INCLUDES := $(INCLUDES) -I $(PDIR)include
-INCLUDES += -I $(PDIR)
-## freertos added by HacK for wolfcrypt
-INCLUDES += -I $(SDK_PATH)/include/freertos
-INCLUDES += -I $(SDK_PATH)/include/hkc
 sinclude $(SDK_PATH)/Makefile
 
 .PHONY: FORCE

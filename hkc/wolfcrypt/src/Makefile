@@ -12,7 +12,7 @@
 #     a generated lib/image xxx.a ()
 #
 ifndef PDIR
-GEN_LIBS = libdriver.a
+GEN_LIBS = libwolfcryptsrc.a
 endif
 
 
@@ -38,6 +38,9 @@ endif
 #
 
 INCLUDES := $(INCLUDES) -I $(PDIR)include
+INCLUDES += -I ./
+#added ../../ in order to find misc.c
+INCLUDES += -I ../../
 PDIR := ../$(PDIR)
 sinclude $(PDIR)Makefile
 
