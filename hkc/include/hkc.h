@@ -127,7 +127,7 @@ void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType,
 //cType name                                    Type    //mxlen format  read/write/event
 #define ADMIN_ONLY_ACCESS_C                     0x01
 #define AUDIO_FEEDBACK_C                        0x05
-#define BRIGHTNESS_C                            0x08
+#define BRIGHTNESS_C                            0x08    //n/a   int     rwe
 #define COOLING_THRESHOLD_C                     0x0D
 #define CURRENT_DOOR_STATE_C                    0x0E
 #define CURRENT_LOCK_MECHANISM_STATE_C          0x1D
