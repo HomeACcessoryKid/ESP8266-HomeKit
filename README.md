@@ -1,12 +1,11 @@
 # ESP8266-HomeKit
 HomeKit server foundation on ESP8266 with an API approach
 
-Public Apple's HomeKit protocol code has been around for some time for more potent processors  
-(notably [HAP-NodeJS](https://github.com/KhaosT/HAP-NodeJS)). This is a rewrite for the ESP8266 for you to play with.
+Public Apple's HomeKit protocol code has been around for some time for more potent processors (notably [HAP-NodeJS](https://github.com/KhaosT/HAP-NodeJS)). This is a rewrite for the ESP8266 to make the server foundation.
 This project uses [ESP8266_RTOS_SDK](https://github.com/espressif/ESP8266_RTOS_SDK) and
-[WolfCrypt 3.9.8](https://github.com/wolfSSL/wolfssl/releases/tag/v3.9.8) to build the software on.
+[WolfCrypt 3.9.8](https://github.com/wolfSSL/wolfssl/releases/tag/v3.9.8) for the crypto.
 
-For buid instructions please refer to the [wiki](https://github.com/HomeACcessoryKid/ESP8266-HomeKit/wiki).
+For build instructions please refer to the [wiki](https://github.com/HomeACcessoryKid/ESP8266-HomeKit/wiki).
 
 # Demo
 
@@ -15,8 +14,9 @@ If you use the Demo Code from [ESP8266-HomeKit-Demo](https://github.com/HomeACce
 
 # About the code
 
-The code provides all the services required to pair iOS with an IP device and to operate that device once paired with multiple iOS devices. It runs on even the smallest ESP8266 device like the ESP-01. It attempts to create
-an API level to create your HomeKit device without descending to the lower levels of the HAP protocol.
+The code provides all the services required to pair iOS with an IP device and to operate that device once paired with multiple iOS devices. It runs on even the smallest ESP8266 device like the ESP-01. It creates
+an API level to create your HomeKit device without descending to the lower levels of the HAP protocol.  
+See the [ESP8266-HomeKit-Demo](https://github.com/HomeACcessoryKid/ESP8266-HomeKit-Demo) for the details.
 
 ## Timings
 
