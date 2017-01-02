@@ -1,18 +1,16 @@
 # ESP8266-HomeKit
 HomeKit server foundation on ESP8266 with an API approach
 
-# needs to be updated after restructure... see issue#2
-
 Public Apple's HomeKit protocol code has been around for some time for more potent processors  
 (notably [HAP-NodeJS](https://github.com/KhaosT/HAP-NodeJS)). This is a rewrite for the ESP8266 for you to play with.
-This project uses [ESP8266_RTOS_SDK-V1.5.0](https://github.com/espressif/ESP8266_RTOS_SDK) and
+This project uses [ESP8266_RTOS_SDK](https://github.com/espressif/ESP8266_RTOS_SDK) and
 [WolfCrypt 3.9.8](https://github.com/wolfSSL/wolfssl/releases/tag/v3.9.8) to build the software on.
 
 For buid instructions please refer to the [wiki](https://github.com/HomeACcessoryKid/ESP8266-HomeKit/wiki).
 
 # Demo
 
-If you use the Demo Code from https://github.com/HomeACcessoryKid/ESP8266-HomeKit-Demo you get this...
+If you use the Demo Code from [ESP8266-HomeKit-Demo](https://github.com/HomeACcessoryKid/ESP8266-HomeKit-Demo) you get this...
 [![HomeKit Demo](https://img.youtube.com/vi/Xnr-utWDIR8/0.jpg)](https://www.youtube.com/watch?v=Xnr-utWDIR8)
 
 # About the code
