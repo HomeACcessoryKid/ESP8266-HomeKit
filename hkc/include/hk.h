@@ -42,6 +42,7 @@
 #define INT     "int"
 
 #define TLVNUM 12
+#define ANLMAX 32 //accessorynamelengthmax
 
 typedef struct _acc_item {
     cJSON   *json;
