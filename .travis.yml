@@ -45,9 +45,7 @@ script:
   - cd ESP8266_RTOS_SDK
   - git reset --hard ae29bf8
   - git clone https://github.com/HomeACcessoryKid/ESP8266-HomeKit.git
-  - git clone https://github.com/HomeACcessoryKid/ESP8266-HomeKit-Demo.git 
   - echo "ESP8266-HomeKit/" >> .gitignore
-  - echo "ESP8266-HomeKit-Demo/" >> .gitignore
   - cd ESP8266-HomeKit
   - ./deploy.sh
   - echo 'Build Done'
