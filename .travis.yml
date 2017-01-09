@@ -40,6 +40,7 @@ before_install:
 script:
   - cd ${TRAVIS_BUILD_DIR}
   # Don't verbose-build all examples (too much output), only verbose-build errors
+  # - ( ${MAKE_CMD} ) || ( ${MAKE_CMD} V=1 )
   - git clone https://github.com/espressif/ESP8266_RTOS_SDK.git
   - cd ESP8266_RTOS_SDK
   - git reset --hard ae29bf8
@@ -49,7 +50,11 @@ script:
   - echo "ESP8266-HomeKit-Demo/" >> .gitignore
   - cd ESP8266-HomeKit
   - ./deploy.sh
-  # - ( ${MAKE_CMD} ) || ( ${MAKE_CMD} V=1 )
-  # build bootloader
-  # - make -C bootloader/
+  - cd ..
+  - cd ESP8266-HomeKit-Demo
+  - cd Demo
+  - ./gen_misc.sh
+  - cd ..
+  - cd button-led
+  - cd ..
   - echo 'Build Done'
