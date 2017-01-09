@@ -1,4 +1,4 @@
-# ESP8266-HomeKit
+# ESP8266-HomeKit [![Build Status](https://travis-ci.org/HomeACcessoryKid/ESP8266-HomeKit-Demo.svg?branch=master)](https://travis-ci.org/HomeACcessoryKid/ESP8266-HomeKit-Demo)
 HomeKit server foundation on ESP8266 with an API approach
 
 Public Apple's HomeKit protocol code has been around for some time for more potent processors (notably [HAP-NodeJS](https://github.com/KhaosT/HAP-NodeJS)). This is a rewrite for the ESP8266 to make the server foundation.

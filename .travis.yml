@@ -1,0 +1,55 @@
+language: c
+sudo: false
+env:
+  # Target commit for https://github.com/pfalcon/esp-open-sdk/
+  OPENSDK_COMMIT=a48b12f
+  CROSS_ROOT="${HOME}/toolchain-${OPENSDK_COMMIT}"
+  CROSS_BINDIR="${CROSS_ROOT}/bin"
+  CROSS="ccache xtensa-lx106-elf-"
+  MAKE_CMD="make WARNINGS_AS_ERRORS=1 -C examples/ build-examples"
+  PATH=${PATH}:${CROSS_BINDIR}
+cache:
+  directories:
+    - ${CROSS_ROOT}
+addons:
+  apt:
+    packages:
+    - make
+    - unrar
+    - autoconf
+    - automake
+    - libtool
+    - gcc
+    - g++
+    - gperf
+    - flex
+    - bison
+    - texinfo
+    - gawk
+    - libncurses5-dev
+    - libexpat1-dev
+    - python
+    - python-serial
+    - sed
+    - git
+    - vim-common
+
+before_install:
+  - travis_wait 30 ./install_toolchain.sh
+
+script:
+  - cd ${TRAVIS_BUILD_DIR}
+  # Don't verbose-build all examples (too much output), only verbose-build errors
+  - git clone https://github.com/espressif/ESP8266_RTOS_SDK.git
+  - cd ESP8266_RTOS_SDK
+  - git reset --hard ae29bf8
+  - git clone https://github.com/HomeACcessoryKid/ESP8266-HomeKit.git
+  - git clone https://github.com/HomeACcessoryKid/ESP8266-HomeKit-Demo.git 
+  - echo "ESP8266-HomeKit/" >> .gitignore
+  - echo "ESP8266-HomeKit-Demo/" >> .gitignore
+  - cd ESP8266-HomeKit
+  - ./deploy.sh
+  # - ( ${MAKE_CMD} ) || ( ${MAKE_CMD} V=1 )
+  # build bootloader
+  # - make -C bootloader/
+  - echo 'Build Done'
