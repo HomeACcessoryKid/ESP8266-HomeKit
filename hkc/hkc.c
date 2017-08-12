@@ -1684,6 +1684,8 @@ void crypto_init()
     #endif
     if (strcmp(flash,signature)) {
         #ifdef DEBUG0
+        os_printf("initializing flash in 15 seconds\n");
+        vTaskDelay(3000);
         os_printf("initializing flash\n");
         #endif
         spi_flash_erase_sector(sector);
@@ -1708,12 +1710,34 @@ void crypto_init()
         #ifdef DEBUG0   
         for (r=0;r<64;r++) os_printf("%02x",flash[r]);os_printf("\n");
         #endif
+        
+        //make random username as a 6 byte field
+        char mac[6];
+        os_get_random((unsigned char *)mac, 6);
+        sprintf(myUsername,"%02X:%02X:%02X:%02X:%02X:%02X",mac[0],mac[1],mac[2],mac[3],mac[4],mac[5]);
+        myUsername[8]=myUsername[16]; //store last digit in the middle to store
+        spi_flash_write(start+4064,(uint32 *)myUsername,16);
+        myUsername[8]=0x3a; //restore the middle colon
+        #ifdef DEBUG0
+        os_printf("username written: "); //do not save the middle ':' we only have 16 positions, not 17
+        #endif
+        spi_flash_read(start+4064,(uint32 *)flash,16);flash[16]=0;
+        #ifdef DEBUG0   
+        printf("%s\n",flash);
+        #endif
     } else {
         if (!r) r = wc_ed25519_import_private_key(flash,ED25519_KEY_SIZE,flash+ED25519_KEY_SIZE,ED25519_PUB_KEY_SIZE,&myKey);
         #ifdef DEBUG0
         os_printf("key loaded:  %d\n",r);
         #endif
+        spi_flash_read(start+4064,(uint32 *)myUsername,16);
+        myUsername[16]=myUsername[8];
+        myUsername[8]=0x3a;
+        myUsername[17]=0x0;
     }
+    #ifdef DEBUG0
+    os_printf("myUsername: %s\n",myUsername);
+    #endif
     //if an ID stored at position 0 then we are paired already so no need to set up pairing procedures
     //each record is 80 bytes, 12 flag, 36 username, 32 clientPubKey
     pairing=1;
@@ -1723,19 +1747,6 @@ void crypto_init()
     #ifdef DEBUG0   
     os_printf("pairing: %d\n",pairing);
     for (r=0;r<80;r++) os_printf("%02x",flash[r]);os_printf("\n");
-    #endif
-    
-    //if username not stored then construct one and write to flash
-//  strcpy(highuser,"5D:66:15");  // do not forget closing \0
-//  strcpy( lowuser,"9A:CD:88");
-//  strcpy(myUsername,highuser);
-//  strcat(myUsername,":");
-//  strcat(myUsername,lowuser);
-    char mac[6];
-    wifi_get_macaddr(STATION_IF, mac);
-    sprintf(myUsername,"%02X:%02X:%02X:%02X:%02X:%02X",mac[0],mac[1],mac[2],mac[3],mac[4],mac[5]);
-    #ifdef DEBUG0
-    os_printf("myUsername: %s\n",myUsername);
     #endif
 }
 
