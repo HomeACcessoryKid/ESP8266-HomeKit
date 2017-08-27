@@ -159,16 +159,16 @@ void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType,
 #define CURRENT_HEATING_COOLING_STATE_C             0x0F
 #define CURRENT_RELATIVE_HUMIDITY_C                 0x10
 #define CURRENT_TEMPERATURE_C                       0x11
-#define FIRMWARE_REVISION_C					    	0x52
-#define HARDWARE_REVISION_C						    0x53
+#define FIRMWARE_REVISION_C                         0x52
+#define HARDWARE_REVISION_C                         0x53
 #define HEATING_THRESHOLD_TEMPERATURE_C             0x12
 #define HUE_C                                       0x13
 #define IDENTIFY_C                                  0x14    //  1   boolean w
-#define LOCK_CONTROL_POINT_C   				        0x19
-#define LOCK_CURRENT_STATE_C			            0x1D
-#define LOCK_LAST_KNOWN_ACTION_C  			        0x1C
+#define LOCK_CONTROL_POINT_C                        0x19
+#define LOCK_CURRENT_STATE_C                        0x1D
+#define LOCK_LAST_KNOWN_ACTION_C                    0x1C
 #define LOCK_MANAGEMENT_AUTO_SECURITY_TIMEOUT_C     0x1A
-#define LOCK_TARGET_STATE					    	0x1E
+#define LOCK_TARGET_STATE                           0x1E
 #define LOGS_C                                      0x1F
 #define MANUFACTURER_C                              0x20    //255   string  r
 #define MODEL_C                                     0x21    //255   string  r
