@@ -2329,11 +2329,11 @@ void pairadd(void *arg)
     }
     
     if (!found) {
-        if (k==50)
+        if (k==50) {
             #ifdef DEBUG0
             os_printf("no more space! reflash?\n");
             #endif
-        else {
+        } else {
             flash[0]=0x7f;
             memset(flash+1,0xff,11); //flag first 12 bytes to 01111111111...1111
             memcpy(flash+12,               objects[1],objects_len[1]);
