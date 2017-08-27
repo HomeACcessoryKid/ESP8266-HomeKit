@@ -34,12 +34,19 @@
 //#define DEBUG8
 //#define DEBUG9
 
-#define PASSWORD "031-45-154"
+#define PASSWORD "133-71-337"
 #define PASSWORD_LEN 10
 
 #define BOOLEAN "bool"
 #define STRING  "string"
 #define INT     "int"
+#define UINT8   "uint8"
+#define UINT16  "uint16"
+#define UINT32  "uint32"
+#define UINT64  "uint64"
+#define FLOAT   "float"
+#define TLV8    "tlv8"
+#define DATA    "data"
 
 #define TLVNUM 12
 #define ANLMAX 32 //accessorynamelengthmax

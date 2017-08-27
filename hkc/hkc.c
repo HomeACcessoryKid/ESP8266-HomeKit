@@ -383,16 +383,16 @@ cJSON   *addService(cJSON *services, int iid, char *brand, int sType)
 
 void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand, int cType, char *valuestring, acc_cb change_cb)
 {
-    cJSON *perms,*value=NULL;
+    cJSON *perms,*valid_values,*value=NULL;
     char longid[37],format[7];
     int perm, maxlen, intval, ev=0;
     
     sprintf(longid,brand,cType);
     cJSON_AddItemToArray(   characteristics,acc_items[iid].json=cJSON_CreateObject());
     cJSON_AddNumberToObject(acc_items[iid].json, "iid",  iid );
-    cJSON_AddStringToObject(acc_items[iid].json, "type", longid  );
+    cJSON_AddStringToObject(acc_items[iid].json, "type", longid );
     cJSON_AddItemToObject(  acc_items[iid].json, "perms", perms=cJSON_CreateArray());
-    cJSON_AddFalseToObject( acc_items[iid].json, "bonjour");
+    //cJSON_AddFalseToObject( acc_items[iid].json, "bonjour");
     //from id pick up specific settings
     switch (cType) {
         case IDENTIFY_C: {
@@ -400,22 +400,22 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
             cJSON_AddStringToObject(acc_items[iid].json, "description", "Identify");
         } break;
         case MANUFACTURER_C: {
-            strcpy(format,STRING);      perm=4;     maxlen=255;
+            strcpy(format,STRING);      perm=4;     maxlen=64;
             cJSON_AddStringToObject(acc_items[iid].json, "description", "Manufacturer");
         } break;
         case MODEL_C: {
-            strcpy(format,STRING);      perm=4;     maxlen=255;
+            strcpy(format,STRING);      perm=4;     maxlen=64;
             cJSON_AddStringToObject(acc_items[iid].json, "description", "Model");
         } break;
         case SERIAL_NUMBER_C: {
-            strcpy(format,STRING);      perm=4;     maxlen=255;
+            strcpy(format,STRING);      perm=4;     maxlen=64;
             cJSON_AddStringToObject(acc_items[iid].json, "description", "Serial");
         } break;
         case NAME_C: {
-            strcpy(format,STRING);      perm=4;     maxlen=255;
+            strcpy(format,STRING);      perm=4;     maxlen=64;
             cJSON_AddStringToObject(acc_items[iid].json, "description", "Name");
         } break;
-        case POWER_STATE_C: {
+        case ON_C: {
             strcpy(format,BOOLEAN);     perm=7;     maxlen=1;   ev=1;
             cJSON_AddStringToObject(acc_items[iid].json, "description", "PowerState");
         } break;
@@ -424,17 +424,89 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
             cJSON_AddStringToObject(acc_items[iid].json, "description", "Brightness");
             cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
             cJSON_AddNumberToObject(acc_items[iid].json, "maxValue", 100);
-            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    5);
-            cJSON_AddStringToObject(acc_items[iid].json, "unit", "%");
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddStringToObject(acc_items[iid].json, "unit", "percentage");
+        } break;
+        case CURRENT_HEATING_COOLING_STATE_C:{
+            strcpy(format,UINT8);        perm=5;
+            cJSON_AddStringToObject(acc_items[iid].json, "description", "CoolingState");
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   2);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddItemToObject(acc_items[iid].json, "valid-values", valid_values=cJSON_CreateArray());  
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(0));       
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1)); 
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(2));        
+        } break;
+        case TARGET_HEATING_COOLING_STATE_C:{
+            strcpy(format,UINT8);        perm=7;
+            cJSON_AddStringToObject(acc_items[iid].json, "description", "TargetCoolingState");
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   3);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddItemToObject(acc_items[iid].json, "valid-values", valid_values=cJSON_CreateArray());  
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(0));       
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1)); 
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(2));   
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(3));     
+        } break;
+        case CURRENT_TEMPERATURE_C:{
+            strcpy(format,FLOAT);        perm=5;
+            cJSON_AddStringToObject(acc_items[iid].json, "description", "Temperature");
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   100);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    0.1);
+            cJSON_AddStringToObject(acc_items[iid].json, "unit", "celsius");   
+        } break;
+        case TARGET_TEMPERATURE_C:{
+            strcpy(format,FLOAT);        perm=7;
+            cJSON_AddStringToObject(acc_items[iid].json, "description", "TargetTemperature");
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   10);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   38);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    0.1);
+            cJSON_AddStringToObject(acc_items[iid].json, "unit", "celsius");   
+        } break;
+        case TEMPERATURE_DISPLAY_UNITS_C:{
+            strcpy(format,UINT8);        perm=7;
+
+            cJSON_AddStringToObject(acc_items[iid].json, "description", "TemperatureDisplayUnits");
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   1);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1); 
+            cJSON_AddItemToObject(acc_items[iid].json, "valid-values", valid_values=cJSON_CreateArray());  
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(0));       
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1));  
+        } break;
+        case CARBON_MONOXIDE_DETECTED_C:{
+            strcpy(format,UINT8);        perm=5;
+            cJSON_AddStringToObject(acc_items[iid].json, "description", "CarbonMonoxideDetected");
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   1);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1); 
+            cJSON_AddItemToObject(acc_items[iid].json, "valid-values", valid_values=cJSON_CreateArray());  
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(0));       
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1)); 
+        } break;
+        case CURRENT_AMBIENT_LIGHT_LEVEL_C:{
+            strcpy(format,FLOAT);        perm=5;
+            cJSON_AddStringToObject(acc_items[iid].json, "description", "CurrentAmbientLightLevel");
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0.0001);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   100000);
+            cJSON_AddStringToObject(acc_items[iid].json, "unit", "lux"); 
         } break;
         default: {
             
         } break;
     }
-    if (ev) cJSON_AddTrueToObject( acc_items[iid].json, "events");
-    else    cJSON_AddFalseToObject(acc_items[iid].json, "events");
+    //if (ev) cJSON_AddTrueToObject( acc_items[iid].json, "events");
+    //else    cJSON_AddFalseToObject(acc_items[iid].json, "events");
     cJSON_AddStringToObject(acc_items[iid].json, "format", format);
-    if (maxlen) cJSON_AddNumberToObject(acc_items[iid].json, "maxLen", maxlen );
+    if (maxlen) {
+        if(!strcmp(format,STRING))
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxLen", maxlen );
+        else if (!strcmp(format,DATA))
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxDataLen", maxlen );
+    }
     //encode perms like rwe octal
     if (perm & 2) cJSON_AddItemToArray(perms,cJSON_CreateString("pw"));
     if (perm & 4) cJSON_AddItemToArray(perms,cJSON_CreateString("pr"));
@@ -442,14 +514,19 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
     //addItem(aid,iid,format,valuestring,change_cb);
     if (valuestring) {
         if (!strcmp(format,BOOLEAN)){
-            if ( !strcmp(valuestring,"0") || !strcmp(valuestring,"false") ) intval=0; else intval=1;
-            cJSON_AddItemToObject(acc_items[iid].json, "value", value=cJSON_CreateBool(intval) );
+            intval = 0;
+            if (!strcmp(valuestring,"1") || !strcmp(valuestring,"true"))
+                intval = 1;            
+            cJSON_AddItemToObject(acc_items[iid].json, "value", value=cJSON_CreateBool(intval));
         }
-        if (!strcmp(format,STRING)){
+        if (!strcmp(format,STRING) || !strcmp(format,TLV8) || !strcmp(format,DATA) ){
             cJSON_AddItemToObject(acc_items[iid].json, "value", value=cJSON_CreateString(valuestring) );
         }
-        if (!strcmp(format,INT)){
+        if (!strcmp(format,INT) || !strcmp(format,UINT8) || !strcmp(format,UINT16) || !strcmp(format,UINT32) || !strcmp(format,UINT64)){
             cJSON_AddItemToObject(acc_items[iid].json, "value", value=cJSON_CreateNumber(atoi(valuestring)) );
+        }
+        if (!strcmp(format,FLOAT)){
+            cJSON_AddItemToObject(acc_items[iid].json, "value", value=cJSON_CreateNumber(atof(valuestring)) );
         }
     }
     acc_items[iid].change_cb= (acc_cb) change_cb;
@@ -2329,11 +2406,11 @@ void pairadd(void *arg)
     }
     
     if (!found) {
-        if (k==50) {
+        if (k==50)
             #ifdef DEBUG0
             os_printf("no more space! reflash?\n");
             #endif
-        } else {
+        else {
             flash[0]=0x7f;
             memset(flash+1,0xff,11); //flag first 12 bytes to 01111111111...1111
             memcpy(flash+12,               objects[1],objects_len[1]);
@@ -2515,3 +2592,4 @@ void encrypt(void *arg, char *data, unsigned short *length)
 
     free(in);
 }
+
