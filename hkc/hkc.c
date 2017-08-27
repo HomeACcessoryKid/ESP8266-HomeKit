@@ -468,7 +468,6 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
         } break;
         case TEMPERATURE_DISPLAY_UNITS_C:{
             strcpy(format,UINT8);        perm=7;
-
             cJSON_AddStringToObject(acc_items[iid].json, "description", "TemperatureDisplayUnits");
             cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
             cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   1);
@@ -2406,11 +2405,11 @@ void pairadd(void *arg)
     }
     
     if (!found) {
-        if (k==50)
+        if (k==50) {
             #ifdef DEBUG0
             os_printf("no more space! reflash?\n");
             #endif
-        else {
+        } else {
             flash[0]=0x7f;
             memset(flash+1,0xff,11); //flag first 12 bytes to 01111111111...1111
             memcpy(flash+12,               objects[1],objects_len[1]);
