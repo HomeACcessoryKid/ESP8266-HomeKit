@@ -34,7 +34,7 @@
 //#define DEBUG8
 //#define DEBUG9
 
-#define PASSWORD "133-71-337"
+#define PASSWORD "031-45-154"
 #define PASSWORD_LEN 10
 
 #define BOOLEAN "bool"
