@@ -181,7 +181,6 @@ char    *parse_cgi(char *in) //take aid.iid string and return chars string / onl
     char *out;
     cJSON *chars,*items,*item;
     int aid, iid;
-
     chars=cJSON_CreateObject();
     cJSON_AddItemToObject( chars, "characteristics", items=cJSON_CreateArray()); //consider a addAccessory function
     out=strtok(in,",");
@@ -216,9 +215,9 @@ void    change_value(int aid, int iid, cJSON *item)
             #ifdef DEBUG0
             os_printf("chas: %d.%d=valN -> %s\n",aid,iid,format);
             #endif
-            if (value && !strcmp(format,"bool")) {
+            if (value && !strcmp(format,BOOLEAN)) {
                 if (item->valueint==0)value->type=0; else value->type=1;
-            } else if(value && !strcmp(format,"int")) {
+            } else if(value && (!strcmp(format,INT) || !strcmp(format,UINT8) || !strcmp(format,UINT16) || !strcmp(format,UINT32) || !strcmp(format,UINT64) || !strcmp(format,FLOAT))) {
                 value->valueint   =item->valueint;
                 value->valuedouble=item->valuedouble;
             }
@@ -227,7 +226,7 @@ void    change_value(int aid, int iid, cJSON *item)
             #ifdef DEBUG0
             os_printf("chas: %d.%d=valS -> %s\n",aid,iid,format);
             #endif
-            if (value && !strcmp(format,"string")) {
+            if (value && (!strcmp(format,STRING) || !strcmp(format,TLV8) || !strcmp(format,DATA))) {
                 format=value->valuestring;
                 value->valuestring=item->valuestring;
                 item->valuestring=format;
@@ -237,13 +236,13 @@ void    change_value(int aid, int iid, cJSON *item)
             #ifdef DEBUG0
             os_printf("chas: %d.%d=valF -> %s\n",aid,iid,format);
             #endif
-            if (value && !strcmp(format,"bool")) value->type=0;
+            if (value && !strcmp(format,BOOLEAN)) value->type=0;
         } break;
         case cJSON_True: {
             #ifdef DEBUG0
             os_printf("chas: %d.%d=valT -> %s\n",aid,iid,format);
             #endif
-            if (value && !strcmp(format,"bool")) value->type=1;
+            if (value && !strcmp(format,BOOLEAN)) value->type=1;
         } break;
         default: {
             #ifdef DEBUG0
@@ -1760,8 +1759,8 @@ void crypto_init()
     #endif
     if (strcmp(flash,signature)) {
         #ifdef DEBUG0
-        os_printf("initializing flash in 15 seconds\n");
-        vTaskDelay(3000);
+        //os_printf("initializing flash in 15 seconds\n");
+        //vTaskDelay(3000);
         os_printf("initializing flash\n");
         #endif
         spi_flash_erase_sector(sector);

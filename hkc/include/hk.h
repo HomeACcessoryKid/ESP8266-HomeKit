@@ -123,7 +123,7 @@ char *objects[TLVNUM] = {object+0x1c0,object+0x60,NULL,object,object+0x180,objec
 int objects_len[TLVNUM];/**/
 //XXXXXXXXXXXXX recreate objects and objects_len inside each routine, using object from crypto_parm
 
-#define URLSize 16
+#define URLSize 64
 
 typedef enum Result_Resp {
     RespFail = 0,
