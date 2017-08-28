@@ -1004,7 +1004,7 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
 {
     struct espconn *ptrespconn = arg;
     crypto_parm *pcryp = ptrespconn->reserve;
-    if (pcryp && xSemaphoreTake(pcryp->semaphore,0)){
+    if (pcryp && xSemaphoreTake(pcryp->semaphore,portMAX_DELAY)){
         #ifdef DEBUG1
         if ( xSemaphoreTake( pcryp->semaphore, ( portTickType ) 0 ) == pdFALSE) os_printf("p_sema locked\n");
         #endif
@@ -1418,7 +1418,7 @@ server_listen(void *arg)
     
     pcryp = (crypto_parm *)zalloc(sizeof(crypto_parm));
     vSemaphoreCreateBinary(pcryp->semaphore);
-    if ( xSemaphoreTake( pcryp->semaphore, ( portTickType ) 0 ) == pdTRUE ) os_printf("p_sema  taken\n");
+    if ( xSemaphoreTake( pcryp->semaphore, ( portTickType ) 0 ) == pdTRUE ) os_printf("p_sema taken\n");
 
     pesp_conn->reserve=pcryp;
     pcryp->pespconn  =pesp_conn;
@@ -2529,7 +2529,7 @@ void decrypt(void *arg, char *data, unsigned short *length)  // length will chan
     buffer = (byte *)zalloc(*length);
     total=*length; *length=0;
     for (offset=0;offset<total;){
-        len = 255*data[1]+data[0]; //Little Endian
+        len = 256*data[1]+data[0]; //Little Endian
         nonce[4]=pcryp->countwr%256;nonce[5]=pcryp->countwr++/256; //should fix to grow beyond 64k but not urgent
         #ifdef DEBUG2
         os_printf("nonce %02x %02x\n",nonce[4],nonce[5]);
