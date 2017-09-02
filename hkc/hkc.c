@@ -53,11 +53,11 @@
 #include "hk.h"
 
 #define NLEN    384
-#define MAXITM   32
+#define MAXITM   31
 
 extern  espconn_msg *plink_active;
 //below the global struct for the acc_items
-acc_item    acc_items[MAXITM];
+acc_item    acc_items[MAXITM+1];
 cJSON       *root;
 struct      espconn hkcesp_conn;
 os_timer_t  browse_timer;
@@ -181,6 +181,7 @@ char    *parse_cgi(char *in) //take aid.iid string and return chars string / onl
     char *out;
     cJSON *chars,*items,*item;
     int aid, iid;
+  
     chars=cJSON_CreateObject();
     cJSON_AddItemToObject( chars, "characteristics", items=cJSON_CreateArray()); //consider a addAccessory function
     out=strtok(in,",");
@@ -568,7 +569,7 @@ void espconn_browse(void *arg)
         }
         plist = plist ->pnext;
     }
-    for (iid=1;iid<MAXITM;iid++) if(acc_items[iid].events) {os_printf("ev1.%d:%02x | ",iid,acc_items[iid].events);linefeed=1;}
+    for (iid=1;iid<MAXITM+1;iid++) if(acc_items[iid].events) {os_printf("ev1.%d:%02x | ",iid,acc_items[iid].events);linefeed=1;}
     if (linefeed) os_printf("\n");
 
     os_timer_disarm(&browse_timer);
@@ -1368,7 +1369,7 @@ void server_cleanup(void *arg)
     os_printf("Cleaning %x @ %d CID: %d\n",pcryp,system_get_time()/1000,pcryp->connectionid);
     #endif
     pcryp->stale=1;
-    for (iid=1;iid<MAXITM;iid++) acc_items[iid].events&=~pcryp->connectionid;; //clear all possible events of this connection
+    for (iid=1;iid<MAXITM+1;iid++) acc_items[iid].events&=~pcryp->connectionid;; //clear all possible events of this connection
     while (xSemaphoreTake( pcryp->semaphore, ( portTickType ) 50 ) == pdFALSE ) {os_printf("Waiting  %x @ %d\n",pcryp,system_get_time()/1000);} //0.5 seconds
     #ifdef DEBUG1
     os_printf("Freeing  %x @ %d\n",pcryp,system_get_time()/1000);
