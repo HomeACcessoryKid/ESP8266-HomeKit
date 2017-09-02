@@ -62,7 +62,7 @@ This is based on the changes I had to make to Wolfcrypt and to be compatible wit
 
 # License
 
-Copyright 2016 HomeACcessoryKid - HacK - homeaccessorykid@gmail.com
+Copyright 2016-2017 HomeACcessoryKid - HacK - homeaccessorykid@gmail.com
 
 Licensed under the Apache License, Version 2.0 (the "License");  
 you may not use this file except in compliance with the License.  
