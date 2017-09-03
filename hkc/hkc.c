@@ -181,7 +181,7 @@ char    *parse_cgi(char *in) //take aid.iid string and return chars string / onl
     char *out;
     cJSON *chars,*items,*item;
     int aid, iid;
-  
+
     chars=cJSON_CreateObject();
     cJSON_AddItemToObject( chars, "characteristics", items=cJSON_CreateArray()); //consider a addAccessory function
     out=strtok(in,",");
@@ -527,7 +527,7 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
     //addItem(aid,iid,format,valuestring,change_cb);
     if (valuestring) {
         if (!strcmp(format,BOOLEAN)){
-            if ( !strcmp(valuestring,"0") || !strcmp(valuestring,"false") ) intval=0; else intval=1;       
+            if ( !strcmp(valuestring,"0") || !strcmp(valuestring,"false") ) intval=0; else intval=1;
             cJSON_AddItemToObject(acc_items[iid].json, "value", value=cJSON_CreateBool(intval) );
         }
         if (!strcmp(format,STRING) || !strcmp(format,TLV8) || !strcmp(format,DATA) ){
