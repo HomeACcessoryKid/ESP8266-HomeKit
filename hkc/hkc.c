@@ -385,7 +385,7 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
 {
     cJSON *perms,*valid_values,*value=NULL;
     char longid[37],format[7];
-    int perm, maxlen, intval, ev=0;
+    int perm, maxlen, intval;
     
     sprintf(longid,brand,cType);
     cJSON_AddItemToArray(   characteristics,acc_items[iid].json=cJSON_CreateObject());
@@ -396,7 +396,7 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
     //from id pick up specific settings
     switch (cType) {
         case BRIGHTNESS_C: {
-            strcpy(format,INT);         perm=7;     maxlen=0;   ev=1;
+            strcpy(format,INT);         perm=7;     maxlen=0;
             cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
             cJSON_AddNumberToObject(acc_items[iid].json, "maxValue", 100);
             cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
@@ -432,7 +432,7 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
             strcpy(format,STRING);      perm=4;     maxlen=64;
         } break;
         case ON_C: {
-            strcpy(format,BOOLEAN);     perm=7;     maxlen=1;   ev=1;
+            strcpy(format,BOOLEAN);     perm=7;     maxlen=1;
         } break;
         case ROTATION_DIRECTION_C: {
             strcpy(format,INT);     perm=7;
@@ -510,8 +510,6 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
             
         } break;
     }
-    //if (ev) cJSON_AddTrueToObject( acc_items[iid].json, "events");
-    //else    cJSON_AddFalseToObject(acc_items[iid].json, "events");
     cJSON_AddStringToObject(acc_items[iid].json, "format", format);
     if (maxlen) {
         if(!strcmp(format,STRING))
@@ -522,14 +520,15 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
     //encode perms like rwe octal
     if (perm & 2) cJSON_AddItemToArray(perms,cJSON_CreateString("pw"));
     if (perm & 4) cJSON_AddItemToArray(perms,cJSON_CreateString("pr"));
-    if (perm & 1) cJSON_AddItemToArray(perms,cJSON_CreateString("ev"));
+    if (perm & 1) {
+        cJSON_AddItemToArray(perms, cJSON_CreateString("ev"));
+        cJSON_AddTrueToObject( acc_items[iid].json, "events");
+    }
     //addItem(aid,iid,format,valuestring,change_cb);
     if (valuestring) {
         if (!strcmp(format,BOOLEAN)){
-            intval = 0;
-            if (!strcmp(valuestring,"1") || !strcmp(valuestring,"true"))
-                intval = 1;            
-            cJSON_AddItemToObject(acc_items[iid].json, "value", value=cJSON_CreateBool(intval));
+            if ( !strcmp(valuestring,"0") || !strcmp(valuestring,"false") ) intval=0; else intval=1;       
+            cJSON_AddItemToObject(acc_items[iid].json, "value", value=cJSON_CreateBool(intval) );
         }
         if (!strcmp(format,STRING) || !strcmp(format,TLV8) || !strcmp(format,DATA) ){
             cJSON_AddItemToObject(acc_items[iid].json, "value", value=cJSON_CreateString(valuestring) );
@@ -1018,7 +1017,7 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
 {
     struct espconn *ptrespconn = arg;
     crypto_parm *pcryp = ptrespconn->reserve;
-    if (pcryp && xSemaphoreTake(pcryp->semaphore,portMAX_DELAY)){
+    if (pcryp && xSemaphoreTake(pcryp->semaphore,0)){
         #ifdef DEBUG1
         if ( xSemaphoreTake( pcryp->semaphore, ( portTickType ) 0 ) == pdFALSE) os_printf("p_sema locked\n");
         #endif
@@ -1773,8 +1772,8 @@ void crypto_init()
     #endif
     if (strcmp(flash,signature)) {
         #ifdef DEBUG0
-        //os_printf("initializing flash in 15 seconds\n");
-        //vTaskDelay(3000);
+        os_printf("initializing flash in 15 seconds\n");
+        vTaskDelay(3000);
         os_printf("initializing flash\n");
         #endif
         spi_flash_erase_sector(sector);

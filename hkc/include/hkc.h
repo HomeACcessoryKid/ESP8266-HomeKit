@@ -156,14 +156,14 @@ void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType,
 #define BRIGHTNESS_C                                0x08    //n/a   int     rwe
 #define COOLING_THRESHOLD_TEMPERATURE_C             0x0D
 #define CURRENT_DOOR_STATE_C                        0x0E
-#define CURRENT_HEATING_COOLING_STATE_C             0x0F
+#define CURRENT_HEATING_COOLING_STATE_C             0x0F    //n/a   uint8   re
 #define CURRENT_RELATIVE_HUMIDITY_C                 0x10
-#define CURRENT_TEMPERATURE_C                       0x11
+#define CURRENT_TEMPERATURE_C                       0x11    //n/a   float   re
 #define FIRMWARE_REVISION_C                         0x52
 #define HARDWARE_REVISION_C                         0x53
 #define HEATING_THRESHOLD_TEMPERATURE_C             0x12
 #define HUE_C                                       0x13
-#define IDENTIFY_C                                  0x14    //  1   boolean w
+#define IDENTIFY_C                                  0x14    //n/a   boolean w
 #define LOCK_CONTROL_POINT_C                        0x19
 #define LOCK_CURRENT_STATE_C                        0x1D
 #define LOCK_LAST_KNOWN_ACTION_C                    0x1C
@@ -175,26 +175,27 @@ void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType,
 #define MOTION_DETECTED_C                           0x22
 #define NAME_C                                      0x23    //255   string  r
 #define OBSTRUCTION_DETECTED_C                      0x24
-#define ON_C                                        0x25    //  1   boolean rwe
+#define ON_C                                        0x25    //n/a   boolean rwe
+#define POWER_STATE_C                               0x25    //n/a   boolean rwe
 #define OUTLET_IN_USE_C                             0x26
-#define ROTATION_DIRECTION_C                        0x28
-#define ROTATION_SPEED_C                            0x29
+#define ROTATION_DIRECTION_C                        0x28    //n/a   int     rwe
+#define ROTATION_SPEED_C                            0x29    //n/a   float   rwe
 #define SATURATION_C                                0x2F
 #define SERIAL_NUMBER_C                             0x30    //255   string  r
 #define TARGET_DOORSTATE_C                          0x32
-#define TARGET_HEATING_COOLING_STATE_C              0x33
+#define TARGET_HEATING_COOLING_STATE_C              0x33    //n/a   uint8   rwe
 #define TARGET_RELATIVE_HUMIDITY_C                  0x34
-#define TARGET_TEMPERATURE_C                        0x35
-#define TEMPERATURE_DISPLAY_UNITS_C                 0x36
+#define TARGET_TEMPERATURE_C                        0x35    //n/a   float   rwe
+#define TEMPERATURE_DISPLAY_UNITS_C                 0x36    //n/a   uint8   rwe
 #define VERSION_C                                   0x37
 #define AIR_PARTICULATE_DENSITY_C                   0x64
 #define AIR_PARTICULATE_SIZE_C                      0x65
 #define SECURITY_SYSTEM_CURRENT_STATE_C             0x66
 #define SECURITY_SYSTEM_TARGET_STATE_C              0x67
 #define BATTERY_LEVER_C                             0x68
-#define CARBON_MONOXIDE_DETECTED_C                  0x69
+#define CARBON_MONOXIDE_DETECTED_C                  0x69    //n/a   uint8   re
 #define CONTACT_SENSOR_STATE_C                      0x6A
-#define CURRENT_AMBIENT_LIGHT_LEVEL_C               0x6B
+#define CURRENT_AMBIENT_LIGHT_LEVEL_C               0x6B    //n/a   float   re
 #define CURRENT_HORIZONTAL_TILT_ANGLE_C             0x6C
 #define CURRENT_POSITION_C                          0x6D
 #define CURRENT_VERTICAL_TILT_ANGLE_C               0x6E
@@ -203,12 +204,12 @@ void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType,
 #define OCCUPANCY_DETECTED_C                        0x71
 #define POSITION_STATE_C                            0x72
 #define PROGRAMMABLE_SWITCH_EVENT_C                 0x73
-#define STATUS_ACTIVE_C                             0x75
+#define STATUS_ACTIVE_C                             0x75    //n/a   boolean re
 #define SMOKE_DETECTED_C                            0x76
 #define STATUS_FAULT_C                              0x77
 #define STATUS_JAMMED_C                             0x78
 #define STATUS_LOW_BATTERY_C                        0x79
-#define STATUS_TAMPERED_C                           0x7A
+#define STATUS_TAMPERED_C                           0x7A    //n/a   uint8   re
 #define TARGET_HORIZONTAL_TILT_ANGLE_C              0x7B
 #define TARGET_POSITION_C                           0x7C
 #define TARGET_VERTICAL_TILT_ANGLE_C                0x7D
