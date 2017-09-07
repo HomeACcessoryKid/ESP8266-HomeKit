@@ -170,18 +170,18 @@ void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType,
 #define LOCK_MANAGEMENT_AUTO_SECURITY_TIMEOUT_C     0x1A
 #define LOCK_TARGET_STATE                           0x1E
 #define LOGS_C                                      0x1F
-#define MANUFACTURER_C                              0x20    //255   string  r
-#define MODEL_C                                     0x21    //255   string  r
+#define MANUFACTURER_C                              0x20    //64    string  r
+#define MODEL_C                                     0x21    //64    string  r
 #define MOTION_DETECTED_C                           0x22
-#define NAME_C                                      0x23    //255   string  r
+#define NAME_C                                      0x23    //64    string  r
 #define OBSTRUCTION_DETECTED_C                      0x24
 #define ON_C                                        0x25    //n/a   boolean rwe
-#define POWER_STATE_C                               0x25    //n/a   boolean rwe
+#define POWER_STATE_C                               0x25    //deprecated for ON_C
 #define OUTLET_IN_USE_C                             0x26
 #define ROTATION_DIRECTION_C                        0x28    //n/a   int     rwe
 #define ROTATION_SPEED_C                            0x29    //n/a   float   rwe
 #define SATURATION_C                                0x2F
-#define SERIAL_NUMBER_C                             0x30    //255   string  r
+#define SERIAL_NUMBER_C                             0x30    //64    string  r
 #define TARGET_DOORSTATE_C                          0x32
 #define TARGET_HEATING_COOLING_STATE_C              0x33    //n/a   uint8   rwe
 #define TARGET_RELATIVE_HUMIDITY_C                  0x34
