@@ -40,6 +40,13 @@
 #define BOOLEAN "bool"
 #define STRING  "string"
 #define INT     "int"
+#define UINT8   "uint8"
+#define UINT16  "uint16"
+#define UINT32  "uint32"
+#define UINT64  "uint64"
+#define FLOAT   "float"
+#define TLV8    "tlv8"
+#define DATA    "data"
 
 #define TLVNUM 12
 #define ANLMAX 32 //accessorynamelengthmax
@@ -116,7 +123,7 @@ char *objects[TLVNUM] = {object+0x1c0,object+0x60,NULL,object,object+0x180,objec
 int objects_len[TLVNUM];/**/
 //XXXXXXXXXXXXX recreate objects and objects_len inside each routine, using object from crypto_parm
 
-#define URLSize 16
+#define URLSize 64
 
 typedef enum Result_Resp {
     RespFail = 0,
