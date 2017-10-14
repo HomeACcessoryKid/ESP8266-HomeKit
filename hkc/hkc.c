@@ -69,7 +69,7 @@ static  uint32  dat_sumlength = 0;
 
 byte    myUsername[18];     //global
 word32  myUsername_len=17;  //global
-byte    myACCname[14];
+byte    myACCname[ANLMAX];
 
 int     objects_maxlen[TLVNUM]= {1,0x50,0,0x180,0x40,0xd0,1,0,0,0,0x40,9}; //global
 
