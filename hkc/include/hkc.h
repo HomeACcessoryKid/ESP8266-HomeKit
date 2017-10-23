@@ -162,7 +162,7 @@ void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType,
 #define FIRMWARE_REVISION_C                         0x52
 #define HARDWARE_REVISION_C                         0x53
 #define HEATING_THRESHOLD_TEMPERATURE_C             0x12
-#define HUE_C                                       0x13
+#define HUE_C                                       0x13    //n/a   float   rwe
 #define IDENTIFY_C                                  0x14    //n/a   boolean w
 #define LOCK_CONTROL_POINT_C                        0x19
 #define LOCK_CURRENT_STATE_C                        0x1D
@@ -180,7 +180,7 @@ void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType,
 #define OUTLET_IN_USE_C                             0x26
 #define ROTATION_DIRECTION_C                        0x28    //n/a   int     rwe
 #define ROTATION_SPEED_C                            0x29    //n/a   float   rwe
-#define SATURATION_C                                0x2F
+#define SATURATION_C                                0x2F    //n/a   float   rwe
 #define SERIAL_NUMBER_C                             0x30    //64    string  r
 #define TARGET_DOORSTATE_C                          0x32
 #define TARGET_HEATING_COOLING_STATE_C              0x33    //n/a   uint8   rwe

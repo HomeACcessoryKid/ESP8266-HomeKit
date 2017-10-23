@@ -419,6 +419,13 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
             cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    0.1);
             cJSON_AddStringToObject(acc_items[iid].json, "unit", "celsius");   
         } break;
+        case HUE_C: {
+            strcpy(format,FLOAT);     perm=7;
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   360);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddStringToObject(acc_items[iid].json, "unit", "arcdegrees"); 
+        } break;
         case IDENTIFY_C: {
             strcpy(format,BOOLEAN);     perm=2;     maxlen=1;
         } break;
@@ -444,6 +451,13 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
             cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1)); 
         } break;
         case ROTATION_SPEED_C: {
+            strcpy(format,FLOAT);     perm=7;
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   100);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddStringToObject(acc_items[iid].json, "unit", "percentage"); 
+        } break;
+        case SATURATION_C: {
             strcpy(format,FLOAT);     perm=7;
             cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
             cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   100);
