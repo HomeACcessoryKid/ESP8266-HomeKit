@@ -96,6 +96,20 @@ cJSON   *addService(cJSON *sers, int iid, char *brand, int sType);
 typedef void (* acc_cb)(int aid, int iid, cJSON *value, int mode);
 
 /******************************************************************************
+ * Typedef      : acc_item
+ * Description  : struct to refer to char items based on iid
+ * Parameters   : json      -- pointer to the jSON of this char
+ *                events    -- which CIDs are subscribed to an event
+ *                change_cb -- the callback function of this char
+ * Returns      : nothing
+*******************************************************************************/
+typedef struct _acc_item {
+    cJSON   *json;
+    uint32  events;
+    acc_cb  change_cb;
+} acc_item;
+
+/******************************************************************************
  * FunctionName : addCharacteristic
  * Description  : add a characteristic to the characteristics container
  * Parameters   : chas  -- cJSON characteristics container

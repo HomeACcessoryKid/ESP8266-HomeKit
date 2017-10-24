@@ -51,12 +51,6 @@
 #define TLVNUM 12
 #define ANLMAX 32 //accessorynamelengthmax
 
-typedef struct _acc_item {
-    cJSON   *json;
-    uint32  events;
-    acc_cb  change_cb;
-} acc_item;
-
 typedef struct _espconn_msg{
     struct espconn *pespconn;
     void *pcommon; //at least that is what I suspect
