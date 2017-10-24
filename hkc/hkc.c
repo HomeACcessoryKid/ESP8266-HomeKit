@@ -1777,7 +1777,6 @@ void crypto_init()
     WC_RNG  rng;
     int     makekey=1;
     int     r;
-    char    highuser[9],lowuser[9];
     
     start=sector*0x1000;
     spi_flash_read(start+4080,(uint32 *)flash,16);flash[16]=0;
@@ -1786,8 +1785,8 @@ void crypto_init()
     #endif
     if (strcmp(flash,signature)) {
         #ifdef DEBUG0
-        os_printf("initializing flash in 15 seconds\n");
-        vTaskDelay(3000);
+        os_printf("initializing flash in 5 seconds\n");
+        vTaskDelay(500);
         os_printf("initializing flash\n");
         #endif
         spi_flash_erase_sector(sector);
