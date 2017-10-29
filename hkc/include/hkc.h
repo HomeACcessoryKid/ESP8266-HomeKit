@@ -24,9 +24,10 @@
  * Description  : start using hkc. call in user_init
  *                postpone non-essential init to hkc_user_init
  * Parameters   : the accessory name
+ *              : optional int<10, the 'Accessory Category' see below 
  * Returns      : nothing
 *******************************************************************************/
-void    hkc_init(char *accname);
+void    hkc_init(char *accname, ...);
 
 /******************************************************************************
  * FunctionName : hkc_user_init
@@ -124,6 +125,18 @@ typedef struct _acc_item {
 void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType, char *valuestring, acc_cb change_cb);
 
 /******************************************************************************/
+
+//accessory category
+#define OTHER_CAT                                     1
+#define BRIDGE_CAT                                    2
+#define FAN_CAT                                       3
+#define GARAGE_CAT                                    4
+#define LIGHTBULB_CAT                                 5
+#define DOOR_LOCK_CAT                                 6
+#define OUTLET_CAT                                    7
+#define SWITCH_CAT                                    8
+#define THERMOSTAT_CAT                                9
+
 //brand name
 #define APPLE   "%08X-0000-1000-8000-0026BB765291"
 

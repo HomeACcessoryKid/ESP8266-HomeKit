@@ -38,7 +38,7 @@
  *
  */
 
-
+#include "stdarg.h"
 #include "esp_common.h"
 #include "espconn.h"
 #include "wolfssl/ssl.h"
@@ -1853,13 +1853,22 @@ void crypto_init()
     #endif
 }
 
-void hkc_init(char *accname)
+void hkc_init(char *accname, ...)
 {
     char mac[6];
+    va_list ap;
+    int acc_category;
     
     #ifdef DEBUG0   
     os_printf("hkc by HomeACcessoryKid! Compiled %s@%s Heap: %d\n", __DATE__, __TIME__, system_get_free_heap_size());
     #endif
+    
+    va_start(ap,accname);
+    acc_category=va_arg(ap,int);
+    va_end(ap);
+    acc_category=(acc_category>9)?1:acc_category; //while we have a simple mdns structure, max 1 digit
+    os_printf("Accessory_Category: %d\n",acc_category);
+    mdns[263]=0x30+acc_category;  //set ci=... we do this before adjusting mdns
     
     espconn_init();
     crypto_init();
