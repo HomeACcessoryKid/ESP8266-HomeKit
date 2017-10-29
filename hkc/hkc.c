@@ -1138,13 +1138,17 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
                     data_send(pcryp, true, chars);
                     free(chars);
                 }
-                #ifdef FACTORY
-                if (strcmp(pURL_Frame->pSelect, "factory") == 0 && !pcryp->encrypted) {
-                    #ifdef DEBUG0
-                    os_printf("factory reset\n");
-                    #endif
-                    spi_flash_write(start+4080,(uint32 *)flash,16); //mutilate the signature
-                    system_restart();
+                #ifndef FACTORY
+                if (pairing) {
+                #endif
+                    if (strcmp(pURL_Frame->pSelect, "factory") == 0 && !pcryp->encrypted) {
+                        #ifdef DEBUG0
+                        os_printf("factory reset\n");
+                        #endif
+                        spi_flash_write(start+4080,(uint32 *)flash,16); //mutilate the signature
+                        system_restart();
+                    }
+                #ifndef FACTORY
                 }
                 #endif
 //                 if (strcmp(pURL_Frame->pSelect, "client") == 0 && strcmp(pURL_Frame->pCommand, "command") == 0) {
@@ -1243,7 +1247,7 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
                     }
                 }
 
-                if (strcmp(pURL_Frame->pSelect, "pair-setup") == 0) {
+                if (strcmp(pURL_Frame->pSelect, "pair-setup") == 0 && pairing) { //only if not paired yet
                     #ifdef DEBUG1
                     os_printf("pair-setup\n");
                     #endif
@@ -1316,22 +1320,22 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
                             break;
                     }
                 }
-                if (strcmp(pURL_Frame->pSelect, "config") == 0 && strcmp(pURL_Frame->pCommand, "command") == 0) {
-                    if (strcmp(pURL_Frame->pFilename, "reboot") == 0) {
-                    } else if (strcmp(pURL_Frame->pFilename, "wifi") == 0) {
-                    } else if (strcmp(pURL_Frame->pFilename, "switch") == 0) {
-                    /*    if (pParseBuffer != NULL) {
-                            struct jsontree_context js;
-                            jsontree_setup(&js, (struct jsontree_value *)&StatusTree, json_putchar);
-                            json_parse(&js, pParseBuffer);
-                            response_send(ptrespconn, true);
-                        } else {
-                            response_send(ptrespconn, false);
-                        } /**/
-                    } else {
-                        response_send(pcryp, false);
-                    }
-                }
+//                 if (strcmp(pURL_Frame->pSelect, "config") == 0 && strcmp(pURL_Frame->pCommand, "command") == 0) {
+//                     if (strcmp(pURL_Frame->pFilename, "reboot") == 0) {
+//                     } else if (strcmp(pURL_Frame->pFilename, "wifi") == 0) {
+//                     } else if (strcmp(pURL_Frame->pFilename, "switch") == 0) {
+//                     /*    if (pParseBuffer != NULL) {
+//                             struct jsontree_context js;
+//                             jsontree_setup(&js, (struct jsontree_value *)&StatusTree, json_putchar);
+//                             json_parse(&js, pParseBuffer);
+//                             response_send(ptrespconn, true);
+//                         } else {
+//                             response_send(ptrespconn, false);
+//                         } /**/
+//                     } else {
+//                         response_send(pcryp, false);
+//                     }
+//                 }
                 }break; //POST
         }
 
@@ -2151,11 +2155,6 @@ void crypto_setup5(void *arg)
 
     tlv8_send(pcryp, ptlv8body, index);
     //now ptlvbody cleaned in tlv8_send but consider doing that here
-//  if (! pairing) {
-//      os_delay_us(0xffff); //allow some time to send confirmation to client
-//      system_restart();
-//      os_printf("this should not be seen after a pair reset\n");
-//  }
 }
 
 void crypto_verify1(void *arg)

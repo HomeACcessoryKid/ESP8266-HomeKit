@@ -22,7 +22,7 @@
 #include "hkc.h"
 
 //#define DEMO
-#define FACTORY
+//#define FACTORY  //also allow the url http://my.ip.address.numeric:661/factory once paired
 #define DEBUG0
 #define DEBUG1
 #define DEBUG2
