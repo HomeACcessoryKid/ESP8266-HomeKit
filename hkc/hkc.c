@@ -282,7 +282,7 @@ void    send_events(void *arg, int aid, int iid)
 }
 
 //parse this: {"characteristics":[{"aid":1,"iid":9,"ev":false},{"aid":1,"iid":12,"ev":false}]}
-//and   this: {"characteristics":[{"aid":1,"iid":12,"value":1}]}
+//and   this: {"characteristics":[{"aid":1,"iid":9,"value":0},{"aid":1,"iid":12,"value":100}]}
 void    parse_chas(void *arg, char *in)
 {
     crypto_parm *pcryp = arg;
@@ -1104,7 +1104,7 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
 
                 if (strcmp(pURL_Frame->pSelect, "identify") == 0) {
                     #ifdef DEBUG1
-                    os_printf("identify\n");
+                    os_printf("GET identify not yet implemented\n");
                     #endif
                     //do identify routine as a task
                     h204_send(pcryp);
@@ -1204,7 +1204,7 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
 
                 if (strcmp(pURL_Frame->pSelect, "identify") == 0) {
                     #ifdef DEBUG1
-                    os_printf("identify\n");
+                    os_printf("POST identify not yet implemented\n");
                     #endif
                     //do identify routine as a task
                     h204_send(pcryp);
@@ -1855,6 +1855,8 @@ void crypto_init()
 
 void hkc_init(char *accname)
 {
+    char mac[6];
+    
     #ifdef DEBUG0   
     os_printf("hkc by HomeACcessoryKid! Compiled %s@%s Heap: %d\n", __DATE__, __TIME__, system_get_free_heap_size());
     #endif
@@ -1864,7 +1866,12 @@ void hkc_init(char *accname)
     if (pairing)    xTaskCreate(srp_prepare, "prep", 2560, NULL, 1, NULL);
     else            xTaskCreate(  json_init,"jinit", 2560, NULL, 1, NULL);
 
+    if ( strlen(accname)>ANLMAX-2 ) accname[ANLMAX-2]=0;
     strcpy(myACCname,accname);
+    wifi_get_macaddr(STATION_IF, mac);
+    sprintf(myACCname+strlen(myACCname),"%02X",mac[5]);//append the last two characters of mac address
+    //strcat(myACCname,myUsername+15); //append the last two characters of Username
+    os_printf("myACCname: %s\n",myACCname);
     xTaskCreate(send_mdns,"mdns",256,myACCname,1,NULL);
 }
 
