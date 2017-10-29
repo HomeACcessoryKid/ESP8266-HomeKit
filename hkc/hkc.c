@@ -69,7 +69,7 @@ static  uint32  dat_sumlength = 0;
 
 byte    myUsername[18];     //global
 word32  myUsername_len=17;  //global
-byte    myACCname[ANLMAX];
+byte    myACCname[ANLMAX+1];
 
 int     objects_maxlen[TLVNUM]= {1,0x50,0,0x180,0x40,0xd0,1,0,0,0,0x40,9}; //global
 
@@ -1345,7 +1345,7 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
             ;
         
         if (!delegated) xSemaphoreGive(pcryp->semaphore);
-    }
+    } else os_printf("-- received a packet and ignored because semaphore blocked (or pcryp==NULL)");
 }
 
 /******************************************************************************
@@ -1445,7 +1445,9 @@ server_listen(void *arg)
     
     pcryp = (crypto_parm *)zalloc(sizeof(crypto_parm));
     vSemaphoreCreateBinary(pcryp->semaphore);
+    #ifdef DEBUG0
     if ( xSemaphoreTake( pcryp->semaphore, ( portTickType ) 0 ) == pdTRUE ) os_printf("p_sema taken\n");
+    #endif
 
     pesp_conn->reserve=pcryp;
     pcryp->pespconn  =pesp_conn;
@@ -1863,7 +1865,7 @@ void hkc_init(char *accname)
     else            xTaskCreate(  json_init,"jinit", 2560, NULL, 1, NULL);
 
     strcpy(myACCname,accname);
-    xTaskCreate(send_mdns,"mdns",256,accname,1,NULL);
+    xTaskCreate(send_mdns,"mdns",256,myACCname,1,NULL);
 }
 
 void crypto_tasks()  //this is a TasK
@@ -1888,12 +1890,12 @@ void crypto_tasks()  //this is a TasK
                 case 4: {
                     crypto_verify1(pcryp);
                     //delay X0ms so follow up packet can jump the head of the queue
-                    vTaskDelay(4);
+                    //vTaskDelay(4); //this has likely provoked a lot of trouble prior to 28/10/2017
                 }break; //4
                 case 5: {
                     crypto_verify3(pcryp);
                     //delay Y0ms so follow up packet can jump the head of the queue
-                    vTaskDelay(5);
+                    //vTaskDelay(5); //this has likely provoked a lot of trouble prior to 28/10/2017
                 }break; //5
                 case 6: {
                     acc_send(pcryp);
@@ -2368,7 +2370,7 @@ void crypto_verify3(void *arg)
     os_printf("chunked_len: %d\n",index);
     #endif
     tlv8_send(pcryp, ptlv8body, index);
-    if (shallencrypt)   pcryp->encrypted=1; //else too early if this answer also gets encrypted
+    if (shallencrypt)   pcryp->encrypted=1; //else too early because this answer also gets encrypted
     //now ptlvbody cleaned in tlv8_send but consider doing that here
 }
 
