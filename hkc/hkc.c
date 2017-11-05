@@ -120,35 +120,44 @@ word32  B_len=NLEN;
 
 struct  espconn user_udp_espconn;
 char mdns[] = {
-      0x00, 0x00, 0x84, 0x00, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x14, 0x48, 0x4b, 0x5f,       //HK_@0
-      0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, //>myUserName@16*17
-      0x05, 0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x00, 0x00, 0x01, 0x80, 0x01, 0x00, 0x00, 0x00, 0x78, 0x00, 0x04, //@33
-      0x00, 0x00, 0x00, 0x00, //>IP address @50*4
-      
-      0x09, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x07, 0x5f, 0x64, 0x6e, 0x73, 0x2d,  //_services@54
-      0x73, 0x64, 0x04, 0x5f, 0x75, 0x64, 0x70, 0xc0, 0x21, 0x00, 0x0c, 0x00, 0x01, 0x00, 0x00, 0x11,  //@70
-      0x94, 0x00, 0x0c, 0x04, 0x5f, 0x68, 0x61, 0x70, 0x04, 0x5f, 0x74, 0x63, 0x70, 0xc0, 0x21,        //@86
-      
-      0xc0, 0x59, 0x00, 0x0c, 0x00, 0x01, 0x00, 0x00, 0x11, 0x94, 0x00,                                //_hap@101
-      0x23, 0x20,             //>anl+3@112*1,  >anl@113*1
-      0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70,  //>accname@114*anl
-      0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46,
-      0xc0, 0x59,             //<@146
-      
-      0xc0, 0x71, 0x00, 0x21, 0x80, 0x01, 0x00, 0x00, 0x00, 0x78, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00,  //SRV@anl+116
-      0x02, 0x95, 0xc0, 0x0c, //>HAP tcp-port 661@anl+132*2
-      
-      0xc0, 0x71, 0x00, 0x10, 0x80, 0x01, 0x00, 0x00, 0x11, 0x94, 0x00,                                    //TXT@anl+136
-      0x59, 0x23,             //>anl+57@anl+147*1,  >anl+3@anl+148*1
-      0x6d, 0x64, 0x3d,                                                                                    //id=@anl+149
-      0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70,      //>accname@anl+152*anl
-      0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46,
-      0x06, 0x70, 0x76, 0x3d, 0x31, 0x2e, 0x30, 0x14, 0x69, 0x64, 0x3d,                                    //@2anl+152
-      0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30,//>myUserName@2anl+163*17
-      0x04, 0x63, 0x23, 0x3d, 0x31, 0x04, 0x73, 0x23, 0x3d, 0x31, 0x04, 0x66, 0x66, 0x3d, 0x30, 0x04,      //@2anl+180
-      0x63, 0x69, 0x3d, 0x31, 0x04, 0x73, 0x66, 0x3d,                                                      //@2anl+196
-      0x31                                                                                                 //>status@2anl+204*1
+    0x00, 0x00, 0x84, 0x00,
+    0x00, 0x00, 0x00, 0x05, // 5 answers
+    0x00, 0x00, 0x00, 0x00, // 0 additional records                                                       //haptcplocal
+    0x04, 0x5f, 0x68, 0x61, 0x70, 0x04, 0x5f, 0x74, 0x63, 0x70, 0x05, 0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x00, //@12
+    0x00, 0x0c, 0x00, 0x01, 0x00, 0x00, 0x11, 0x94,                         //PTR, IN, TTL                //@29
+    0x00,       0x23, 0x20,                                                 //>anl+3@38*1                 //>anl@39*1
+    0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70,       //>accname@40*anl
+    0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46,
+    0xc0, 0x0c,                                                             //referral to _hap._tcp.local //@anl+40
+    0xc0, 0x27,                                                             //referral to accname         //@anl+42
+    0x00, 0x10, 0x80, 0x01, 0x00, 0x00, 0x11, 0x94,                         //TXT, INflush, 4500s         //@anl+44
+    0x00,       0x59,                                                                                     //>anl+57@anl+53*1
+    0x23,       0x6d, 0x64, 0x3d,                                           //md=                         //>anl+3@anl+54*1
+    0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70,       //>accname@anl+58*anl
+    0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46,
+    0x06, 0x70, 0x76, 0x3d, 0x31, 0x2e, 0x30,                               //pv=1.0                      //@2anl+58
+    0x14, 0x69, 0x64, 0x3d,                                                 //id=                         //@2anl+65
+    0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, //>myUserName@2anl+69*17
+    0x04, 0x63, 0x23, 0x3d, 0x31, 0x04, 0x73, 0x23, 0x3d, 0x31, 0x04, 0x66, 0x66, 0x3d, 0x30,//c#, s#, ff //@2anl+86
+    0x04, 0x63, 0x69, 0x3d, 0x31,                                           //ci                          //>ci@2anl+105*1
+    0x04, 0x73, 0x66, 0x3d, 0x30,                                           //sf                          //>pairing@2anl+110*1
+    0xc0, 0x27,                                                             //referal to accname          //@2anl+111
+    0x00, 0x21, 0x80, 0x01, 0x00, 0x00, 0x00, 0x78, 0x00, 0x1d,             //SRV, INflush, 120s len29    //@2anl+113
+    0x00, 0x00, 0x00, 0x00,       0x02, 0x95,                               //prio, weight,               //>TCPport@2anl+127*2
+    0x14, 0x48, 0x4b, 0x5f,                                                 //HK_mac                      //@2anl+129
+    0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, 0x3a, 0x30, 0x30, //>myUserName@2anl+133*17
+    0xc0, 0x16,                                                             //referral to .local          //@2anl+150
+    0xc0, 0xc1,                                                             //referral to HK_mac          //>2anl+129@2anl+153*1
+    0x00, 0x01, 0x80, 0x01, 0x00, 0x00, 0x00, 0x78, 0x00, 0x04,             //A, INflush, 120s, len4      //@2anl+154
+    0x00, 0x00, 0x00, 0x00,                                                 //IP address                  //>IP@2anl+164*4
+    0x09, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73,                   //_services             //@2anl+168 last 37 bytes
+    0x07, 0x5f, 0x64, 0x6e, 0x73, 0x2d, 0x73, 0x64, 0x04, 0x5f, 0x75, 0x64, 0x70, //.dns-sd._udp          //@2anl*178
+    0xc0, 0x16,                                                                   //referral to .local    //@2anl+191
+    0x00, 0x0c, 0x00, 0x01, 0x00, 0x00, 0x11, 0x94, 0x00, 0x02,                   //PTR, IN, 4500s, len2  //@2anl+193
+    0xc0, 0x0c                                                              //referral to haptcplocal     //@2anl+203
  };
+ unsigned int   mdns_len=2*ANLMAX+205;
+ int            anl=ANLMAX;
  int            ready=0; //replace by semafore
 
 /*---------------------------------------------------------------------------*/
@@ -1122,6 +1131,7 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
                         os_printf("postwrite\n");
                         halfpaired=0;
                         pairing=0;
+                        xTaskCreate(new_ip,"newip",256,NULL,1,NULL); //send updated mdns sequence
                     }
                     pcryp->state=6;
                     xQueueSendToFront(crypto_queue,&pcryp,0);
@@ -1647,63 +1657,313 @@ tlv8_close(char *pbuf, uint16 *index)
     *index+=5;
 }
 
- 
+ /******************************************************************************
+      * FunctionName : parse_mdns
+      * Description  : returns which type of question needs to be answered relevant to us
+      * Parameters   : buf -- data in
+      * Returns      : int bitmap: 0=not, +1=PTR, +2=TXT, (3=PTRTXT), +4=QU
+ *******************************************************************************/
+
+int parse_mdns(char* buf, unsigned short len) {
+
+    int     i,j,n,ref;
+    char    tag;
+    char    name[256];
+    
+    #define GETNAME /* START OF MACRO FUNCTION GETNAME */ \
+    j=i; tag=buf[j]; n=0; ref=0; \
+    while (tag) { /*if tag==0 then end of name */ \
+        if (tag==0xc0) { /*referring*/ \
+            ref++;j=buf[j+1]; \
+            if (ref==1) i+=2; \
+        } else { \
+            if (tag>0x40 || j+1+tag>len || n+tag>253) return 0; /*label longer 64 or pointing out of buf */ \
+            memcpy(name+n,buf+j+1,tag); \
+            n+=tag; \
+            name[n++]=0x2e; /*full stop . */ \
+            j+=tag+1; \
+            if (!ref) i+=tag+1; \
+        } \
+        tag=buf[j]; \
+    } \
+    name[n]=0; /*close string */ \
+    if (!ref) i++ //count the closing zero if never referred
+    /* END OF MACRO FUNCTION GETNAME, no closing ; */
+
+    int     q,a,result=0;
+    char    hap[]="_hap._tcp.local.";
+    char    fqdn[ANLMAX+18]; //make these global?
+    
+    strcpy(fqdn,myACCname);
+    strcat(fqdn,".");
+    strcat(fqdn,hap);
+    #ifdef DEBUG5
+    os_printf("FQDN: %s\n",fqdn);
+    #endif
+
+    for (i=0; i<5; i++) if (buf[i]) return 0; //is a request with id=0 and no other flags and less than 256 questions
+    q=buf[i]; //number of questions
+    a=buf[i+2]; //number of answers
+    i=0x0c;   //start of name area
+    while (q) {
+        GETNAME;
+        #ifdef DEBUG5
+        os_printf("Q: %s\n",name);
+        #endif
+        //is this a question for us?
+        if (!strcmp(name,hap)  && buf[i+1]==12) { //HAP PTR
+            #ifdef DEBUG0
+            os_printf("--- Q _hapPTR\n");
+            #endif
+            result|=1;
+            if (buf[i+2]==0x80) result|=4; //QU
+        }
+        if (!strcmp(name,fqdn) && buf[i+1]==16) { //FQDN TXT
+            #ifdef DEBUG0
+            os_printf("--- Q nameTXT\n");
+            #endif
+            result|=2;
+            if (buf[i+2]==0x80) result|=4; //QU
+        }
+        i+=4; //flush type, Class and QM
+        q--; //next question
+    }
+    if (result) {
+        while (a) {
+            GETNAME;
+            #ifdef DEBUG5
+            os_printf("A: %s\n",name);
+            #endif
+            //is this our answer?
+            if (!strcmp(name,hap)  && buf[i+1]==12) { //HAP PTR
+                #ifdef DEBUG0
+                os_printf("--- A _hapPTR\n");
+                #endif
+                i+=10; //flush type, Class, flush, ttl and len
+                GETNAME;
+                #ifdef DEBUG5
+                os_printf("P: %s\n",name);
+                #endif
+                if (!strcmp(name,fqdn)) { //FQDN
+                    #ifdef DEBUG0
+                    os_printf("--- P name\n");
+                    #endif
+                    result&=~5; //suppresses the answer and QU flag
+                }
+            }
+            a--; //next answer
+        }
+    }
+    return result;
+}
+
+ /******************************************************************************
+      * FunctionName : user_udp_recv
+      * Description  : udp received callback
+      * Parameters   : arg -- data in
+      * Returns      : none
+ *******************************************************************************/
+LOCAL void ICACHE_FLASH_ATTR
+user_udp_recv(void *arg, char *pusrdata, unsigned short length)
+{
+    struct espconn* udpconn = arg;
+    remot_info      *premot = NULL;
+    int         unicast_nok = 0;
+    const char udp_mdns_ip[4] = {224, 0, 0, 251};  
+    struct ip_info ipconfig;
+    int             result;
+    
+
+    if  (espconn_get_connection_info(udpconn,&premot,0) == ESPCONN_OK){
+        #ifdef DEBUG5
+        os_printf("-- received from %d.%d.%d.%d:%d ", premot->remote_ip[0], premot->remote_ip[1], premot->remote_ip[2], premot->remote_ip[3], premot->remote_port);
+        #endif
+    }
+    else{
+        unicast_nok=1;
+        #ifdef DEBUG0
+        os_printf("Get mdns sender info failed\n");
+        #endif
+    }
+
+    #ifdef DEBUG5
+    //if (!pusrdata[2]) {
+        os_printf(", len %d, heap %d, system time=%d\n", length, system_get_free_heap_size(),system_get_time()/1000);
+        //int i; for (i=0;i<length;i++) os_printf("%02x",pusrdata[i]); os_printf("\n");
+    //}
+    #endif
+    result=parse_mdns(pusrdata, length);
+    if (result) {
+        #ifdef DEBUG0
+        os_printf("result: %d\n",result);
+        #endif
+        if (unicast_nok) result&=~4;
+    
+        wifi_get_ip_info(STATION_IF, &ipconfig);
+        //os_printf("answerip:" IPSTR "\n",IP2STR(&ipconfig.ip.addr));
+        memcpy(164+mdns+2*anl,&ipconfig.ip.addr,4);
+        mdns[110+2*anl]=0x30+pairing;
+        switch (result) {
+            case 5: case 7: //unicast
+            memcpy(user_udp_espconn.proto.udp->remote_ip, premot->remote_ip, 4); //unicast pending to do
+            break;                                                         //how to get senders IP??
+            default:
+            memcpy(user_udp_espconn.proto.udp->remote_ip, udp_mdns_ip, 4); //multicast
+            break;
+        }
+        user_udp_espconn.proto.udp->remote_port = 5353;    // ESP8266 udp remote port need to be set every time
+        switch (result) {
+            case 1: case 5: //PTR only
+                mdns[7]=1; mdns[11]=3; //set 1 answer and 3 additionals
+            break;
+            case 3: case 7: //PTR and TXT
+                mdns[7]=2; mdns[11]=2; //set 2 answers and 2 additionals
+            break;
+            default:
+                return; //don't send anything
+            break;
+        }
+        espconn_send(&user_udp_espconn, mdns, mdns_len-37);//cut of the services._dns-sd._udp.local
+        mdns[7]=5; mdns[11]=0; //restore 5 answers and 0 additionals for recurring task
+    }
+}
+
  /******************************************************************************
       * FunctionName : user_udp_sent_cb
       * Description  : udp sent successfully
-      * Parameters  : arg -- Additional argument to pass to the callback function
+      * Parameters   : arg -- Additional argument to pass to the callback function
       * Returns      : none
  *******************************************************************************/
 LOCAL void ICACHE_FLASH_ATTR
 user_udp_sent(void *arg)
 {  
     #ifdef DEBUG0
-    os_printf("pairing %d, heap %d, system time=%d\n", pairing, system_get_free_heap_size(),system_get_time()/1000);
+    os_printf("mdns sent: pairing %d, heap %d, time=%d\n", pairing, system_get_free_heap_size(),system_get_time()/1000);
     #endif
 }
 
-void send_mdns(void *arg)
+ /******************************************************************************
+      * FunctionName : send_initial_mdns
+      * Description  : send 5 answers when starting or changed circumstances
+      * Parameters   : none
+      * Returns      : none
+ *******************************************************************************/
+void send_initial_mdns()
+{
+    const char udp_mdns_ip[4] = {224, 0, 0, 251};  
+    struct ip_info ipconfig;
+
+    wifi_get_ip_info(STATION_IF, &ipconfig);
+    //os_printf("initialmdnsip:" IPSTR "\n",IP2STR(&ipconfig.ip.addr));
+    memcpy(164+mdns+2*anl,&ipconfig.ip.addr,4);
+      mdns[110+2*anl]=0x30+pairing;
+    memcpy(user_udp_espconn.proto.udp->remote_ip, udp_mdns_ip, 4); // ESP8266 udp remote IP need to be set everytime we call espconn_sent
+    user_udp_espconn.proto.udp->remote_port = 5353;  // ESP8266 udp remote port need to be set everytime we call espconn_sent
+    espconn_send(&user_udp_espconn, mdns, mdns_len);    
+}
+
+ /******************************************************************************
+      * FunctionName : new_ip  IS A TASK that finishes itself
+      * Description  : send initial mdns in exponential backoff scheme
+      * Parameters   : arg  (not used)
+      * Returns      : none
+ *******************************************************************************/
+void new_ip(void *arg)
+{
+    send_initial_mdns();
+    vTaskDelay(100); //1sec
+    send_initial_mdns();
+    vTaskDelay(200); //2sec
+    send_initial_mdns();
+    vTaskDelay(400); //4sec
+    send_initial_mdns();
+    vTaskDelete(NULL);
+}
+
+ /******************************************************************************
+      * FunctionName : wifi_handle_event_cb
+      * Description  : detects wifi changes and orders a new_ip task
+      * Parameters   : evt
+      * Returns      : none
+ *******************************************************************************/
+void wifi_handle_event_cb(System_Event_t *evt)
+{
+    switch (evt->event_id) {
+        case EVENT_STAMODE_DISCONNECTED:
+            os_printf("disconnect from ssid %s, reason %d\n",
+                        evt->event_info.disconnected.ssid,
+                        evt->event_info.disconnected.reason);
+        break;
+        case EVENT_STAMODE_GOT_IP:
+            xTaskCreate(new_ip,"newip",256,NULL,1,NULL);
+        break;
+        default:
+        break;
+    }
+}
+
+ /******************************************************************************
+      * FunctionName : ip_init IS A TASK that continues forever
+      * Description  : sets up IP related bussiness and mdns repeater
+      * Parameters   : arg  is the accname
+      * Returns      : none
+ *******************************************************************************/
+void ip_init(void *arg)
 {
     struct ip_info ipconfig;
-    const char udp_remote_ip[4] = {224, 0, 0, 251};  
+    const char udp_mdns_ip[4] = {224,   0,   0, 251};
+    const char udp_null_ip[4] = {  0,   0,   0,   0};
     char *accname = arg;
-    int  anl=ANLMAX;
-    
+
+    if (strlen(accname)<ANLMAX) anl=strlen(accname);
+      mdns_len = 2*anl+205;
+      mdns[ 38]=anl+3;
+      mdns[ 39]=anl;
+    memcpy( 40+mdns,accname,anl);
+    memcpy( 40+mdns+anl,40+ANLMAX+mdns,205+2*ANLMAX-anl-40);//transfer other bytes forward
+      mdns[ 53+anl]=anl+57;
+      mdns[ 54+anl]=anl+3;
+    memcpy( 58+mdns+anl,accname,anl);
+    memcpy( 58+mdns+2*anl,58+ANLMAX+anl+mdns,205+ANLMAX-anl-58);//transfer other bytes forward
+    memcpy( 69+mdns+2*anl,myUsername,17);
+//    mdns[105+2*ANLMAX]=0x30+acc_category;  //set ci=... we do this before adjusting mdns
+//    mdns[110+2*anl]=0x30+pairing;
+    memcpy(133+mdns+2*anl,myUsername,17);
+      mdns[153+2*anl]=2*anl+129;
+//  memcpy(164+mdns+2*anl,&ipconfig.ip.addr,4);
+
     user_udp_espconn.type = ESPCONN_UDP;
     user_udp_espconn.proto.udp = (esp_udp *)zalloc(sizeof(esp_udp));
     user_udp_espconn.proto.udp->local_port = 5353;  // set mdns  port
 
-    espconn_regist_sentcb(&user_udp_espconn, user_udp_sent); // register a udp packet sent callback
-    espconn_create(&user_udp_espconn);   // create udp socket
+    while (!ready)vTaskDelay(5); //50ms
+
+    do {vTaskDelay(5);
+        wifi_get_ip_info(STATION_IF, &ipconfig);
+        //os_printf("noip: " IPSTR "\n",IP2STR(&ipconfig.ip.addr));
+    } while (!ip4_addr1(&ipconfig.ip.addr) && !ip4_addr2(&ipconfig.ip.addr) && !ip4_addr3(&ipconfig.ip.addr) && !ip4_addr4(&ipconfig.ip.addr));
+
+    wifi_set_event_handler_cb(wifi_handle_event_cb);
     
-    if (strlen(accname)<ANLMAX) anl=strlen(accname);
-    unsigned int mdns_len = 2*anl+205;
-
-    memcpy( 16+mdns,myUsername,17);
-//  memcpy( 50+mdns,&ipconfig.ip.addr,4);
-      mdns[112]=anl+3;
-      mdns[113]=anl;
-    memcpy(114+mdns,accname,anl);
-    memcpy(114+mdns+anl,114+ANLMAX+mdns,205+2*ANLMAX-anl-114);//transfer other bytes forward
-      mdns[147+anl]=anl+57;
-      mdns[148+anl]=anl+3;
-    memcpy(152+mdns+anl,accname,anl);
-    memcpy(152+mdns+2*anl,152+ANLMAX+anl+mdns,205+ANLMAX-anl-152);//transfer other bytes forward
-    memcpy(163+mdns+2*anl,myUsername,17);
-//    mdns[204+2*anl]=0x30+pairing;
-
-    while (!ready)vTaskDelay(10); //100ms
-
     server_init(0x0295); // iana HAP port 661
 
+    espconn_igmp_join((ip_addr_t*)udp_null_ip, (ip_addr_t*)udp_mdns_ip);  //using own IP is crash
+    espconn_regist_recvcb(&user_udp_espconn, user_udp_recv);
+    espconn_regist_sentcb(&user_udp_espconn, user_udp_sent); // register a udp packet sent callback
+    espconn_create(&user_udp_espconn);   // create udp socket
+
+    xTaskCreate(new_ip,"newip",256,NULL,1,NULL);
     while(1) {
-        wifi_get_ip_info(STATION_IF, &ipconfig);
-        memcpy( 50+mdns,&ipconfig.ip.addr,4);
-        mdns[204+2*anl]=0x30+pairing;
-        memcpy(user_udp_espconn.proto.udp->remote_ip, udp_remote_ip, 4); // ESP8266 udp remote IP need to be set everytime we call espconn_sent
-        user_udp_espconn.proto.udp->remote_port = 5353;  // ESP8266 udp remote port need to be set everytime we call espconn_sent
-        espconn_send(&user_udp_espconn, mdns, mdns_len);
-        vTaskDelay(300); //3 sec
+        vTaskDelay(360000); //3600 sec
+        do {vTaskDelay(5);
+            wifi_get_ip_info(STATION_IF, &ipconfig);
+            //os_printf("ip:" IPSTR "\n",IP2STR(&ipconfig.ip.addr));
+        } while (!ip4_addr1(&ipconfig.ip.addr) && !ip4_addr2(&ipconfig.ip.addr) && !ip4_addr3(&ipconfig.ip.addr) && !ip4_addr4(&ipconfig.ip.addr));
+        send_initial_mdns();
+        vTaskDelay(100); //1sec
+        send_initial_mdns();
+        vTaskDelay(200); //2sec
+        send_initial_mdns();
     }
 }
 
@@ -1872,20 +2132,18 @@ void hkc_init(char *accname, ...)
     va_end(ap);
     acc_category=(acc_category>9)?1:acc_category; //while we have a simple mdns structure, max 1 digit
     os_printf("Accessory_Category: %d\n",acc_category);
-    mdns[263]=0x30+acc_category;  //set ci=... we do this before adjusting mdns
-    
-    espconn_init();
-    crypto_init();
-    if (pairing)    xTaskCreate(srp_prepare, "prep", 2560, NULL, 1, NULL);
-    else            xTaskCreate(  json_init,"jinit", 2560, NULL, 1, NULL);
-
-    if ( strlen(accname)>ANLMAX-2 ) accname[ANLMAX-2]=0;
-    strcpy(myACCname,accname);
+    mdns[105+2*ANLMAX]=0x30+acc_category;  //set ci=... we do this before adjusting mdns
+    strncpy(myACCname,accname,ANLMAX-2); //cut of extra
     wifi_get_macaddr(STATION_IF, mac);
     sprintf(myACCname+strlen(myACCname),"%02X",mac[5]);//append the last two characters of mac address
     //strcat(myACCname,myUsername+15); //append the last two characters of Username
     os_printf("myACCname: %s\n",myACCname);
-    xTaskCreate(send_mdns,"mdns",256,myACCname,1,NULL);
+
+    espconn_init();
+    crypto_init();
+    if (pairing)    xTaskCreate(srp_prepare, "prep", 2560, NULL, 1, NULL);
+    else            xTaskCreate(  json_init,"jinit", 2560, NULL, 1, NULL);
+    xTaskCreate(ip_init,"ip",256,myACCname,1,NULL);
 }
 
 void crypto_tasks()  //this is a TasK
