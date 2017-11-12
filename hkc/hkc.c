@@ -1666,18 +1666,18 @@ tlv8_close(char *pbuf, uint16 *index)
 
 int parse_mdns(char* buf, unsigned short len) {
 
-    int     i,j,n,ref;
-    char    tag;
+    unsigned int     i,j,n,ref,tag;
+    //char    tag;
     char    name[256];
     
     #define GETNAME /* START OF MACRO FUNCTION GETNAME */ \
     j=i; tag=buf[j]; n=0; ref=0; \
     while (tag) { /*if tag==0 then end of name */ \
-        if (tag==0xc0) { /*referring*/ \
-            ref++;j=buf[j+1]; \
+        if (tag>=0xc0) { /*referring*/ \
+            ref++;j=256*(tag-0xc0)+buf[j+1]; \
             if (ref==1) i+=2; \
         } else { \
-            if (tag>0x40 || j+1+tag>len || n+tag>253) return 0; /*label longer 64 or pointing out of buf */ \
+            if (tag>0x40 || j+1+tag>len || n+tag>253) {os_printf("mdns-error t=%d i=%d j=%d n=%d\n",tag,i,j,n);return 0;} /*label longer 64 or pointing out of buf */ \
             memcpy(name+n,buf+j+1,tag); \
             n+=tag; \
             name[n++]=0x2e; /*full stop . */ \
@@ -1687,7 +1687,7 @@ int parse_mdns(char* buf, unsigned short len) {
         tag=buf[j]; \
     } \
     name[n]=0; /*close string */ \
-    if (!ref) i++ //count the closing zero if never referred
+    if (!ref) i++ /*count the closing zero if never referred*/ \
     /* END OF MACRO FUNCTION GETNAME, no closing ; */
 
     int     q,a,result=0;
@@ -1750,6 +1750,9 @@ int parse_mdns(char* buf, unsigned short len) {
                     #endif
                     result&=~5; //suppresses the answer and QU flag
                 }
+            } else { //another answer
+                i+=8; //flush type, Class, flush, and ttl
+                i+=2+buf[i]*256+buf[i+1]; //flush len and content
             }
             a--; //next answer
         }
