@@ -1,6 +1,12 @@
 # ESP8266-HomeKit [![Build Status](https://travis-ci.org/HomeACcessoryKid/ESP8266-HomeKit-Demo.svg?branch=master)](https://travis-ci.org/HomeACcessoryKid/ESP8266-HomeKit-Demo)
 HomeKit server foundation on ESP8266 with an API approach
 
+## UPDATE 5 Nov 2017
+
+Having added real-mdns behavior instead of the 3 second repetition approach, I think the reaction times are improved at the moment of initial interaction, e.g. when switching on the phone.
+
+-------
+
 Public Apple's HomeKit protocol code has been around for some time for more potent processors (notably [HAP-NodeJS](https://github.com/KhaosT/HAP-NodeJS)). This is a rewrite for the ESP8266 to make the server foundation.
 This project uses [ESP8266_RTOS_SDK](https://github.com/espressif/ESP8266_RTOS_SDK) and
 [WolfCrypt 3.9.8](https://github.com/wolfSSL/wolfssl/releases/tag/v3.9.8) for the crypto. It will however NOT deliver a certified HomeKit device. 

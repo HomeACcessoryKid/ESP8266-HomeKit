@@ -155,6 +155,7 @@ typedef struct _rst_parm {
 } rst_parm;
 
 
+void    new_ip(void *arg);
 
 void    json_init(void *arg);
 
