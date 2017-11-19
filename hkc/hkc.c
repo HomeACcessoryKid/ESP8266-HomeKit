@@ -1065,8 +1065,6 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
         char *pParseBuffer = NULL;
         bool delegated=false,parse_flag = false;
         char *chars;
-        uint32  start, sector = 0x13;
-        start=sector*0x1000;
     
         #ifdef DEBUG0
         os_printf("server got a packet from %d.%d.%d.%d:%d at %d\n", ptrespconn->proto.tcp->remote_ip[0],
@@ -1127,7 +1125,7 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
                         os_printf("halfpaired\n");
                         #endif
                         flash[0]=0x00;flash[1]=0x7f;flash[2]=0xff;flash[3]=0xff;
-                        spi_flash_write(start,(uint32 *)flash,4);
+                        spi_flash_write(START,(uint32 *)flash,4);
                         os_printf("postwrite\n");
                         halfpaired=0;
                         pairing=0;
@@ -1155,7 +1153,7 @@ server_recv(void *arg, char *pusrdata, unsigned short length)
                         #ifdef DEBUG0
                         os_printf("factory reset\n");
                         #endif
-                        spi_flash_write(start+4080,(uint32 *)flash,16); //mutilate the signature
+                        spi_flash_write(START+4080,(uint32 *)flash,16); //mutilate the signature
                         system_restart();
                     }
                 #ifndef FACTORY
@@ -2041,14 +2039,12 @@ void crypto_init()
     //if already stored then retrieve, else generate and store
     //also for myUsername
     char    flash[80];
-    uint32  start, sector = 0x13;
     char    signature[] = "HomeACcessoryKid";
     WC_RNG  rng;
     int     makekey=1;
     int     r;
     
-    start=sector*0x1000;
-    spi_flash_read(start+4080,(uint32 *)flash,16);flash[16]=0;
+    spi_flash_read(START+4080,(uint32 *)flash,16);flash[16]=0;
     #ifdef DEBUG0
     for (r=0;r<17;r++) os_printf("%02x",flash[r]);os_printf("\n");
     #endif
@@ -2058,10 +2054,10 @@ void crypto_init()
         vTaskDelay(500);
         os_printf("initializing flash\n");
         #endif
-        spi_flash_erase_sector(sector);
-        spi_flash_write(start+4080,(uint32 *)signature,16);
+        spi_flash_erase_sector(SECTOR);
+        spi_flash_write(START+4080,(uint32 *)signature,16);
     }   
-    spi_flash_read(start+4000,(uint32 *)flash,64);
+    spi_flash_read(START+4000,(uint32 *)flash,64);
     #ifdef DEBUG0
     for (r=0;r<64;r++) os_printf("%02x",flash[r]);os_printf("\n");
     #endif
@@ -2072,11 +2068,11 @@ void crypto_init()
         r = wc_ed25519_make_key(&rng, ED25519_KEY_SIZE, &myKey);
         makekey=ED25519_PRV_KEY_SIZE; //write to flash, abuse existing int
         if (!r) r = wc_ed25519_export_private(&myKey, flash, &makekey);
-        if (!r) r = spi_flash_write(start+4000,(uint32 *)flash,64);
+        if (!r) r = spi_flash_write(START+4000,(uint32 *)flash,64);
         #ifdef DEBUG0
         os_printf("key written: %d\n",r);
         #endif
-        spi_flash_read(start+4000,(uint32 *)flash,64);
+        spi_flash_read(START+4000,(uint32 *)flash,64);
         #ifdef DEBUG0   
         for (r=0;r<64;r++) os_printf("%02x",flash[r]);os_printf("\n");
         #endif
@@ -2086,12 +2082,12 @@ void crypto_init()
         os_get_random((unsigned char *)mac, 6);
         sprintf(myUsername,"%02X:%02X:%02X:%02X:%02X:%02X",mac[0],mac[1],mac[2],mac[3],mac[4],mac[5]);
         myUsername[8]=myUsername[16]; //store last digit in the middle to store
-        spi_flash_write(start+4064,(uint32 *)myUsername,16);
+        spi_flash_write(START+4064,(uint32 *)myUsername,16);
         myUsername[8]=0x3a; //restore the middle colon
         #ifdef DEBUG0
         os_printf("username written: "); //do not save the middle ':' we only have 16 positions, not 17
         #endif
-        spi_flash_read(start+4064,(uint32 *)flash,16);flash[16]=0;
+        spi_flash_read(START+4064,(uint32 *)flash,16);flash[16]=0;
         #ifdef DEBUG0   
         printf("%s\n",flash);
         #endif
@@ -2100,7 +2096,7 @@ void crypto_init()
         #ifdef DEBUG0
         os_printf("key loaded:  %d\n",r);
         #endif
-        spi_flash_read(start+4064,(uint32 *)myUsername,16);
+        spi_flash_read(START+4064,(uint32 *)myUsername,16);
         myUsername[16]=myUsername[8];
         myUsername[8]=0x3a;
         myUsername[17]=0x0;
@@ -2111,7 +2107,7 @@ void crypto_init()
     //if an ID stored at position 0 then we are paired already so no need to set up pairing procedures
     //each record is 80 bytes, 12 flag, 36 username, 32 clientPubKey
     pairing=1;
-    spi_flash_read(start,(uint32 *)flash,80);
+    spi_flash_read(START,(uint32 *)flash,80);
     if (flash[0]==0x7f) halfpaired=1;
     for (r=1;r<12;r++) if (flash[r]!=0xff) pairing=0;
     #ifdef DEBUG0   
@@ -2136,7 +2132,7 @@ void hkc_init(char *accname, ...)
     acc_category=(acc_category>9)?1:acc_category; //while we have a simple mdns structure, max 1 digit
     os_printf("Accessory_Category: %d\n",acc_category);
     mdns[105+2*ANLMAX]=0x30+acc_category;  //set ci=... we do this before adjusting mdns
-    strncpy(myACCname,accname,ANLMAX-2); //cut of extra
+    strncpy(myACCname,accname,ANLMAX-2); //cut off extra
     wifi_get_macaddr(STATION_IF, mac);
     sprintf(myACCname+strlen(myACCname),"%02X",mac[5]);//append the last two characters of mac address
     //strcat(myACCname,myUsername+15); //append the last two characters of Username
@@ -2307,8 +2303,6 @@ void crypto_setup5(void *arg)
     word32  ainfoSz=30;
 
     char    flash[80];
-    uint32  start, sector = 0x13;
-    start=sector*0x1000;
     
     char *ptlv8body = NULL;
     uint16 index;
@@ -2363,7 +2357,7 @@ void crypto_setup5(void *arg)
     
     if (verified && !halfpaired) { //prevent double writing
         #ifdef DEBUG2
-        spi_flash_read(start,(uint32 *)flash,80);
+        spi_flash_read(START,(uint32 *)flash,80);
         for (r=0;r<80;r++) os_printf("%02x",flash[r]);os_printf("\n");
         #endif
         flash[0]=0x7f;
@@ -2373,10 +2367,10 @@ void crypto_setup5(void *arg)
         #ifdef DEBUG0
         os_printf("writing paired client to flash\n");
         #endif
-        spi_flash_write(start,(uint32 *)flash,80);
+        spi_flash_write(START,(uint32 *)flash,80);
         halfpaired=1;
         #ifdef DEBUG2
-        spi_flash_read(start,(uint32 *)flash,80);
+        spi_flash_read(START,(uint32 *)flash,80);
         for (r=0;r<80;r++) os_printf("%02x",flash[r]);os_printf("\n");
         #endif
     }
@@ -2559,8 +2553,6 @@ void crypto_verify3(void *arg)
     int found=0;
     int part,k;
     char    flash[80];
-    uint32  start, sector = 0x13;
-    start=sector*0x1000;
 
     byte rwsalt[]= "Control-Salt";
     word32  rwsaltSz=12;
@@ -2588,7 +2580,7 @@ void crypto_verify3(void *arg)
     
     //collect clientLTPK from flash and import it in clKey (overwrite previous sessions key)
     for (k=0;k<50;k++) {  //maximum 50 slots
-        spi_flash_read(start+k*80,(uint32 *)flash,80);
+        spi_flash_read(START+k*80,(uint32 *)flash,80);
         #ifdef DEBUG2
         for (r=12;r<48;r++) os_printf("%c",flash[r]);os_printf(" -- ");
         for (r=0;r<80;r++) os_printf("%02x",flash[r]);os_printf("\n");
@@ -2671,8 +2663,6 @@ void pairadd(void *arg)
     uint16 index;
     int part,k,found=0;
     char    flash[80];
-    uint32  start, sector = 0x13;
-    start=sector*0x1000;
     int r;
     
     ptlv8body=(char *)zalloc(16); index=0;
@@ -2682,7 +2672,7 @@ void pairadd(void *arg)
     #endif
 
     for (k=1;k<50;k++) {  //maximum 50 slots first one reserved for paired device, rest for guests
-        spi_flash_read(start+k*80,(uint32 *)flash,80); //find if it exists or where list ends
+        spi_flash_read(START+k*80,(uint32 *)flash,80); //find if it exists or where list ends
         if (flash[0]==0xff) break; //never used slot
         #ifdef DEBUG2
         for (r=12;r<48;r++) os_printf("%c",flash[r]);os_printf(" -- ");
@@ -2703,7 +2693,7 @@ void pairadd(void *arg)
             #ifdef DEBUG0
             os_printf("key %d: writing flag to flash\n",k);
             #endif
-            spi_flash_write(start+k*80,(uint32 *)flash,12);
+            spi_flash_write(START+k*80,(uint32 *)flash,12);
         } //else nothing because flag already active
     }
     
@@ -2721,7 +2711,7 @@ void pairadd(void *arg)
             os_printf("writing client to flash\n");
             for (r=0;r<80;r++) os_printf("%02x",flash[r]);os_printf("\n");
             #endif
-            spi_flash_write(start+k*80,(uint32 *)flash,80);
+            spi_flash_write(START+k*80,(uint32 *)flash,80);
         }
     }
     tlv8_add(ptlv8body,&index,6,1,two);
@@ -2754,8 +2744,6 @@ void pairdel(void *arg)
     uint16 index;
     int part,k,found=0;
     char    flash[80];
-    uint32  start, sector = 0x13;
-    start=sector*0x1000;
     int r;
     
     ptlv8body=(char *)zalloc(16); index=0;
@@ -2768,7 +2756,7 @@ void pairdel(void *arg)
     //kill signature in flash and reset device
 
     for (k=0;k<50;k++) {  //maximum 50 slots first one reserved for paired device, rest for guests
-        spi_flash_read(start+k*80,(uint32 *)flash,80); //find if it exists or where list ends
+        spi_flash_read(START+k*80,(uint32 *)flash,80); //find if it exists or where list ends
         if (flash[0]==0xff) break; //never used slot
         #ifdef DEBUG2
         for (r=12;r<48;r++) os_printf("%c",flash[r]);os_printf(" -- ");
@@ -2781,9 +2769,9 @@ void pairdel(void *arg)
             #ifdef DEBUG0
             os_printf("unpair mutilate signature and reset\n");
             #endif
-            spi_flash_write(start+4080,(uint32 *)flash+12,16); //mutilate the signature
+            spi_flash_write(START+4080,(uint32 *)flash+12,16); //mutilate the signature
             #ifdef DEBUG2
-            spi_flash_read(start+4080,(uint32 *)flash,16); //did it work?
+            spi_flash_read(START+4080,(uint32 *)flash,16); //did it work?
             for (r=0;r<16;r++) os_printf("%02x",flash[r]);os_printf("\n");
             #endif
             pairing = 1; //this will trigger the reset
@@ -2796,7 +2784,7 @@ void pairdel(void *arg)
             #ifdef DEBUG2
             os_printf("key %d, writing flag to flash\n",k);
             #endif
-            spi_flash_write(start+k*80,(uint32 *)flash,12);
+            spi_flash_write(START+k*80,(uint32 *)flash,12);
         } //else nothing because flag already inactive
     }
     
