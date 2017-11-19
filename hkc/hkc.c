@@ -2039,7 +2039,8 @@ void crypto_init()
     //if already stored then retrieve, else generate and store
     //also for myUsername
     char    flash[80];
-    char    signature[] = "HomeACcessoryKid";
+    char    signature[20] = "HomeACcessoryKid"; //keep it 32bit aligned
+    char    signawipe[20] = "XXXXXXXXXXXXXXXX"; //keep it 32bit aligned
     WC_RNG  rng;
     int     makekey=1;
     int     r;
@@ -2049,13 +2050,31 @@ void crypto_init()
     for (r=0;r<17;r++) os_printf("%02x",flash[r]);os_printf("\n");
     #endif
     if (strcmp(flash,signature)) {
+        spi_flash_read(0x13*0x1000+4080,(uint32 *)flash,16);flash[16]=0; //former location of user data
         #ifdef DEBUG0
-        os_printf("initializing flash in 5 seconds\n");
-        vTaskDelay(500);
-        os_printf("initializing flash\n");
+        for (r=0;r<17;r++) os_printf("%02X",flash[r]);os_printf("\n");
         #endif
-        spi_flash_erase_sector(SECTOR);
-        spi_flash_write(START+4080,(uint32 *)signature,16);
+        if (strcmp(flash,signature)) {
+            #ifdef DEBUG0
+            os_printf("initializing flash in 5 seconds\n");
+            vTaskDelay(500);
+            os_printf("initializing flash at %X\n",START+4080);
+            #endif
+            spi_flash_erase_sector(SECTOR);
+            spi_flash_write(START+4080,(uint32 *)signature,16);
+        } else { //transplant 0x13 to SECTOR
+            #ifdef DEBUG0
+            os_printf("transplanting flash in 5 seconds\n");
+            vTaskDelay(500);
+            os_printf("transplanting flash to %X\n",START);
+            #endif
+            spi_flash_erase_sector(SECTOR);
+            for (r=0;r<256;r++) {
+                spi_flash_read(0x13*0x1000+r*16,(uint32 *)flash,16);
+                spi_flash_write(     START+r*16,(uint32 *)flash,16);
+            }
+            spi_flash_write(0x13*0x1000+4080,(uint32 *)signawipe,16);
+        }
     }   
     spi_flash_read(START+4000,(uint32 *)flash,64);
     #ifdef DEBUG0

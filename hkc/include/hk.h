@@ -50,7 +50,7 @@
 
 #define TLVNUM 12
 #define ANLMAX 32 //accessorynamelengthmax
-#define SECTOR 0x13
+#define SECTOR 0x7A
 #define START SECTOR*0x1000
 
 typedef struct _espconn_msg{
