@@ -199,7 +199,7 @@ void    addCharacteristic(cJSON *chas, int aid, int iid, char *brand, int cType,
 #define LOGS_C                                      0x1F
 #define MANUFACTURER_C                              0x20    //64    string  r
 #define MODEL_C                                     0x21    //64    string  r
-#define MOTION_DETECTED_C                           0x22
+#define MOTION_DETECTED_C                           0x22    //n/a   boolean re
 #define NAME_C                                      0x23    //64    string  r
 #define OBSTRUCTION_DETECTED_C                      0x24
 #define ON_C                                        0x25    //n/a   boolean rwe

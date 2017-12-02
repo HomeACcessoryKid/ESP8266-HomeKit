@@ -444,6 +444,9 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
         case MODEL_C: {
             strcpy(format,STRING);      perm=4;     maxlen=64;
         } break;
+        case MOTION_DETECTED_C: {
+            strcpy(format,BOOLEAN);      perm=5;     maxlen=1;
+        } break;
         case NAME_C: {
             strcpy(format,STRING);      perm=4;     maxlen=64;
         } break;
