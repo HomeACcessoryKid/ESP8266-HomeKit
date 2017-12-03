@@ -2161,6 +2161,12 @@ void hkc_init(char *accname, ...)
     os_printf("myACCname: %s\n",myACCname);
 
     espconn_init();
+    //sntp support to verify TLS certificate
+    sntp_setservername(1, "1.pool.ntp.org"); // set server 1 by domain name
+    sntp_setservername(0, "0.pool.ntp.org"); // set server 0 by domain name -> applied for hack.pool.ntp.org
+    sntp_set_timezone(0); //this fixes the UTC+9
+    sntp_init(); //severe warning that this time is UTC+9 !!!
+    sntp_get_current_timestamp(); //trigger a time query
     crypto_init();
     if (pairing)    xTaskCreate(srp_prepare, "prep", 2560, NULL, 1, NULL);
     else            xTaskCreate(  json_init,"jinit", 2560, NULL, 1, NULL);
