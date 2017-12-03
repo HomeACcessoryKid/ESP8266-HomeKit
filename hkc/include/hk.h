@@ -101,6 +101,13 @@ typedef struct _crypto_parm {
     char            object[0x1cb];
     int             objects_len[TLVNUM];
 } crypto_parm;
+
+typedef struct _crypto_parm_short {
+    xSemaphoreHandle semaphore;
+    struct espconn  *pespconn;
+    int             state;
+    int             stale;
+} crypto_parm_short;
 /*
 int objects_maxlen[TLVNUM] = {1,0x50,0,0x180,0x40,0xd0,1,0,0,0,0x40,9}; //global
 //old system, now all in one object array

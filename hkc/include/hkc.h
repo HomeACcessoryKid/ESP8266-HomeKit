@@ -38,6 +38,14 @@ void    hkc_init(char *accname, ...);
 void    hkc_user_init(char *accname);
 
 /******************************************************************************
+ * FunctionName : do_fota_update
+ * Description  : download firmware if newer than version 
+ * Parameters   : version string
+ * Returns      : nothing
+*******************************************************************************/
+void    do_fota_update(char *version);
+
+/******************************************************************************
  * FunctionName : change_value
  * Description  : push to the hkc server that the value has changed
  * Parameters   : aid   -- accessory id

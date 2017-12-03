@@ -1,5 +1,5 @@
 /*
- *  Copyright 2016 HomeACcessoryKid - HacK - homeaccessorykid@gmail.com
+ *  Copyright 2016-2018 HomeACcessoryKid - HacK - homeaccessorykid@gmail.com
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -63,6 +63,7 @@ struct      espconn hkcesp_conn;
 os_timer_t  browse_timer;
 xSemaphoreHandle    cid_semaphore = NULL;
 xQueueHandle        crypto_queue;
+crypto_parm_short   *fota_pcryp;
 
 LOCAL   char    *precvbuffer;
 static  uint32  dat_sumlength = 0;
@@ -175,14 +176,26 @@ void    print_mem(void const *vp, size_t after, size_t before)
     os_printf("\n");
 }
 
+void    do_fota_update(char *version)
+{
+    os_printf("fota version: %s\n",version);
+    xQueueSendToFront(crypto_queue,&fota_pcryp,0);
+}
+
 void    json_init(void *arg)
 {
+    fota_pcryp = (crypto_parm_short *)zalloc(sizeof(crypto_parm_short));
+    fota_pcryp->stale=0;
+    fota_pcryp->state=9;
+    vSemaphoreCreateBinary(fota_pcryp->semaphore);
     hkc_user_init(myACCname);
-    ready=1;
-    #ifdef DEBUG4   
-    os_printf("ready @ %d\n",system_get_time()/1000);
-    #endif
-    vTaskDelete(NULL);
+    if (!ready) {
+        ready=1;
+        #ifdef DEBUG4   
+        os_printf("ready @ %d\n",system_get_time()/1000);
+        #endif
+        vTaskDelete(NULL);
+    }
 }
 
 char    *parse_cgi(char *in) //take aid.iid string and return chars string / only single digit aid!
@@ -2211,6 +2224,11 @@ void crypto_tasks()  //this is a TasK
                 case 8: {
                     pairdel(pcryp);
                 }break; //8
+                case 9: {
+                    os_printf("fota-triggered\n");
+                }break; //9
+                default: {
+                }break; //default
             }
         }
         //release semaphore
@@ -2434,7 +2452,7 @@ void crypto_setup5(void *arg)
     #endif
     //clean up and start json_init before answer
     //wc_SrpTerm(&srp); // also get rid of B and make srp a dynamic memory
-    hkc_user_init(myACCname);
+    json_init(NULL);
 
     tlv8_send(pcryp, ptlv8body, index);
     //now ptlvbody cleaned in tlv8_send but consider doing that here
