@@ -24,10 +24,10 @@
 //#define DEMO
 //#define FACTORY  //also allow the url http://my.ip.address.numeric:661/factory once paired
 #define DEBUG0
-#define DEBUG1
-#define DEBUG2
-#define DEBUG3
-#define DEBUG4
+// #define DEBUG1
+// #define DEBUG2
+// #define DEBUG3
+// #define DEBUG4
 //#define DEBUG5
 //#define DEBUG6
 //#define DEBUG7
@@ -108,6 +108,15 @@ typedef struct _crypto_parm_short {
     int             state;
     int             stale;
 } crypto_parm_short;
+
+#define FOTA_LOCAL_TCP_PORT 49152
+#define FOTA_TARGET_NAME "github.com"
+#define FOTA_TARGET_TCP_PORT 443
+#define FOTA_REQUESTHEAD "GET /HomeACcessoryKid/FOTAtest/releases/"
+#define FOTA_REQUESTTAIL " HTTP/1.1\r\nHost: "
+#define FOTA_2CRLF "\r\n\r\n"
+#define FOTA_RECV_BUF_LEN 1000  // current length of amazon URL 724
+
 /*
 int objects_maxlen[TLVNUM] = {1,0x50,0,0x180,0x40,0xd0,1,0,0,0,0x40,9}; //global
 //old system, now all in one object array

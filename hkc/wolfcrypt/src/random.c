@@ -95,6 +95,12 @@ int  wc_RNG_GenerateByte(WC_RNG* rng, byte* b)
 /* Allow custom RNG system */
 #ifdef CUSTOM_RAND_GENERATE_BLOCK
 
+int wc_InitRng_ex(WC_RNG* rng, void* heap)
+{
+    (void)rng;
+    return 0;
+}
+
 int wc_InitRng(WC_RNG* rng)
 {
     (void)rng;

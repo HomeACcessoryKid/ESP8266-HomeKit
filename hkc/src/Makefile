@@ -12,10 +12,7 @@
 #     a generated lib/image xxx.a ()
 #
 ifndef PDIR
-UP_EXTRACT_DIR = ..
-GEN_LIBS = libhkc.a
-COMPONENTS_libhkc = wolfcrypt/libwolfcrypt.a    \
-                	src/libsrc.a
+GEN_LIBS = libsrc.a
 endif
 
 
@@ -42,8 +39,9 @@ endif
 
 INCLUDES := $(INCLUDES) -I $(PDIR)include
 INCLUDES += -I ./
+#added ../../ in order to find misc.c
+INCLUDES += -I ../
 INCLUDES += -I $(SDK_PATH)/include/freertos
-#INCLUDES += -I $(SDK_PATH)/include/hkc
 PDIR := ../$(PDIR)
 sinclude $(PDIR)Makefile
 

@@ -50,6 +50,7 @@
 #include "wolfssl/wolfcrypt/ed25519.h"
 #include "wolfssl/wolfcrypt/curve25519.h"
 #include <wolfssl/wolfcrypt/error-crypt.h>
+#include "lwip/sockets.h"
 #include "hk.h"
 
 #define NLEN    384
@@ -163,7 +164,7 @@ char mdns[] = {
 
 /*---------------------------------------------------------------------------*/
 
-void    print_mem(void const *vp, size_t after, size_t before)
+/*void    print_mem(void const *vp, size_t after, size_t before)
 {
     char        a[12];
     unsigned char const *p = vp;
@@ -174,7 +175,7 @@ void    print_mem(void const *vp, size_t after, size_t before)
         os_printf("%s%02x%02x%02x%02x%s", i%40==0 ? a : "",p[i+3],p[i+2],p[i+1],p[i], i % 40 == 36 ? "\n" :  " ");
     }
     os_printf("\n");
-}
+}/**/
 
 void    do_fota_update(char *version)
 {
@@ -2186,6 +2187,362 @@ void hkc_init(char *accname, ...)
                     xTaskCreate(    ip_init,   "ip",  256,myACCname,1, NULL);
 }
 
+void fota_now()
+{
+    int   send_bytes; //= sizeof(send_data);
+    char  recv_buf[FOTA_RECV_BUF_LEN];
+    char* location;
+    int   ret,slash;
+
+    /* declare wolfSSL objects */
+    WOLFSSL_CTX* ctx;
+    WOLFSSL*     ssl;
+
+    int socket;
+    struct sockaddr_in sock_addr;
+
+    ip_addr_t target_ip;
+
+    int recv_bytes = 0;
+
+//     os_printf("before Init:%d\n", system_get_free_heap_size());
+//     os_printf("OpenSSL demo thread start...\n");
+    
+    wolfSSL_Init();
+//     os_printf("after  Init:%d\n", system_get_free_heap_size());
+
+//     os_printf("before create ctx:%d\n", system_get_free_heap_size());
+//     os_printf("create wolfSSL context ......");
+    ctx = wolfSSL_CTX_new(wolfTLSv1_2_client_method());
+    if (!ctx) {
+//        os_printf("failed\n");
+        goto failed1;
+    }
+//    os_printf("OK\n");
+    wolfSSL_CTX_set_verify(ctx, SSL_VERIFY_NONE, 0);
+//    os_printf("after  create ctx:%d\n", system_get_free_heap_size());
+
+//     os_printf("set SSL context read buffer size ......");
+//     SSL_CTX_set_default_read_buffer_len(ctx, FOTA_FRAGMENT_SIZE);
+//     ret = 0;
+//     if (ret) {
+//         os_printf("failed, return %d\n", ret);
+//         goto failed2;
+//     }
+//     os_printf("OK\n");
+
+    do {
+        ret = netconn_gethostbyname(FOTA_TARGET_NAME, &target_ip);
+    } while(ret);
+/*    os_printf("get target IP is %d.%d.%d.%d\n", (unsigned char)((target_ip.addr & 0x000000ff) >> 0),
+                                                (unsigned char)((target_ip.addr & 0x0000ff00) >> 8),
+                                                (unsigned char)((target_ip.addr & 0x00ff0000) >> 16),
+                                                (unsigned char)((target_ip.addr & 0xff000000) >> 24));/**/
+
+//    os_printf("create socket ......");
+    socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (socket < 0) {
+//        os_printf("failed\n");
+        goto failed3;
+    }
+//    os_printf("OK\n");
+
+//    os_printf("bind socket ......");
+    memset(&sock_addr, 0, sizeof(sock_addr));
+    sock_addr.sin_family = AF_INET;
+    sock_addr.sin_addr.s_addr = 0;
+    sock_addr.sin_port = htons(FOTA_LOCAL_TCP_PORT);
+    ret = bind(socket, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
+    if (ret) {
+//        os_printf("failed\n");
+        goto failed4;
+    }
+//    os_printf("OK\n");
+
+//    os_printf("before create connect:%d\n", system_get_free_heap_size());
+//    os_printf("socket connect to remote ......");
+    memset(&sock_addr, 0, sizeof(sock_addr));
+    sock_addr.sin_family = AF_INET;
+    sock_addr.sin_addr.s_addr = target_ip.addr;
+    sock_addr.sin_port = htons(FOTA_TARGET_TCP_PORT);
+    ret = connect(socket, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
+    if (ret) {
+//        os_printf("failed %s\n", FOTA_TARGET_NAME);
+        goto failed5;
+    }
+//    os_printf("OK\n");
+//    os_printf("after  create connect:%d\n", system_get_free_heap_size());
+    
+//    os_printf("create SSL ......");
+    ssl = wolfSSL_new(ctx);
+    if (!ssl) {
+//        os_printf("failed\n");
+        goto failed6;
+    }
+//    os_printf("OK\n");
+
+    wolfSSL_set_fd(ssl, socket);
+//    os_printf("after  create SSL:%d\n", system_get_free_heap_size());
+
+//    os_printf("SSL connected to %s port %d ......", FOTA_TARGET_NAME, FOTA_TARGET_TCP_PORT);
+    ret = wolfSSL_connect(ssl);
+    if (ret != SSL_SUCCESS) {
+//        os_printf("failed, return [-0x%x]\n", -ret);
+        goto failed7;
+    }
+//    os_printf("OK\n");
+
+//    os_printf("before send request:%d\n", system_get_free_heap_size());
+    strcat(strcat(strcat(strcat(strcpy(recv_buf,FOTA_REQUESTHEAD),"latest"),FOTA_REQUESTTAIL),FOTA_TARGET_NAME),FOTA_2CRLF);
+    send_bytes=strlen(recv_buf);
+//    os_printf("send request to %s port %d ......", FOTA_TARGET_NAME, FOTA_TARGET_TCP_PORT);
+    ret = wolfSSL_write(ssl, recv_buf, send_bytes);
+    if (ret <= 0) {
+//        os_printf("failed, return [-0x%x]\n", -ret);
+//        os_printf("wolfSSL_send error = %d\n", wolfSSL_get_error(ssl,ret));
+        goto failed8;
+    }
+//    os_printf("OK\n\n");
+//    //os_printf("after  send request:%d\n", system_get_free_heap_size());
+
+//    //os_printf("pending %d\n",wolfSSL_pending(ssl));
+
+    wolfSSL_shutdown(ssl); //by shutting down the connection before even reading, we reduce the payload to the minimum
+    ret = wolfSSL_peek(ssl, recv_buf, FOTA_RECV_BUF_LEN - 1);
+    recv_buf[ret]=0; //error checking
+//    os_printf("\nafter read request:%d\n", system_get_free_heap_size());
+
+    location=strstr(recv_buf,"Location: ");
+//    os_printf("%s\n",location);
+    strchr(location,'\r')[0]=0;
+//    os_printf("%s\n",location);
+    location=strstr(location,"tag/");
+    os_printf("version: %s\n",location+4);
+    
+    wolfSSL_free(ssl);      /* Free the wolfSSL object                  */
+    close(socket);
+
+
+/*********** second connection *******************/
+
+
+//    os_printf("create socket ......");
+    socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (socket < 0) {
+//        os_printf("failed\n");
+        goto failed3;
+    }
+//    os_printf("OK\n");
+
+//    os_printf("bind socket ......");
+    memset(&sock_addr, 0, sizeof(sock_addr));
+    sock_addr.sin_family = AF_INET;
+    sock_addr.sin_addr.s_addr = 0;
+    sock_addr.sin_port = htons(FOTA_LOCAL_TCP_PORT+1);
+    ret = bind(socket, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
+    if (ret) {
+//        os_printf("failed\n");
+        goto failed4;
+    }
+//    os_printf("OK\n");
+
+//    os_printf("before create connect:%d\n", system_get_free_heap_size());
+//    os_printf("socket connect to remote ......");
+    memset(&sock_addr, 0, sizeof(sock_addr));
+    sock_addr.sin_family = AF_INET;
+    sock_addr.sin_addr.s_addr = target_ip.addr;
+    sock_addr.sin_port = htons(FOTA_TARGET_TCP_PORT);
+    ret = connect(socket, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
+    if (ret) {
+//        os_printf("failed\n", FOTA_TARGET_NAME);
+        goto failed5;
+    }
+//    os_printf("OK\n");
+//    os_printf("after  create connect:%d\n", system_get_free_heap_size());
+    
+//    os_printf("before create SSL:%d\n", system_get_free_heap_size());
+//    os_printf("create SSL ......");
+    ssl = wolfSSL_new(ctx);
+    if (!ssl) {
+//        os_printf("failed\n");
+        goto failed6;
+    }
+//    os_printf("OK\n");
+
+    wolfSSL_set_fd(ssl, socket);
+//    os_printf("after  create SSL:%d\n", system_get_free_heap_size());
+
+//    os_printf("SSL connected to %s port %d ......", FOTA_TARGET_NAME, FOTA_TARGET_TCP_PORT);
+    ret = wolfSSL_connect(ssl);
+    if (ret != SSL_SUCCESS) {
+//        os_printf("failed, return [-0x%x]\n", -ret);
+        goto failed7;
+    }
+//    os_printf("OK\n");
+
+//    os_printf("before send request:%d\n", system_get_free_heap_size());
+    strcat(strcat(strcat(strcat(strcat(strcat(strcpy(recv_buf,FOTA_REQUESTHEAD),"download/"),location+4),"/eagle.flash.bin"),FOTA_REQUESTTAIL),FOTA_TARGET_NAME),FOTA_2CRLF);
+    send_bytes=strlen(recv_buf);
+    os_printf("%s\n",recv_buf);
+//    os_printf("send request to %s port %d ......", FOTA_TARGET_NAME, FOTA_TARGET_TCP_PORT);
+    ret = wolfSSL_write(ssl, recv_buf, send_bytes);
+    if (ret <= 0) {
+//        os_printf("failed, return [-0x%x]\n", -ret);
+//        os_printf("wolfSSL_send error = %d\n", wolfSSL_get_error(ssl,ret));
+        goto failed8;
+    }
+//    os_printf("OK\n\n");
+    //os_printf("after  send request:%d\n", system_get_free_heap_size());
+
+    wolfSSL_shutdown(ssl); //by shutting down the connection before even reading, we reduce the payload to the minimum
+    ret = wolfSSL_peek(ssl, recv_buf, FOTA_RECV_BUF_LEN - 1);
+    if (ret <= 0) {
+//        os_printf("failed, return [-0x%x]\n", -ret);
+//        os_printf("wolfSSL_send error = %d\n", wolfSSL_get_error(ssl,ret));
+        goto failed8;
+    }
+//    os_printf("OK\n\n");
+    recv_buf[ret]=0; //error checking
+    os_printf("%s\n",recv_buf);
+//    os_printf("\nafter read request:%d\n", system_get_free_heap_size());
+
+    location=strstr(recv_buf,"Location: ");
+//    os_printf("%s\n",location);
+    strchr(location,'\r')[0]=0;
+    location+=18; //flush Location: https://
+    os_printf("%s\n",location);
+
+    wolfSSL_free(ssl);      /* Free the wolfSSL object                  */
+    close(socket);
+
+
+
+/*********** third connection *******************/
+
+    //parse the Location
+    strcat(location, FOTA_REQUESTTAIL);
+    ret=strlen(location);
+    slash=strchr(location,'/')-location;
+    location[slash]=0;
+//    os_printf("host: %s\n",location);
+    strcat(strcat(location+slash+1,location),FOTA_2CRLF); //append hostname to URI
+    do {
+        ret = netconn_gethostbyname(location, &target_ip);
+    } while(ret);
+/*    os_printf("get target IP is %d.%d.%d.%d\n", (unsigned char)((target_ip.addr & 0x000000ff) >> 0),
+                                                (unsigned char)((target_ip.addr & 0x0000ff00) >> 8),
+                                                (unsigned char)((target_ip.addr & 0x00ff0000) >> 16),
+                                                (unsigned char)((target_ip.addr & 0xff000000) >> 24)); /**/
+    location+=slash-4;
+    memcpy(location,"GET /",5);
+//    os_printf("URL: %s\n",location);
+
+//    os_printf("create socket ......");
+    socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (socket < 0) {
+//        os_printf("failed\n");
+        goto failed3;
+    }
+//    os_printf("OK\n");
+
+//    os_printf("bind socket ......");
+    memset(&sock_addr, 0, sizeof(sock_addr));
+    sock_addr.sin_family = AF_INET;
+    sock_addr.sin_addr.s_addr = 0;
+    sock_addr.sin_port = htons(FOTA_LOCAL_TCP_PORT+2);
+    ret = bind(socket, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
+    if (ret) {
+//        os_printf("failed\n");
+        goto failed4;
+    }
+//    os_printf("OK\n");
+
+//    os_printf("before create connect:%d\n", system_get_free_heap_size());
+//    os_printf("socket connect to remote ......");
+    memset(&sock_addr, 0, sizeof(sock_addr));
+    sock_addr.sin_family = AF_INET;
+    sock_addr.sin_addr.s_addr = target_ip.addr;
+    sock_addr.sin_port = htons(FOTA_TARGET_TCP_PORT);
+    ret = connect(socket, (struct sockaddr*)&sock_addr, sizeof(sock_addr));
+    if (ret) {
+//        os_printf("failed %s\n", "amazon");
+        goto failed5;
+    }
+//    os_printf("OK\n");
+//    os_printf("after  create connect:%d\n", system_get_free_heap_size());
+    
+//    os_printf("create SSL ......");
+    ssl = wolfSSL_new(ctx);
+    if (!ssl) {
+//        os_printf("failed\n");
+        goto failed6;
+    }
+//    os_printf("OK\n");
+
+    wolfSSL_set_fd(ssl, socket);
+//    os_printf("after  create SSL:%d\n", system_get_free_heap_size());
+
+//    os_printf("SSL connected to %s port %d ......", "amazon", FOTA_TARGET_TCP_PORT);
+    ret = wolfSSL_connect(ssl);
+    if (ret != SSL_SUCCESS) {
+//        os_printf("failed, return [-0x%x]\n", -ret);
+        goto failed7;
+    }
+//    os_printf("OK\n");
+
+//    os_printf("before send request:%d\n", system_get_free_heap_size());
+    send_bytes=strlen(location);
+//    os_printf("send request to %s port %d ......", "amazon", FOTA_TARGET_TCP_PORT);
+    ret = wolfSSL_write(ssl, location, send_bytes);
+    if (ret <= 0) {
+//        os_printf("failed, return [-0x%x]\n", -ret);
+//        os_printf("wolfSSL_send error = %d\n", wolfSSL_get_error(ssl,ret));
+        goto failed8;
+    }
+//    os_printf("OK\n\n");
+//    //os_printf("after  send request:%d\n", system_get_free_heap_size());
+
+    slash=0;
+    memset(recv_buf,0,FOTA_RECV_BUF_LEN);
+    do {
+        ret = wolfSSL_read(ssl, recv_buf, FOTA_RECV_BUF_LEN - 1); slash++;
+        if (ret <= 0) {
+            break;
+        }
+        recv_bytes += ret;
+        if (slash==2) for (ret=0;ret<40;ret++) os_printf("%02x ", recv_buf[ret]);
+        if (slash==1) os_printf("%s\n--------\n", recv_buf);
+    } while (1);
+//    os_printf("read %d bytes data from %s ......\n", recv_bytes, "amazon");
+    os_printf("%d bytes read\n", recv_bytes);
+
+
+//     ret = wolfSSL_read(ssl, recv_buf, FOTA_RECV_BUF_LEN - 1);
+//     if (ret <= 0) {
+//         os_printf("failed, return [-0x%x]\n", -ret);
+//         os_printf("wolfSSL_send error = %d\n", wolfSSL_get_error(ssl,ret));
+//         goto failed8;
+//     }
+//     os_printf("OK\n\n");
+//     recv_buf[ret]=0; //error checking
+//     os_printf("%s\n",recv_buf);
+
+
+failed8:
+    //SSL_shutdown(ssl);
+failed7:
+    wolfSSL_free(ssl);      /* Free the wolfSSL object                  */
+failed6:
+failed5:
+failed4:
+    close(socket);
+failed3:
+failed2:
+    wolfSSL_CTX_free(ctx);  /* Free the wolfSSL context object          */
+failed1:
+    wolfSSL_Cleanup();      /* Cleanup the wolfSSL environment          */
+}
+
 void crypto_tasks()  //this is a TasK
 {
     crypto_parm *pcryp=NULL;
@@ -2226,6 +2583,7 @@ void crypto_tasks()  //this is a TasK
                 }break; //8
                 case 9: {
                     os_printf("fota-triggered\n");
+                    fota_now();
                 }break; //9
                 default: {
                 }break; //default

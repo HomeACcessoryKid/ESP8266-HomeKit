@@ -9,7 +9,34 @@
 #define WOLFSSL_SMALL_STACK
 #define HAVE_HKDF
 #define HAVE_CHACHA
-#define HAVE_POLY1305
 #define HAVE_ED25519
 #define HAVE_CURVE25519
 #define CUSTOM_RAND_GENERATE_BLOCK os_get_random
+#define HAVE_POLY1305
+    #define HAVE_ONE_TIME_AUTH
+    #define NO_FILESYSTEM
+    #define WOLFSSL_STATIC_RSA
+    #define NO_WRITEV 
+    #define NO_WOLFSSL_SERVER 
+    #define NO_RABBIT 
+    #define NO_DSA 
+    #define NO_DH 
+    #define NO_PWDBASED 
+    #define NO_DES3 
+    #define NO_ERROR_STRINGS 
+    #define NO_OLD_TLS 
+    #define NO_RC4 
+    #define NO_SESSION_CACHE 
+    #define NO_PSK 
+    #define NO_WOLFSSL_MEMORY
+    #define NO_SHA 
+    #define USE_SLOW_SHA 
+    #define USE_SLOW_SHA2 
+#define BUILD_TLS_RSA_WITH_AES_128_GCM_SHA256
+#define HAVE_AESGCM
+
+    #define NO_MD4
+    #define NO_INLINE
+    #define NO_HC128
+    #define NO_DEV_RANDOM
+    #define NO_CODING
