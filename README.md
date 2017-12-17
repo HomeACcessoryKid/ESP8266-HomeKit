@@ -1,9 +1,9 @@
 # ESP8266-HomeKit [![Build Status](https://travis-ci.org/HomeACcessoryKid/ESP8266-HomeKit-Demo.svg?branch=master)](https://travis-ci.org/HomeACcessoryKid/ESP8266-HomeKit-Demo)
 HomeKit server foundation on ESP8266 with an API approach
 
-## UPDATE 5 Nov 2017
+## UPDATE 17 Dec 2017
 
-Having added real-mdns behavior instead of the 3 second repetition approach, I think the reaction times are improved at the moment of initial interaction, e.g. when switching on the phone.
+Please read the message in [issue 41](https://github.com/HomeACcessoryKid/ESP8266-HomeKit/issues/41) about the switchover to Maxim Kulkin code base.
 
 -------
 
