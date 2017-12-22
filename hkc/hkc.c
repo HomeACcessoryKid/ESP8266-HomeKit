@@ -521,19 +521,64 @@ void    addCharacteristic(cJSON *characteristics, int aid, int iid, char *brand,
             cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   100000);
             cJSON_AddStringToObject(acc_items[iid].json, "unit", "lux"); 
         } break;
+        case OBSTRUCTION_DETECTED_C:
+        /* no-break */
         case STATUS_ACTIVE_C:
             strcpy(format,BOOLEAN);      perm=5;
+            break;
+
         case STATUS_TAMPERED_C:{
             strcpy(format,UINT8);        perm=5;
             cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
             cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   1);
-            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1); 
-            cJSON_AddItemToObject(acc_items[iid].json, "valid-values", valid_values=cJSON_CreateArray());  
-            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(0));       
-            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1)); 
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddItemToObject(acc_items[iid].json, "valid-values", valid_values=cJSON_CreateArray());
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(0));
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1));
+        } break;
+        case TARGET_DOORSTATE_C:{
+            strcpy(format,UINT8);        perm=7;
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   1);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddItemToObject(acc_items[iid].json, "valid-values", valid_values=cJSON_CreateArray());
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(0));
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1));
+        } break;
+        case CURRENT_DOOR_STATE_C:{
+            strcpy(format,UINT8);        perm=1|4;
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   4);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddItemToObject(acc_items[iid].json, "valid-values", valid_values=cJSON_CreateArray());
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(0));
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1));
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(2));
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(3));
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(4));
+        } break;
+        case TARGET_POSITION_C:
+        case CURRENT_POSITION_C:{
+            strcpy(format,UINT8);
+            perm= (cType == TARGET_POSITION_C) ? 7 : (1|4);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   100);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddStringToObject(acc_items[iid].json, "unit",       "percentage");
+        } break;
+        case POSITION_STATE_C:{
+            strcpy(format,UINT8);
+            perm= 1|4;
+            cJSON_AddNumberToObject(acc_items[iid].json, "minValue",   0);
+            cJSON_AddNumberToObject(acc_items[iid].json, "maxValue",   2);
+            cJSON_AddNumberToObject(acc_items[iid].json, "minStep",    1);
+            cJSON_AddItemToObject(acc_items[iid].json, "valid-values", valid_values=cJSON_CreateArray());
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(0));
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(1));
+            cJSON_AddItemToArray(valid_values,cJSON_CreateNumber(2));
         } break;
         default: {
-            
+            os_printf("Warning: unrecognized cType=%ux\n", cType);
         } break;
     }
     cJSON_AddStringToObject(acc_items[iid].json, "format", format);
@@ -2047,7 +2092,15 @@ void crypto_init()
     WC_RNG  rng;
     int     makekey=1;
     int     r;
-    
+
+#if defined(FORCE_FLASH_ERASE)
+    // force flash erase, for debug purposes
+    os_printf("initializing flash in 5 seconds\n");
+    vTaskDelay(500);
+    os_printf("initializing flash at %X\n",START+4080);
+    spi_flash_erase_sector(SECTOR);
+    spi_flash_write(START+4080,(uint32 *)signature,16);
+#else
     spi_flash_read(START+4080,(uint32 *)flash,16);flash[16]=0;
     #ifdef DEBUG0
     for (r=0;r<17;r++) os_printf("%02x",flash[r]);os_printf("\n");
@@ -2078,7 +2131,10 @@ void crypto_init()
             }
             spi_flash_write(0x13*0x1000+4080,(uint32 *)signawipe,16);
         }
-    }   
+    }
+#endif
+
+
     spi_flash_read(START+4000,(uint32 *)flash,64);
     #ifdef DEBUG0
     for (r=0;r<64;r++) os_printf("%02x",flash[r]);os_printf("\n");
